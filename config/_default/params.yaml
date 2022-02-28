@@ -74,10 +74,10 @@ section_pager: false
 docs_section_pager: true
 sharing: true
 copyright_license:
-  enable: false
-  allow_derivatives: false
+  enable: true
+  allow_derivatives: true
   share_alike: true
-  allow_commercial: false
+  allow_commercial: true
   notice: 'This work is licensed under {license}'
 abstract_length: 135
 plugins_js: []
@@ -130,3 +130,7 @@ cms:
 icon:
   pack:
     ai: false
+
+footer:
+  copyright:
+    notice: '© {year} Fábio P. Fortkamp. This work is licensed under {license}'
