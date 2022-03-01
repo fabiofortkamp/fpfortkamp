@@ -1,6 +1,6 @@
 ---
 title: What is this site
-author: Fábio Fortkamp
+author: Fábio P. Fortkamp
 date: '2022-02-27'
 slug: whats
 categories: ["Notes"]
