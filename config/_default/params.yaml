@@ -80,7 +80,7 @@ copyright_license:
   allow_commercial: true
   notice: 'This work is licensed under {license}'
 abstract_length: 135
-plugins_js: []
+plugins_js: [math-code]
 avatar:
   gravatar: false
   shape: circle
