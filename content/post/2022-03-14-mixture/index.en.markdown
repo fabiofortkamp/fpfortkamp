@@ -92,7 +92,6 @@ f <- function(x) {
 A good first check is to see how this function behaves:
 
 
-
 ```r
 curve(f,from=0,to=1)
 ```
