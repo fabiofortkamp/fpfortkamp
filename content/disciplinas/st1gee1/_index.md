@@ -2,7 +2,7 @@
 date: "2022-03-27"
 linkTitle: ST1GEE1
 title: "Geração de Energia I"
-summary: "Geradores de vapor: funcionamento, componentes, análises"
+summary: "Gerador de vapor. Componentes. Funcionamento. Manutenção e Inspeção através de normas técnicas. Combustíveis industriais. Combustão em caldeira. Análise dos gases. Distribuição de vapor"
 type: book
 ---
 
