@@ -1,5 +1,5 @@
 ---
-date: "2022-03-27"
+date: "2022-03-15"
 linkTitle: MTE00001
 title: "Máquinas Térmicas"
 summary: "Motores de Combustão Interna, Geradores de Vapor, Turbinas a gás e turborreatores"
