@@ -18,6 +18,7 @@ image:
   focal_point: ''
   preview_only: no
 projects: []
+weight: 10
 ---
 
 In the [previous post](https://fpfortkamp.com/post/mixture/), we saw how to calculate the speed of sound of a mixture of ideal gases, the main assumption is that we can add the individual specific heats of the components, weighted by the mass fractions.

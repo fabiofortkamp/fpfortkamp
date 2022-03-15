@@ -2,7 +2,7 @@
 title: First Law Analysis of a Mixture of Ideal Gases - Exercise 13-97 from Çengel's
   Thermodynamics book (7th ed)
 author: Fábio P. Fortkamp
-date: '2022-03-15'
+date: '2022-03-15T20:16:34-03:00'
 slug: first
 categories:
   - Exercise from Çengel's Thermodynamics
@@ -19,6 +19,7 @@ image:
   focal_point: ''
   preview_only: no
 projects: []
+weight: 20
 ---
 
 This is exercise 13-97 from [1]: a mixture of gases composed of 55% of nitrogen gas and 45% of carbon dioxide (in mass) is originally at 200 kPa and 45 ˚C. The system is heated up and expands, but due to the action of a spring, the pressure variation as a function of volume `\(P(\mathcal{V})\)` follows:
