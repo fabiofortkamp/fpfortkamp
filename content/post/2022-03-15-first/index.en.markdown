@@ -1,0 +1,141 @@
+---
+title: First Law Analysis of a Mixture of Ideal Gases - Exercise 13-97 from Çengel's
+  Thermodynamics book (7th ed)
+author: Fábio P. Fortkamp
+date: '2022-03-15'
+slug: first
+categories:
+  - Exercise from Çengel's Thermodynamics
+tags:
+  - mixture thermodynamics
+  - thermodynamics
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2022-03-15T14:16:34-03:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+This is exercise 13-97 from [1]: a mixture of gases composed of 55% of nitrogen gas and 45% of carbon dioxide (in mass) is originally at 200 kPa and 45 ˚C. The system is heated up and expands, but due to the action of a spring, the pressure variation as a function of volume `\(P(\mathcal{V})\)` follows:
+
+$$
+P = A + K \mathcal{V}
+$$
+where `\(A = 111.111\,\mathrm{kPa}\)` and `\(K = 888.89\,\mathrm{kPa/m^3}\)`. During the heating, volume doubles; what is the work and heat transfers associated with the process?
+
+For that, in contrast with the [previous](https://fpfortkamp.com/post/mixture/) [posts](https://fpfortkamp.com/post/isothermic/), now we'll use Python and the [`pyromat`](http://pyromat.org) package, which I've just discovered today. 
+
+
+
+With the added heat, the system will expand and perform work, which can be calculated using only mechanics:
+
+$$
+W = \int_{\mathcal{V}_1}^{\mathcal{V}_2} P \mathrm{d}\mathcal{V}
+$$
+
+Where the initial volume can be obtained from the given pressure variation, and the final volume is double that:
+
+
+```python
+A = 111.111
+K = 888.89
+
+P1 = 200
+V1 = (P1-A)/K
+print("V1 = %.2f m3" %(V1))
+```
+
+```
+## V1 = 0.10 m3
+```
+
+```python
+V2 = 2*V1
+```
+
+The integration above gives:
+
+$$
+W = A * (\mathcal{V}_2 - \mathcal{V}_1) + \frac{K}{2}\left(\mathcal{V}_2^2 - \mathcal{V}_1^2\right)
+$$
+
+and calculating it:
+
+
+```python
+W = A*(V2-V1) + K/2*(V2**2 - V1**2)
+print("W = %.2f kJ" %(W,))
+```
+
+```
+## W = 24.44 kJ
+```
+
+To compute the heat *added* to the system, a First Law analysis reads:
+
+$$
+Q = W + \Delta U = W + m c_v (T_2-T_1)
+$$
+
+where, assuming a mixture of ideal gases (an hypothesis not used so far!), all mass-specific properties are additive. The gas constant is:
+
+$$
+R = \sum_{i=1}^k x_i R_i
+$$
+where `\(k = 2\)` components, `\(x_i\)` is the individual mass fraction and `\(R_i\)` the individual gas constant. The gas constant is needed to compute the temperature variation; at state 1, the mass (which is constant in all states for a closed system) is computed from the ideal gas equation of state:
+
+$$
+m = \frac{P_1 V_1}{R T_1}
+$$
+
+and now, applying the same equation for state 2:
+
+$$
+T_2 = \frac{P_2 V_2}{m R}
+$$
+
+where `\(P_2\)` can be obtained from the pressure-volume equation.
+
+The constant-volume specific heat for ideal gases is a function of temperature only, and for better accuracy can be calculated at the average temperature. The mixture specific heat is computed similarly to the gas constant above.
+
+The `pyromat` library has function to create ideal gas "objects" and then access constants and functions as illustrated below:
+
+
+```python
+import pyromat as pm
+N2 = pm.get("ig.N2") # ig = ideal gas model
+CO2 = pm.get("ig.CO2")
+
+xN2 = 0.55
+xCO2 = 1-xN2
+
+# each object has a .R() method to calculate the gas constant
+# the default units are kJ, kPa, m3, K, kmol
+R = xN2*N2.R() + xCO2*CO2.R()
+
+T1 = 45 + 273
+m = (P1*V1)/(R*T1)
+
+P2 = A + K*V2
+T2 = (P2*V2)/(m*R)
+
+Tmean = (T1 + T2)/2
+
+cv = xN2*N2.cv(T=Tmean) + xCO2*CO2.cv(T=Tmean)
+
+Q = W + m*cv*(T2-T1)
+print("Q = %.2f kJ" %(Q,))
+```
+
+```
+## Q = 151.26 kJ
+```
+
+## References 
+
+[1]: Çengel, Y. A., & Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013.
