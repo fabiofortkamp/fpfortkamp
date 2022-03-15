@@ -10,3 +10,6 @@ main:
   - name: Posts
     url: '#posts'
     weight: 20
+  - name: Disciplinas (em Português)
+    url: 'disciplinas/'
+    weight: 30
