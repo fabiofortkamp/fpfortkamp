@@ -6,7 +6,7 @@ summary: "Refrigeração: Ciclo padrão de compressão a vapor – Ciclo de Refr
 type: book
 ---
 
-{{< figure src="IMG_4868.jpg">}}
+{{< figure src="IMG_4868.jpeg">}}
 
 ## Pré-requisitos
 
