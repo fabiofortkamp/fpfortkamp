@@ -4,7 +4,6 @@ linkTitle: MTE00001
 title: "Máquinas Térmicas"
 summary: "Motores de Combustão Interna, Geradores de Vapor, Turbinas a gás e turborreatores"
 type: book
-language: pt-br
 ---
 
 {{< figure src="pexels-mike-190574.jpg" caption="Photo by Mike from Pexels">}}

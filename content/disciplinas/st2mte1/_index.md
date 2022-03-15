@@ -4,7 +4,6 @@ linkTitle: ST2MTE1
 title: "Máquinas Térmicas I"
 summary: "Tópicos atuais em Motores de Combustão Interna"
 type: book
-language: pt
 ---
 
 {{< figure src="pexels-julia-avamotive-8305271.jpg" caption="Photo by Julia Avamotive from Pexels">}}

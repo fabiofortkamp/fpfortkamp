@@ -4,12 +4,9 @@ linkTitle: ST2MTE1
 title: "Geração de Energia I"
 summary: "Geradores de vapor: funcionamento, componentes, análises"
 type: book
-language: pt-br
 ---
 
 {{< figure src="pexels-pixabay-247763.jpg" >}}
-
-{{< toc hide_on="xl" >}}
 
 ## Pré-requisitos
 
