@@ -2,7 +2,7 @@
 date: "2022-03-15"
 linkTitle: MTE00001
 title: "Máquinas Térmicas"
-summary: "Motores de Combustão Interna, Geradores de Vapor, Turbinas a gás e turborreatores"
+summary: "Turbinas a gás e turbo-reatores. Motores de combustão interna. Geração e distribuição de vapor."
 type: book
 ---
 

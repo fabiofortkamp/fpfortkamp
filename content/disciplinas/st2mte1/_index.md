@@ -1,7 +1,7 @@
 ---
 linkTitle: ST2MTE1
 title: "Máquinas Térmicas I"
-summary: "Tópicos atuais em Motores de Combustão Interna"
+summary: "Temas atuais e aplicados em Máquinas Térmicas."
 type: book
 date: "2022-03-15"
 ---
