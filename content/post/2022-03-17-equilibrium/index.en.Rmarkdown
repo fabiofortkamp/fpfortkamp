@@ -1,0 +1,101 @@
+---
+title: Calculting equilibrium composition of a mixture of gases - Exercise 16-89 from
+  Çengel's Thermodynamics book (7th ed)
+author: Fábio P. Fortkamp
+date: '2022-03-17'
+slug: equilibrium
+categories:
+  - Exercise from Çengel's Thermodynamics
+tags:
+  - thermodynamics
+  - chemical thermodynamics
+  - equilibrium
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2022-03-17T09:18:20-03:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+This is exercise 16-89 from [1]: a mixture of 1 mol of $\mathrm{H_2O}$, 2 mols of $\mathrm{O_2}$ and 5 mols of $\mathrm{N_2}$ is heated up to 2200 K and 5 atm of pressure. The final composition will have the formation of $\mathrm{H_2}$ as well; what is the equilibrium composition, and is it reasonable to assume there will be no $\mathrm{OH}$ in the final composition?
+
+I teach several classes on heat engines, steam generators and internal combustion engines, and for me the prime application of chemical thermodynamics and equilibrium composition is emissions. For a given combustion reaction, will pollutants such as $\mathrm{NO}$ and $\mathrm{CO}$ be formed? How much of them? The exercise explained above is a nice example of such calculations. 
+
+All calculations below assume all components are ideal gases.
+
+First, we need to write the reaction:
+
+$$
+\mathrm{H_2O} + 2\mathrm{O_2} + 5\mathrm{N_2} \to x\mathrm{H_2O} + y\mathrm{O_2} + z\mathrm{N_2} + w\mathrm{H_2}
+$$
+
+where the unknowns ${x,y,v,w}$ form a *vector* to be found with an appropriate system of equations. Since we have three elements ($\mathrm{N,O,H}$), or equivalently $(\mathrm{N_2,O_2,H_2})$), we can write three mass balances:
+
+For hydrogen gas:
+
+$$
+x + w -1 = 0
+$$
+
+For oxygen gas:
+
+$$
+2.5-0.5x-y=0
+$$
+
+For nitrogen gas:
+
+$$
+5-z = 0
+$$
+
+(Do you have any doubts on why these equations are as such?)
+
+One missing equation has to be determined from equilibrium considerations. Looking at tables of equilibrium constants, I posit that the free hydrogen gas is formed by dissociation:
+
+$$
+\mathrm{H_2O} \rightleftharpoons \mathrm{H_2} + \frac{1}{2}
+\mathrm{O_2}
+$$
+whose equilibrium constant at 2200 K is $\ln K_p = -6.768$.
+
+The definition of equilibrium coefficient for this latter equation is [1]:
+
+$$
+K_p = \frac{N_{\mathrm{H_2}}^{\nu_{\mathrm{H_2}}} N_{\mathrm{O_2}}^{\nu_{\mathrm{O_2}}}}{N_{\mathrm{H_2O}}^{\nu_{\mathrm{H_2O}}}}\left(\frac{P}{N_{\mathrm{total}}} \right)^{\nu_{\mathrm{H_2}} + \nu_{\mathrm{O_2}} - \nu_{\mathrm{H_2O}}}
+$$
+where the $\nu_i$ are the stoichiometric coefficients in the dissociation equation, the $N_i$ are the real molar contents in the actual system where the dissociation occur, and $P$ is the pressure in atm:
+
+$$
+K_p = \frac{w^{1} y^{0.5}}{x^{1}}\left(\frac{5}{x + y + z + w} \right)^{0.5}
+$$
+
+Take a minute and see if you can understand this equation. It took me almost an hour to properly understand it.
+
+The vector of unknowns then is the solution of a 4-dimensional function, and this problem can be solved numerically with R:
+
+
+```{r}
+library(rootSolve)
+model <- function(a) c(F1 = 1-a[1] - a[4], 
+                       F2 = 2.5-0.5*a[1]-a[2],
+                       F3 = 5-a[3],
+                       F4 = ((a[4]*a[2]**0.5)/(a[1])*(5/(sum(a)))^0.5) -exp(-6.768))
+
+ss <- multiroot(f = model, start = c(1,1,1,1), positive=TRUE)
+print(ss)
+```
+Keep in mind that I had to tweak this code until it worked. For instance, if you write the fourth equation in terms of logarithms, and not with exponentials as I did, you might have some numerical problems (try!). Also, the solution is sensitive to initial conditions; the final solution makes sense, as oxygen and nitrogen are practically preserved and some of the water vapor in fact dissociates. 
+
+As for the underlying assumption: will there be $\mathrm{OH}$ in the final composition? The equilibrium constant for $\mathrm{H_2O} \rightleftharpoons \mathrm{OH} + \frac{1}{2} \mathrm{H_2}$ at 2200 K is $\ln K_p = -7.148$. The dissociation constants from water vapor to $\mathrm{H_2}$ and $\mathrm{OH}$ are very similar, and hence the reactions will occur in parallel, giving some amount of $\mathrm{OH}$ in the products, contrary to our assumptions. If you actually perform an experiment similar to this problem and encounter some errors in the final composition, this is a likely source of deviations. 
+
+The smaller the value of $K_p$, the harder is for the reaction to occur; you can see from the above equations that this coefficient is a measure of how much products form from the reactants. Hence, for similar $K_p$, the amount of $\mathrm{H_2}$ and $\mathrm{OH}$ formed will also be similar.
+
+## References 
+
+[1]: Çengel, Y. A., & Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013.
