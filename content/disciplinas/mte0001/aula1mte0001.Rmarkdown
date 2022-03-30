@@ -116,7 +116,7 @@ E por que temos máquinas térmicas com água? Porque a mudança de fase faz o s
 Para finalizar, o gráfico abaixo contém dados de carros coletadas pela Agência de Proteção Ambiental dos EUA:
 
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 library(tidyverse)
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
   geom_point(mapping = aes(color=class)) + 
@@ -128,6 +128,8 @@ O que está sendo mostrado: a eficiência de motores como função da cilindrada
 
 Como dá para ver, existem muitos detalhes que apenas o estudo dos ciclos não responde - e é isso que vamos investigar neste curso.
 
+Para os interessados nesta exploração: o gráfico acima foi gerado em [R](https://www.r-project.org/about.html), e o exemplo foi retirado de [4]
+
 ## Referências
 
 [1]: Bejan, A. Advanced Engineering Thermodynamics. New York: John Wiley & Sons, 1988
@@ -136,3 +138,4 @@ Como dá para ver, existem muitos detalhes que apenas o estudo dos ciclos não r
 
 [3]: Çengel, Y. A., & Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013.
 
+[4]: Wickham, H. and Grolemund, G. R for Data Science: Import, Tidy, Transform, Visualize and Model Data. Sebastopol: O'Reilly, 2017.

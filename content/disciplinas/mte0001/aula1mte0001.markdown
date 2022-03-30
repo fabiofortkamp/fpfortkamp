@@ -119,34 +119,10 @@ Para finalizar, o gráfico abaixo contém dados de carros coletadas pela Agênci
 
 ```r
 library(tidyverse)
-```
-
-```
-## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
-```
-
-```
-## v ggplot2 3.3.5     v purrr   0.3.4
-## v tibble  3.1.6     v dplyr   1.0.8
-## v tidyr   1.2.0     v stringr 1.4.0
-## v readr   2.1.2     v forcats 0.5.1
-```
-
-```
-## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
-```
-
-```r
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
   geom_point(mapping = aes(color=class)) + 
   geom_smooth(mapping = aes(linetype = drv)) + 
   labs(x = "Cilindrada [litros]", y = "Eficiência em rodovias [milhas por galão]")
-```
-
-```
-## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 ```
 
 <img src="/disciplinas/mte0001/aula1mte0001_files/figure-html/unnamed-chunk-1-1.png" width="672" />
@@ -154,6 +130,8 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
 O que está sendo mostrado: a eficiência de motores como função da cilindrada. A variável `drv` é o tipo de tração: `4` para 4 rodas, `r` para tração traseira e `f` para tração dianteira. Os carros com tração nas 4 rodas são os menos eficientes de todo; por quê? Examinando a classe, os carros `2seater`, esportivos de 2 lugares, são mais eficientes que outros de mesma cilindrada - por quê?
 
 Como dá para ver, existem muitos detalhes que apenas o estudo dos ciclos não responde - e é isso que vamos investigar neste curso.
+
+Para os interessados nesta exploração: o gráfico acima foi gerado em [R](https://www.r-project.org/about.html), e o exemplo foi retirado de [4]
 
 ## Referências
 
@@ -163,3 +141,4 @@ Como dá para ver, existem muitos detalhes que apenas o estudo dos ciclos não r
 
 [3]: Çengel, Y. A., & Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013.
 
+[4]: Wickham, H. and Grolemund, G. R for Data Science: Import, Tidy, Transform, Visualize and Model Data. Sebastopol: O'Reilly, 2017.
