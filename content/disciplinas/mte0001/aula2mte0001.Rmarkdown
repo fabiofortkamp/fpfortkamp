@@ -95,6 +95,42 @@ onde $k$ é a razão de calores específicos.
 
 Ex. 9-39 de [1]: A razão de compressão de um ciclo Otto padrão a ar é 9,5. Antes do processo isentrópico de compressão, o ar está a 100 kPa, 35 ˚C e 600 cm$^3$. A temperatura no final do processo de expansão isentrópica é de 800 K. Considerando calores específicos constantes à temperatura ambiente, determine (a) a temperatura e a pressão mais altas do ciclo, (b) a quantidade de calor transferido, em kJ, (c) e a eficiência térmica.
 
+```{r setup, include=FALSE, eval=FALSE}
+library(reticulate)
+py_install("pyromat")
+
+```
+
+```{python}
+import pyromat as pm
+
+T1 = 308
+k = 1.4
+
+P1 = 100
+
+rcomp = 9.5
+T4 = 800
+
+T2 = T1 * rcomp**(k-1)
+P2 = P1 * rcomp**k
+T3 = T4 * rcomp**(k-1)
+P3 = P2 * (T3/T2)
+
+cv = 0.718
+qent = cv*(T3-T2)
+qsai = cv*(T4-T1)
+wliq = qent - qsai
+eta = wliq/qent
+
+print(P3)
+print(T3)
+print(wliq)
+print(eta)
+```
+
+
+
 ### Trabalho e Eficiência térmica do ciclo Otto
 
 A eficiência térmica do Ciclo Otto, de maneira geral, é:
@@ -186,10 +222,6 @@ Para uma dada razão de compressão e razão de corte, esse ciclo é mais eficie
 
 
 {{< figure src="comparacao-eficiencia-brunetti.png" caption="Fonte: [2]">}}
-
-### Um exemplo numérico de ciclo misto
-
-Exercício 9-40 de [3]: No início do processo de compressão em um ciclo de ar-padrão dual, $P_1 = 1\, \mathrm{bar}$ e $T_1 = 300 \,\mathrm{K}$. A adição total de calor é 1000 kJ/kg. Plote a eficiência térmica e o trabalho líquido como função da razão de compressão, para diferentes valores da fração do calor adicionado a volume constante e a pressão constante.
 
 ## Referências
 
