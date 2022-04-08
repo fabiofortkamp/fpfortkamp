@@ -21,10 +21,7 @@ A água é captada de uma fonte, tratada, bombeada e passa pelo economizador, on
 
 ### Exemplos
 
-```{r setup, include=FALSE, eval=FALSE}
-library(reticulate)
 
-```
 
 Problema 8.18 de [3]: Medições mostram que, em um ciclo Rankine ideal com superaquecimento e reaquecimento:
 A temperatura na entrada da primeira turbina é de 600 ºC
@@ -36,7 +33,8 @@ Qual a eficiência térmica desse ciclo?
 
 
 
-```{python}
+
+```python
 from CoolProp.CoolProp import PropsSI
 
 P4 = 10e6
@@ -70,6 +68,10 @@ qsai = h7 - h1
 wliq = qent - qsai
 eta = wliq/qent
 print(eta)
+```
+
+```
+## 0.4419315185005392
 ```
 
 ## Referências
