@@ -74,6 +74,41 @@ print(eta)
 ## 0.4419315185005392
 ```
 
+## E do lado dos gases?
+
+Muito do que foi visto até aqui provavelmente é apenas uma revisão. A grande questão dessa disciplina é juntar cálculos do Ciclo Rankine com cálculos da combustão.
+
+Fazemos agora uma análise de Primeira Lei na Fornalha. O ar entra a `\(T_{\mathrm{ar}}\)` e carrega uma certa umidade absoluta `\(\omega_{\mathrm{ar}}\)` (na mesma temperatura). O combustível entra a `\(T_{\mathrm{cb}}\)` e vazão `\(\dot{m}_{\mathrm{cb}}\)`, em relação à qual todas as vazões são referenciadas. Quando escrevemos `\(m_i\)`, sem o ponto em cima, estamos falando da vazão do componente `\(i\)` por unidade de vazão de combustível. Essas grandezas específicas podem ser calculadas com base na reação de combustão e na composição dos combustíveis, conforme será visto mais para frente.
+
+O combustível entra em combustão e libera o seu *poder calorífico inferior* `\(\mathrm{PCI}\)`. A soma do PCI e das energias sensíveis do ar e do combustível é o *calor disponível na combustão*:
+
+$$
+\dot{Q} _{\mathrm{D}} = \dot{m} _{\mathrm{cb}} \left(h _{\mathrm{cb}} + m _{\mathrm{ar}}\left(h _{\mathrm{ar}} + \omega _{\mathrm{ar}} h _{\mathrm{\omega}}\right) + \mathrm{PCI}\right)
+$$
+
+Parte desse calor é liberado para as paredes d'água `\(\dot{Q}_{\mathrm{P}}\)`, para o superaquecedor `\(\dot{Q}_{\mathrm{S}}\)` e para o reaquecedor `\(\dot{Q}_{\mathrm{R}}\)`. Estas três grandezas são associadas à análise do Ciclo Rankine.
+
+O que resta de energia na fornalha se reverte em *energia residual dos gases e das cinzas*:
+
+$$
+\dot{Q}  _{\mathrm{G}} = \dot{m} _{\mathrm{cb}}\left(m _{\mathrm{g}}h _{\mathrm{g}} + m _\mathrm{cz}h _{\mathrm{cz}}\right)
+$$
+
+O balanço de energia na fornalha é então
+
+$$
+\dot{Q} _{\mathrm{D}} = \dot{Q} _{\mathrm{P}} + \dot{Q} _{\mathrm{R}} + \dot{Q} _{\mathrm{S}} + \dot{Q} _{\mathrm{G}}
+$$
+
+
+Há mais uma simplificação que pode ser feita: assumimos que a temperatura de referência de todas as substâncias é 0 ºC, com isso:
+
+$$
+h_i = c_{p,i} T_i
+$$
+
+onde, ressalte-se a temperatura deve ser em graus Celsius. O calor espeecífico de cada substância pode ser computado com tabelas apropriadas [1], e deve ser computado na temperatura média entre 0 ºC e a temperatura do componente (i.e. metade da temperatura do componente). Outra simplificação usada é assumir que as cinzas e os gases estão na mesma temperatura `\(T_{\mathrm{g}}\)`.
+
 ## Referências
 
 
