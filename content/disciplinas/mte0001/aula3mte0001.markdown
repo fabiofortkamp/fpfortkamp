@@ -19,7 +19,7 @@ O ciclo que de fato é seguido pelos motores pode ser medido: a pressão é medi
 Sendo `\(L\)` o comprimento da biela e `\(r\)` o comprimento da manivela, pode-se mostrar que a posição `\(x\)` do pistão a partir do PMS é [2]:
 
 $$
-x = r (1 - \cos \alpha) + L \left(1 \sqrt{1 - \left(\frac{r}{L}\right)^2 \sin^2 \alpha}\right)
+x = r (1 - \cos \alpha) + L \left(1 -\sqrt{1 - \left(\frac{r}{L}\right)^2 \sin^2 \alpha}\right)
 $$
 
 E o volume então varrido pelo pistão é:
@@ -79,7 +79,7 @@ Para um determinado motor, o torque (e a potência efetiva) são *funções da r
 
 {{< figure src="curva-motores-garzon.png" caption="Curvas de torque e potência para um motor Diesel em máxima aceleração para três combustíveis: 100% de óleo de soja (100S), 100% de óleo diesel (100D), e uma mistura de iguais proporções de cada (50S/50D). Fonte: [4]" >}}
 
-Tome um tempo para analisar essas figuras; alguns pontos para reflexão:
+Tome um tempo para analisar essas figuras; alguns pontos para reflexão [3]:
 
 1. Por que o torque em altas rotações é mais baixo que em baixas rotações?
 2. Por que a curva de potência tem um máximo bem definido?
@@ -119,7 +119,7 @@ Podemos também definir uma pressão média efetiva:
 $$
 \mathrm{PME} = \frac{\dot{W} _{\mathrm{e}}}{\frac{N}{n _{\mathrm{R}}} \mathcal{V} _{\mathrm{D}}}
 $$
-Em ordens de grandeza: motores de ignição por faísca têm PME da ordem de 1000 kPa na rotação de máximo torque. Os valores de PME na rotação de máxima potência são menores (por quê?). Os valores de PME de motores Diesel (de tamanho comparável) também são menores. Turboalimentar o motor significa aumentar sua PME [4].
+Em ordens de grandeza: motores de ignição por faísca têm PME da ordem de 1000 kPa na rotação de máximo torque. Os valores de PME na rotação de máxima potência são menores (por quê?). Os valores de PME de motores Diesel (de tamanho comparável) também são menores. Turboalimentar o motor significa aumentar sua PME [3].
 
 ## Consumo de combustível
 
@@ -143,7 +143,7 @@ $$
 \dot{C} _{\mathrm{c}}  = \frac{\dot{m} _{\mathrm{c}}}{\dot{W} _{\mathrm{e}}}
 $$
 
-O consumo específico de combustível naturalmente deve ser o menor possível. Em MIF, estamos falando em 270 g/kWh, e cerca de 20% menor em MIE.
+O consumo específico de combustível naturalmente deve ser o menor possível. Em MIF, estamos falando em 270 g/kWh, e cerca de 20% menor em MIE [3].
 
 Por quê o consumo específico é menor em motores Diesel? Por que eles são mais eficientes, conforme visto [anteriormente](https://fpfortkamp.com/disciplinas/mte0001/aula2mte0001/). Podemos definir agora uma eficiência global: o combustível flui com `\(\dot{m}_{\mathrm{c}}\)` e têm um poder calorífico inferior PCI (a quantidade de energia por massa de combustível que é liberada na combustão, e que vamos estudar mais para a frente; esse valor é de ca. 44 MJ, sem grandes diferenças entre gasolina e Diesel). A eficiência global é:
 
@@ -164,6 +164,8 @@ onde `\(\rho_{\mathrm{a,i}}\)` é a densidade do ar na admissão. A eficiência 
 
 
 ## Desafios:
+
+Adaptados de [3]:
 
 1. Encontre uma expressão para a PME como função de eficiência global, eficiência volumétrica, poder calorífico, razão combustível-ar e densidade do ar na admissão e explique por quê a PME de MIE é menor que MIF. O que isso significa?
 2. Quais as vantagens e desvantagens de usar 4 válvulas por cilindro em vez de duas?
