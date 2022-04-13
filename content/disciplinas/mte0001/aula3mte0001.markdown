@@ -1,6 +1,6 @@
 ---
 date: "2022-04-06"
-title: Aula 3 Teórica - Ciclos Reais de Motores de Combustão interna
+title: Aula 3 Teórica - Ciclos Reais de Motores de Combustão Interna
 type: book
 weight: 40
 ---
