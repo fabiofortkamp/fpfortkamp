@@ -1,0 +1,7 @@
+Evaporating Temperature [C],Condensing temperature [C],Cooling Capacity [W],Power [W],Current [A],Gas Flow Rate [kg/h], Efficiency [W/W]
+-35,35,167,129,1.21,1.79,1.29
+-30,35,218,144,1.23,2.34,1.52
+-25,35,282,160,1.27,3.03,1.77
+-20,35,362,177,1.32,3.89,2.04
+-15,35,457,197,1.38,4.93,2.33
+-10,35,570,217,1.45,6.16,2.63
