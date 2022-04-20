@@ -1,0 +1,45 @@
+---
+date: "2022-04-19"
+title: Aula 5 Teórica - Combustíveis
+type: book
+weight: 50
+---
+
+Nas aulas anteriores, nós investigamos o funcionamento de motores de combustão interna (MCI), através dos seus ciclos [ideais](https://fpfortkamp.com/disciplinas/mte0001/aula2mte0001/) e [reais](https://fpfortkamp.com/disciplinas/mte0001/aula3mte0001/). A análise básica que foi feita era calcular as entradas e saídas de calor e o trabalho líquido obtido.
+
+O trabalho é obtido *a partir* do calor fornecido, e portanto agora é um bom momento para estudarmos a combustão, a fonte de energia para as máquinas térmicas que vamos trabalhar no nosso curso.
+
+A reação de combustão é uma reação exotérmica que acontece entre gases; os combustíveis líquidos são primeiro vaporizados (nos MIF, pela vela; nos MIE, pela transferência de calor com ar quente pressurizado). Quando a temperatura na câmara de combustão é alta o suficiente, forma-se uma *chama* que se propaga em direção às paredes do cilindro; nos MIF, essa chama se inicia próximo à vela, enquanto nos MIE diversos pontos formam uma chama [1].
+
+## Que características de combustíveis importam?
+
+Exercício adaptado 2.8 de [1]: calcular o consumo específico de iso-octano, gasolina, etanol, hidrogênio; considerar um MIF com eficiência global de 0,3, independente do combustível.
+
+- Preços?
+- Como obter?
+
+## Composição do ar
+
+O combustível na verdade só precisa de oxigênio para queimar; a não ser em temperaturas muito altas, quando se oxida, ele é inerte, mas deve entrar nos balanços de massa e energia. Na verdade, a maior parte do ar é nitrogênio: de cada 100 litros de ar seco, 78,09 L é de gás nitrogênio (o restante é oxigênio e outros gases).
+
+A proporção acima está na *base volumétrica* ou *molar*; vamos sempre assumir a hipótese de que todos os fluidos gasosos são gases ideais, e todos os gases ideais na mesma pressão e temperatura ocupam o mesmo volume, independente de qual gás seja. Portanto, de maneira aproximada, podemos dizemos que 100 kmol de ar seco contém 79 kmol de gás nitrogênio e 21 de gás oxigênio. Em termos proporcionais, cada kmol de $\mathrm{O_2}$ vem acompanhado de 79/21 = 3,76 kmol de $\mathrm{N_2}$.
+
+- como calcular massa molecular de mistura de gases, composição
+- como calcular densidade do ar
+
+## Composição de combustíveis
+
+- pesquisar composição típica de combustíveis, mas incluir biodiesel também - ver paper Nury
+
+### Combustão estequiométrica de hidrocarbonetos puros
+
+Ex. 3.1 de [1]
+
+- Pedir para alunos generalizarem balanço de reações
+
+### Combustão estequiométrica conhecendo base mássica
+
+
+## Referências
+
+[1]: Heywood, J. B. Internal Combustion Engine Fundamentals. New York: McGraw-Hill, 1988.
