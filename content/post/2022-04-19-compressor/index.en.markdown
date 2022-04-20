@@ -26,6 +26,7 @@ image:
 projects: []
 ---
 
+
 When selecting a compressor for a refrigeration system, the engineer usually has to browse through datasheets to select the most appropriate machine. The user must select a compressor that works with the selected *refrigerant* (chosen for environmental and cost reasons) and is able to deliver the required *cooling capacity* when operating between *evaporating and condensing temperatures*; these are linked to the *cold and hot source temperatures* (that is, the low temperature that is to maintained and the hot ambient temperature over which we have no control) through heat exchangers, but for this text we will ignore that and assume ideal heat exchangers.
 
 [Here is one example of a compressor datasheet](https://products.embraco.com/commtrol/api/pdf/compressor/datasheet/7187?&condensing_temperature=54.4&evaporating_temperature=-23.3&units=w&units_temp=metric-system&filters%5Bbare%5D=513701421&filters%5Brefrigerant%5D%5B%5D=R-600a&filters%5Bstandard%5D=ASHRAE&filters%5Bfrequency%5D=60) that we will explore in this post. The main data is presented in tables of various metrics as a function of evaporating temperature, and we have one table for each condensing temperature like this:
@@ -164,7 +165,7 @@ where `\(\dot{Q}_{\mathrm{L}}\)` is the cooling capacity and `\(t_{\mathrm{evap}
 2. The coefficients themselves are function of the condensing temperature, the fluid properties and the compressor geometry;
 3. The same thing can be done for the power consumption, with different coefficients.
 
-We will use [scikit-learn]() to *train* a model to calculate the coefficients, based on 50% of the data selected at random:
+We will use [scikit-learn](https://scikit-learn.org/stable/index.html) to *train* a model to calculate the coefficients, based on 50% of the data selected at random:
 
 
 ```python
@@ -214,12 +215,15 @@ print(QL_quadratic_model.named_steps["linear"].coef_)
 ```
 
 ```
-## [8.46000000e+02 3.09333333e+01 3.33333333e-01]
+## [8.42e+02 3.04e+01 3.20e-01]
 ```
 
 Hence, this polynomial seems to work fine, even though we have very few data points; with more data points in a test apparatus, this same model could be retrained, making the coefficients more and more accurate. 
 
 The advantage of this approach is that, if we are working with this compressor and selecting heat exchangers sizes, for instance, we do not need to evaluate thermophysical properties at each iteration but only a polynomial, which is a huge time saver. How to make this integration between models is the subject of another post.
+
+
+**UPDATE**: there's a [follow-up post](https://fpfortkamp.com/post/superheat/) which corrects some mistakes that you should read now.
 
 ## References
 
