@@ -1,0 +1,304 @@
+---
+title: Including superheat in the compressor regression
+author: Fábio P. Fortkamp
+date: '2022-04-20'
+slug: superheat
+categories:
+  - Articles
+tags:
+  - compressors
+  - regression
+  - machine learning
+  - python
+  - scikit-learn
+  - refrigeration
+  - pandas
+  - data science
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2022-04-19T12:11:31-03:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+We are always learning. After studying more about compressor datasheets, I realized that I forgot to include the superheat in [yesterday's](https://fpfortkamp.com/post/compressor/) post. Let's fix that.
+
+The main problem is that, in every calculation, I took the inlet state as saturated vapor in the given evaporating temperature, when in reality the [datasheet](https://products.embraco.com/commtrol/api/pdf/compressor/datasheet/7187?&condensing_temperature=54.4&evaporating_temperature=-23.3&units=w&units_temp=metric-system&filters%5Bbare%5D=513701421&filters%5Brefrigerant%5D%5B%5D=R-600a&filters%5Bstandard%5D=ASHRAE&filters%5Bfrequency%5D=60)  specifies that the vapor always enters at 32.2 ºC.
+
+{{< figure src="datasheet.png" >}}
+
+So let's start again. We will read the dataset with [pandas](https://pandas.pydata.org/?msclkid=29caa245bff611ec80ba73d4aced3042):
+
+
+```python
+import pandas as pd
+
+df = pd.read_csv("compressor.csv",delimiter=',')
+print(df)
+```
+
+```
+##    Evaporating Temperature [C]  ...   Efficiency [W/W]
+## 0                          -35  ...               1.29
+## 1                          -30  ...               1.52
+## 2                          -25  ...               1.77
+## 3                          -20  ...               2.04
+## 4                          -15  ...               2.33
+## 5                          -10  ...               2.63
+## 
+## [6 rows x 7 columns]
+```
+
+The sections below are mostly a repetition, but we'll update the equations where necessary:
+
+## How to calculate the mass flow rate of a compressor?
+
+A reciprocating compressor like this one is a *volumetric* machine: it displaces a certain volume of fluid, based on its internal geometry, and the mass flow rate depends on the suction state.
+
+The most basic, **ideal** model is then:
+
+$$
+\dot{m} = \frac{\dot{\mathcal{V}} _{\mathrm{D}}}{v _{\mathrm{in}}}
+$$
+
+where the numerator is the displacement rate; for a compressor with `\(z\)` cylinders at a fixed rotation speed `\(n\)` it can be calculated
+
+$$
+\dot{\mathcal{V}} _{\mathrm{D}} = {\mathcal{V}} _{\mathrm{D}} n z
+$$
+
+where `\(\mathcal{V} _{\mathrm{D}}\)` is the internal displacement.
+
+Let's plot the actual mass flow rate from the datasheet (using the geometric parameters from it) and the above model to compare:
+
+
+```python
+import matplotlib.pyplot as plt
+from CoolProp.CoolProp import PropsSI
+import numpy as np
+
+plt.rc('font', size=12)
+
+Vd = 13.54e-6 # in m3
+n = 60 #Hz
+z = 1
+fluid = 'R600a'
+Treturn = 32.2 + 273
+
+Vd_dot = Vd * n * z # m3/s
+T_evap = df["Evaporating Temperature [C]"].values
+m_dot_actual = df["Gas Flow Rate [kg/h]"].values
+
+# we take the inverse of the density 
+# of the vapor at the evaporing *pressure*
+# and the return gas temperature
+v_in = np.array([(1.0/PropsSI("D","T",Treturn,"P",PropsSI("P","T",Te+273,"Q",1,fluid),fluid)) for Te in T_evap])
+m_dot_ideal = 3600*Vd_dot/v_in
+
+fig, ax = plt.subplots()
+ax.plot(T_evap,m_dot_ideal,'k-',label="Ideal")
+ax.plot(T_evap,m_dot_actual,'ko',label="Actual")
+ax.set_xlabel("Evaporating temperature [ºC]")
+ax.set_ylabel("Gas flow rate [kg/h]")
+ax.legend()
+ax.grid()
+plt.show()
+```
+
+<img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+
+Clearly our model is not good enough! There is a *volumetric efficiency* that is influenced by dead volumes and leakages:
+
+$$
+\eta_{\mathrm{v}} = \frac{\dot{m}}{\frac{\dot{\mathcal{V}} _{\mathrm{D}}}{v _{\mathrm{in}}}}
+$$
+
+
+```python
+eta_v = m_dot_actual/m_dot_ideal*100
+fig2, ax2 = plt.subplots()
+
+ax2.plot(T_evap,m_dot_actual,'ko-',label="Actual mass flow rate")
+ax2.set_xlabel("Evaporating temperature [ºC]")
+ax2.set_ylabel("Gas flow rate [kg/h] (dots)")
+
+ax3 = ax2.twinx()
+ax3.plot(T_evap,eta_v,'kx--',label="Volumetric efficiency")
+ax3.set_ylabel("Volumetric efficiency [%] (x)")
+ax2.grid()
+
+plt.show()
+```
+
+<img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-3-3.png" width="672" />
+
+### What influences the volumetric efficiency?
+
+The volumetric efficiency depends primarily on the pressure ratio between condensing and evaporating levels:
+
+$$
+r _{\mathrm{p}} = \frac{P _{\mathrm{cond}}}{P _{\mathrm{evap}}}
+$$
+
+So let's plot that:
+
+
+```python
+eta_v = m_dot_actual/m_dot_ideal
+
+Pcond = PropsSI("P","T",df["Condensing temperature [C]"].values[0]+273,"Q",1,fluid)
+Pevap = np.array([PropsSI("P","T",Te+273,"Q",1,fluid) for Te in T_evap])
+rp = Pcond/Pevap
+fig20, ax20 = plt.subplots()
+
+
+
+ax20.plot(rp,eta_v,'ko-')
+ax20.set_xlabel("Pressure ratio")
+ax20.set_ylabel("Volumetric efficiency")
+
+plt.show()
+```
+
+<img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-4-5.png" width="672" />
+Maybe we can use a log-log plot?
+
+
+```python
+eta_v = m_dot_actual/m_dot_ideal
+
+Pcond = PropsSI("P","T",df["Condensing temperature [C]"].values[0]+273,"Q",1,fluid)
+Pevap = np.array([PropsSI("P","T",Te+273,"Q",1,fluid) for Te in T_evap])
+rp = Pcond/Pevap
+fig20, ax20 = plt.subplots()
+
+
+
+ax20.plot(rp,eta_v,'ko-')
+ax20.set_xlabel("Pressure ratio")
+ax20.set_ylabel("Volumetric efficiency")
+ax20.set_yscale('log')
+ax20.set_xscale('log')
+
+plt.show()
+```
+
+<img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-5-7.png" width="672" />
+which seems to make the relationship linear. A candidate for a model would be then:
+
+$$
+\ln \eta_{\mathrm{v}} = b_0 + b_1 \ln r_{\mathrm{p}}
+$$
+
+As with yesterday's post, We will use [scikit-learn](https://scikit-learn.org/stable/index.html) to *train* a model to calculate the coefficients, based on 50% of the data selected at random:
+
+
+```python
+from sklearn.metrics import r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+X = np.log(rp).reshape(-1,1)
+Y = np.log(eta_v)
+
+X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size=0.5)
+
+model = LinearRegression(fit_intercept=False)
+model.fit(X_train, Y_train)
+```
+
+```
+## LinearRegression(fit_intercept=False)
+```
+
+```python
+fig4, ax4 = plt.subplots()
+ax4.plot(np.log(rp),np.log(eta_v),'ko')
+ax4.plot(X,model.predict(X),'k-')
+ax4.set_xlabel("Log of Pressure ratio")
+ax4.set_ylabel("Log of Volumetric efficiency")
+ax4.set_title('accuracy (R^2) =  %.5f'
+% r2_score(Y_test, model.predict(X_test)))
+plt.show()
+```
+
+<img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-6-9.png" width="672" />
+
+The advantage of using the pressure ratio as the main feature is that the effect of the superheat degree is probably low, but we need more data with the same pressure ratio and different degrees of superheat to be sure.
+
+## Polynomials for cooling capacity
+
+The other useful thing to do with a compressor datasheet of calculating a polynomial of the form [1]:
+
+$$
+\dot{Q} _{\mathrm{L}} = a _0 + a _1  t _{\mathrm{evap}} + a _2  t _{\mathrm{evap}}^2
+$$
+
+where `\(\dot{Q}_{\mathrm{L}}\)` is the cooling capacity and `\(t_{\mathrm{evap}}\)` is the evaporating temperature in degress Celsius. Four points of note:
+
+1. This polynomial allows you to interpolate in different points other than the tabulated ones, an also can be combined with other models in the refrigeration system;
+2. The coefficients themselves are function of the condensing temperature, the fluid properties and the compressor geometry;
+3. The same thing can be done for the power consumption, with different coefficients;
+4. The resulting polynomial is valid for the same compressor in different evaporating pressures, but keeping the superheat and subcooling degress the same as the values from the datasheet.
+
+
+```python
+
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.pipeline import Pipeline
+
+X = df.values[:,:1] # first column (evaporating temperature) as a 2D array, as required
+YQL = df["Cooling Capacity [W]"].values
+
+X_train,X_test,QL_train,QL_test = train_test_split(X,YQL,test_size=0.5)
+
+QL_quadratic_model = Pipeline(
+[
+('poly', PolynomialFeatures(degree=2)),
+('linear', LinearRegression(fit_intercept=False))])
+QL_quadratic_model.fit(X_train, QL_train)
+```
+
+```
+## Pipeline(steps=[('poly', PolynomialFeatures()),
+##                 ('linear', LinearRegression(fit_intercept=False))])
+```
+
+```python
+QL_quadratic_pred = QL_quadratic_model.predict(X_test)
+
+fig4, ax4 = plt.subplots()
+ax4.scatter(QL_test,QL_quadratic_pred)
+ax4.grid()
+ax4.set_xlabel('Simulated cooling capacity [W]]')
+ax4.set_ylabel('Predicted cooling capacity [W]')
+ax4.set_title('accuracy (R^2) =  %.5f'
+% r2_score(QL_test, QL_quadratic_pred))
+plt.show()
+```
+
+<img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-7-11.png" width="672" />
+
+The resulting coefficients are (from `\(a_0\)` to `\(a_2\)`):
+
+
+```python
+print(QL_quadratic_model.named_steps["linear"].coef_)
+```
+
+```
+## [8.42e+02 3.04e+01 3.20e-01]
+```
+
+Hence, this polynomial seems to work fine, even though we have very few data points; with more data points in a test apparatus, this same model could be retrained, making the coefficients more and more accurate. 
+
+The advantage of this approach is that, if we are working with this compressor and selecting heat exchangers sizes, for instance, we do not need to evaluate thermophysical properties at each iteration but only a polynomial, which is a huge time saver. How to make this integration between models is the subject of another post.
+
+## References
+
+[1]: Stoecker, W. F. Design of thermal systems. [sl]: McGraw-Hill, 1980.
