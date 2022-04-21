@@ -406,6 +406,38 @@ r' = \frac{r _{\mathrm{exp}}}{r _{\mathrm{comp}}}
 $$
 Derive uma expressão para a eficiência térmica do Ciclo Atkinson em função apenas de `\(k\)`, `\(r _{\mathrm{comp}}\)` e `\(r'\)`.
 
+
+```python
+import numpy as np
+import pyromat as pm
+import matplotlib.pyplot as plt
+
+plt.rc('font', size=14) 
+
+rcomp = 12
+T1 = 200
+qent = np.linspace(100,10000)
+
+air = pm.get("ig.air")
+
+cv = air.cv(T=298)[0]
+cp = air.cp(T=298)[0]
+k = cp/cv
+
+rexp = (rcomp*(rcomp**(k-1) + qent/(cv*T1)))**(1/k)
+
+rl = rexp/rcomp
+
+eta = 1 - k*rcomp**(1-k)*(rl-1)/(rl**k -1)
+fig, ax = plt.subplots()
+ax.plot(qent,eta)
+ax.set_xlabel("Entrada de calor [kJ/kg]")
+ax.set_ylabel("Eficiência térmica")
+plt.show()
+```
+
+<img src="/disciplinas/st2mte1/aula4st2mte1_files/figure-html/unnamed-chunk-6-9.png" width="672" />
+
 ## Implementação
 
 A implementação original do Ciclo Atkinson usava um mecanismo de barras para conseguir os tempos de compressão e exaustão diferentes:
