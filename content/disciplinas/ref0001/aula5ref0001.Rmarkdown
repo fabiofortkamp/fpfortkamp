@@ -23,6 +23,12 @@ scrolldf = pd.read_csv("scroll.csv",delimiter=',',skiprows=6)
 print(scrolldf)
 ```
 
+Links para os arquivos de texto acima:
+
+- [`reciprocating.csv`](https://fpfortkamp.com/disciplinas/ref0001/reciprocating.csv)
+- [`screw.csv`](https://fpfortkamp.com/disciplinas/ref0001/screw.csv)
+- [`scroll.csv`](https://fpfortkamp.com/disciplinas/ref0001/scroll.csv)
+
 Comparando a vazão real e ideal de compressores alternativos:
 
 ```{python}

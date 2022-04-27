@@ -103,6 +103,12 @@ print(scrolldf)
 ## [24 rows x 4 columns]
 ```
 
+Links para os arquivos de texto acima:
+
+- [`reciprocating.csv`](https://fpfortkamp.com/disciplinas/ref0001/reciprocating.csv)
+- [`screw.csv`](https://fpfortkamp.com/disciplinas/ref0001/screw.csv)
+- [`scroll.csv`](https://fpfortkamp.com/disciplinas/ref0001/scroll.csv)
+
 Comparando a vazão real e ideal de compressores alternativos:
 
 
@@ -354,7 +360,7 @@ print(QL_quadratic_model.predict(np.array([[-17]])))
 ```
 
 ```
-## [410.41090942]
+## [410.73641858]
 ```
 
 Os coeficientes são ( `\(a_0\)`--$a_3$):
@@ -365,7 +371,7 @@ print(QL_quadratic_model.named_steps["linear"].coef_)
 ```
 
 ```
-## [ 8.21786671e+02  2.92755107e+01  2.96324817e-01 -1.36382586e-04]
+## [ 7.98006793e+02  2.65934062e+01  2.06079493e-01 -1.07074230e-03]
 ```
 
 ## Desempenho de compressores scroll
