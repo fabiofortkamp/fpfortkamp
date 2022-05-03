@@ -1,0 +1,83 @@
+---
+date: "2022-04-25"
+title: Aula 9 - Aletas com seção transversal variável
+type: book
+weight: 40
+---
+
+## Comparação de geometrias aletas
+
+Exercício 3.123, Incropera 6a edição.
+
+```{python}
+from math import  sqrt, log, tanh
+from scipy.special import kv, iv
+
+Tinf = 20
+Tb = 100
+h = 50
+t = 3e-3
+L = 15e-3
+k = 185
+
+m = sqrt(2*h/(k*t))
+thetab = Tb - Tinf
+
+Lc = L + t/2
+mL = m*L
+mLc = m*Lc
+
+## Aleta retangular
+print("Aleta Retangular")
+etar = tanh(mLc)/mLc
+print("Eficiência = %.2f %%" %(etar*100))
+Afr = 2*Lc
+qar = etar*h*Afr*thetab 
+print("Calor trocado pela aleta = %.2f W/m" %(qar))
+V = t*L
+print("Volume da aleta = %.2g m3/m" %(V))
+print()
+
+## Aleta triangular
+print("Aleta Triangular")
+etat = (1.0/mL)*iv(1,2*mL)/iv(0,2*mL)
+print("Eficiência = %.2f %%" %(etat*100))
+Aft = 2*sqrt(L**2 + (t/2)**2)
+qat = etat*h*Aft*thetab 
+print("Calor trocado pela aleta = %.2f W/m" %(qat))
+V = t/2*L
+print("Volume da aleta = %.2g m3/m" %(V))
+print()
+
+## Aleta parabólica
+print("Aleta Parabólica")
+etap = 2/(sqrt(4*(mL)**2 + 1) + 1)
+print("Eficiência = %.2f %%" %(etap*100))
+C1 = sqrt(1 + (t/L)**2)
+Afp = C1*L + (L**2)/t*log(t/L + C1)
+qap = etap*h*Afp*thetab 
+qap0 = qap
+print("Calor trocado pela aleta = %.2f W/m" %(qap))
+V = t/3*L
+print("Volume da aleta = %.2g m3/m" %(V))
+print()
+
+```
+
+```{python}
+L = 0.9*15e-3
+mL = m*L
+print("Aleta Parabólica mais curta")
+etap = 2/(sqrt(4*(mL)**2 + 1) + 1)
+print("Eficiência = %.2f %%" %(etap*100))
+C1 = sqrt(1 + (t/L)**2)
+Afp = C1*L + (L**2)/t*log(t/L + C1)
+qap = etap*h*Afp*thetab 
+print("Calor trocado pela aleta = %.2f W/m" %(qap))
+V = t/3*L
+print("Volume da aleta = %.2g m3/m" %(V))
+print()
+dq = (qap0 - qap)/qap0
+print("Redução no calor = %.2f %%" %(100*dq,))
+```
+
