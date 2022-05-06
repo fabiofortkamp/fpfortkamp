@@ -1,0 +1,106 @@
+---
+date: "2022-05-06"
+title: Aula 4 - Processo de combustão -  suprimentos de ar e combustível
+type: book
+weight: 40
+---
+
+## Balanço energético
+
+[Na aula passada](https://fpfortkamp.com/disciplinas/st1gee1/aula3st1gee1/), introduzimos o estudo das fornalhas, incluindo sua classificação e aspectos de projeto, e a análise da composição do combustível. O conhecimento das frações mássicas (para combustíveis sólidos ou líquidos) ou volumétricas (para combustíveis gasosos) determina as propriedades relevantes dos combustíveis, como o poder calorífico inferior, que determina o calor liberado durante o processo de combustão.
+
+O calor liberado na combustão é $\dot{Q}_{\mathrm{D}} \approx \dot{m}_{\mathrm{cb}} \mathrm{PCI}$. Pare para analisar uma fornalha e determine para onde essa energia vai.
+
+O objetivo de uma fornalha em um gerador de vapor é levar a água do estado de entrada ao estado desejado de pressão e temperatura. Seja $\dot{Q}_{\mathrm{u}}$ a taxa de transferência de calor *útil* que a água recebe (que vai incluir trocadores diferentes, dependendo da configuração do ciclo). 
+
+A **eficiência de caldeira** é:
+
+$$
+\eta _{\mathrm{c}} = \frac{\dot{Q} _{\mathrm{u}}}{\dot{Q} _{\mathrm{D}}}
+$$
+O conhecimento dessa eficiência determina o consumo de combustível, conforme exemplo a seguir:
+
+### Exemplo 1 [1]
+
+Uma unidade geradora de vapor, com capacidade para 200 kg/s de vapor superaquecido a 12 000 kPa e 520 ºC, é projetada para queimar óleo. A temperatura da água de alimentação é de 260 ºC (como essa temperatura é maior que a temperatura ambiente?). Calcule a vazão de combustível para eficiências de caldiera de 90 % e 85%. Admita um PCI de 41600 kJ/kg.
+
+**Solução**:
+
+```{python}
+from CoolProp.CoolProp import PropsSI
+fluid = 'Water'
+
+mdotv = 200
+hv = PropsSI("H","P",12e6,"T",520+273,fluid)
+ha = PropsSI("H","T",260+273,"Q",0,fluid)
+PCI = 41.6e6
+
+for etac in [85,90]:
+  print("Eficiência de caldeira: %d %%" %(etac,))
+  mdotcb = 100*mdotv * (hv-ha)/(PCI*etac)
+  print("Vazão de óleo = %.2f kg/s" %(mdotcb,))
+  print()
+
+
+```
+
+```{python}
+print(PropsSI("H","T",260+273,"Q",0,fluid))
+print(PropsSI("H","T",260+273,"P",12e6,fluid))
+```
+
+### Como aumentar a eficiência de caldeira?
+
+Perguntas do tipo "o que influencia a eficiência" são melhor respondidas pela Segunda Lei da Termodinâmica, que diz que a geração de entropia em um processo deve ser sempre não-negativa.
+
+Por exemplo, vamos focar nas perdas de calor do gerador por condução nas paredes dos equipamentos. Considere o seguinte problema [2]: a fornalha está a uma temperatura $T_{\mathrm{H}}$ e tem uma área de contato $A_{\mathrm{H}}$ com um ambiente a $T_0$, através de uma espessura de isolamento $t_{\mathrm{H}}$, que é pequena o suficiente para que o volume de isolamento seja $A_{\mathrm{H}} t_{\mathrm{H}}$. Outros componentes estão a $T_{\mathrm{L}} > T_0$, têm uma área $A_{\mathrm{L}}$ e uma espessura $t_{\mathrm{L}}$. O volume total de isolamento é fixo; qual a razão ótima entre espessuras de isolamento que minimiza a perda de calor total?
+
+## Cálculo do suprimento de ar
+
+Suponha um combustível (sólido ou líquido) com fração de carbono $x_{\mathrm{C}}$. A reação estequiométrica de combustão dessa quantidade de carbono é:
+
+$$
+\frac{x _{\mathrm{C}}}{M _{\mathrm{C}}}\mathrm{C} + n _{\mathrm{O _2}}\mathrm{O}_2 \to n _{\mathrm{{CO _2}}}\mathrm{CO} _2
+$$
+donde $n_{\mathrm{{CO_2}}} = n_{\mathrm{O_2}} = \frac{x_{\mathrm{C}}}{M_{\mathrm{C}}}$. Ou seja, para cada $x_{\mathrm{C}}$ de carbono em um combustível, são requeridos $\frac{x_{\mathrm{C}} M_{\mathrm{O_2}}}{M_{\mathrm{C}}}$ (em massa) de oxigênio, e formados $\frac{x_{\mathrm{C}} M_{\mathrm{CO_2}}}{M_{\mathrm{C}}}$ de gás carbônico.
+
+Isso pode ser repetido para os outros componentes, de maneira a calcular a *massa de ar estequiométrico* para cada unidade de massa de combustível (calculado conforme anteriormente) [1]:
+
+$$
+m _{\mathrm{ar}}^* = 138.2\left({\frac{x _{\mathrm{C}}}{12}} + \frac{x _{\mathrm{H_2}}}{4} + \frac{x _{\mathrm{S}}}{32} - \frac{x _{\mathrm{O_2}}}{32}\right)
+$$
+Em termos volumétricos:
+
+$$
+\mathcal{V} _{\mathrm{ar}}^* = 106.7\left({\frac{x _{\mathrm{C}}}{12}} + \frac{x _{\mathrm{H_2}}}{4} + \frac{x _{\mathrm{S}}}{32} - \frac{x _{\mathrm{O_2}}}{32}\right)
+$$
+
+Onde esta unidade está em m$^3$n, ou seja, medidos nas condições normais (0º C, 1 atm).
+
+De maneira semelhante, o volume de gases é:
+
+$$
+\mathcal{V} _{\mathrm{g}}^* = 22.4\left(\frac{x _{\mathrm{C}}}{12} + \frac{x _{\mathrm{H_2}}}{2} + \frac{x _{\mathrm{S}}}{32} + \frac{x _{\mathrm{H_2 O}}}{18}\right) + 0.79 \mathcal{V} _{\mathrm{ar}}^*
+$$
+
+Na prática, um *excesso de ar* $e$ deve ser fornecido para garantir a queima total, de maneira que:
+
+$$
+\mathcal{V} _{\mathrm{ar}} = e \mathcal{V} _{\mathrm{ar}}^*
+$$
+
+$$
+\mathcal{V} _{\mathrm{g}} = \mathcal{V} _{\mathrm{g}}^* + (e-1)\mathcal{V} _{\mathrm{ar}}^*
+$$
+
+O que limita os valores máximos e mínimos do excesso de ar?
+
+Para expressões semelhantes para combustíveis gasosos, consulte [1].
+
+## Referências
+
+
+[1]: Bazzo, E. Geração de vapor (2 ed.). Florianópolis: Editora UFSC, 1995.
+
+[2]: Bejan, A. Convection Heat Transfer (2nd ed.). New York: John Wiley & Sons, 1995.
+
