@@ -2,7 +2,7 @@
 date: "2022-05-09"
 title: Aula 7 Teórica - Poder calorífico
 type: book
-weight: 50
+weight: 60
 ---
 
 Quando analisamos os [ciclos termodinâmicos ideais](https://fpfortkamp.com/disciplinas/mte0001/aula2mte0001/), a tarefa básica é aplicar a Primeira Lei da Termodinâmica ao sistema composto pelo ar contido no cilindro. Por exemplo, sendo 2 o estado do ar antes da combustão e 3 o estado após, o calor entregue pela fonte quente ao ar por unidade de massa do fluido, é:
