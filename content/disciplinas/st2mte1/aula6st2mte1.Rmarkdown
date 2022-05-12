@@ -5,312 +5,224 @@ type: book
 weight: 60
 ---
 
-## O que a Análise de Segunda Lei dos Ciclos Ideais mostra
+Quando analisamos os [ciclos termodinâmicos ideais](https://fpfortkamp.com/disciplinas/st2mte1/aula2st2mte1/), a tarefa básica é aplicar a Primeira Lei da Termodinâmica ao sistema composto pelo ar contido no cilindro. Por exemplo, sendo 2 o estado do ar antes da combustão e 3 o estado após, o calor entregue pela fonte quente ao ar por unidade de massa do fluido, é:
 
-[Anteriormente](https://fpfortkamp.com/disciplinas/st2mte1/aula3st2mte1/) analisamos o Ciclo Otto do ponto de vista da Segunda Lei, determinando os processos que mais contribuem para a perda de trabalho. O culpado parece ser o processo de exaustão. Isso é sempre verdade?
+$$
+q _{\mathrm{ent}} = (u_3 - u_2)
+$$
 
-No código abaixo, nós testamos diferentes combinações de ciclo Otto e, se acharmos alguma condição onde o trabalho perdido na combustão é maior, imprimimos uma mensagem:
+onde $u$ é a energia interna específica do ar. Usando as Hipóteses do Padrão a Ar Frio, podemos expressar a variação de energia interna como função da variação de temperaturas, mas isso não é necessário. Muitas referências, e.g. [1] dispõe de tabelas de $u(T)$ para o ar:
+
+{{< figure src="ig-shapiro.png" caption="Fonte: [1]">}}
+
+O que está plotado nessa tabela? Os valores individuais de energia não têm significado físico, pois só conseguimos medir variações de energia indiretamente através de medições de calor ou trabalho e aplicando a Primeira Lei da Termodinâmica [2].
+
+O que está plotado nessa tabela é o valor de $u$ *em relação a um valor arbitrário* $u_0$. Podemos reescrever a equação anterior como:
+
+$$
+q_{\mathrm{ent}} = (u_3 - u_0) - (u_2 - u_0)
+$$
+
+e podemos ver que o valor particular de $u_0$ não importa.
+
+Na análise de combustão de máquinas térmicas, porém, temos de levar em conta que [em uma reação de combustão diferentes produtos vão se formar](https://fpfortkamp.com/disciplinas/mte0001/aula2mte0001/). Cada substância (oxigênio, nitrogênio, dióxido de carbono, vapor d'água) vai ter o termo $u_{0, subst.}$ e esses termos não vão se cancelar. Assim, quando se analisam reações químicas do ponto de vista energético, o estado de referência é importante.
+
+## Entalpia de reação
+
+Considere um volume de controle geral ao redor de um motor de combustão interna, 
+
+{{< figure src="engine-cv-heywood.png" caption="Fonte: [3]">}}
+
+Vamos aplicar a Primeira Lei da Termodinâmica à mistura de reagentes (ar e combustível - simbolizados por "R") que vão formar os produtos (simbolizados por "P"). Sendo $Q$ o calor que entra e $W$ o trabalho que sai, temos:
+
+$$
+Q_{R-P} - W_{R-P} = U_P - U_R
+$$
+
+O modelo mais básico de reação é *isotérmica e isobárica*, onde a pressão e a temperatura são mantidas no **estado padrão** que serve de referência (por convenção) para os cálculos de energia: $P = P_o = 1\,\mathrm{atm}$, $T = T_o = 298\,\mathrm{K}$.
+
+O trabalho de um sistema que se expande isobaricamente é:
+
+$$
+W_{R-P} = P_o(\mathcal{V}_P - \mathcal{V}_R)
+$$
+
+onde $\mathcal{V}$ é o volume da mistura, donde temos:
+
+$$
+Q_{R-P} = H^o_P - H_R^o = \Delta H^o < 0
+$$
+
+onde $H_i^o = U_i (T_o) + P_o \mathcal{V}_i (T_0,P_0)$. A grandeza $-\Delta H^o$ é chamada de *calor (ou entalpia) de reação (ou combustão)* [3].
+
+## Entalpia de formação
+
+Como calcular os termos de entalpia na definição de entalpia de reação? 
+
+
+
+Nesse modelo inicial (onde, repetimos, a reação é isotérmica e isobárica), as entalpias só podem variar por conta da composição, já que o estado termodinâmico intensivo está fixado.
+
+A entalpia de um componente $i$ no estado padrão é a sua *entalpia de formação padrão*, que é um valor tabelado considerando que a entalpia de formação dos seguintes componentes é nula [4]: $\mathrm{O}_2, \mathrm{N}_2, \mathrm{H2}, \mathrm{C}, \mathrm{S}$.
+
+Seja $j$ o estado ($j = {R,P}$), e $m_j$ o número de componentes em cada estado. Cada componente individual $i$ tem o seu número de moles no estado $j$ $n_{i,j}$. Então:
+
+$$
+H_j = \sum_{i=1}^{r_j} n_{i,j} \overline{h}_{f,i}^o
+$$
+onde a barra é para enfatizar que a entalpia é na base molar.
+
+## Explorando dados de entalpia de formação
+
+Vamos voltar à tabela de dados de combustíveis e componentes [1,3]:
+
+```{r}
+hf = read.csv("hformation.csv")
+hf
+```
+
+
+```{r}
+library(tidyverse)
+p <- ggplot(data = hf, )
+p + geom_col(mapping=aes(x = reorder(Substance,-Enthalpy.of.formation.kJ.kmol.), y = Enthalpy.of.formation.kJ.kmol.))  +
+  coord_flip() + 
+    labs(y = "Standard enthalpy of formation [kJ/kmol]", x = "Substance")
+```
+Os componentes com entalpia de formação padrão negativa são aqueles onde o calor de reação *sai* do sistema. Observe os componentes com valor positivo: é preciso fornecer uma grande quantidade de energia para obter nitrogênio monoatômico.
+
+## Exemplo 1
+
+Calcular a entalpia de reação da combustão estequiométrica de metano.
+
+$$
+\mathrm{C} \mathrm{H}_4  + a_t\left(\mathrm{O}_2 + 3.76 \mathrm{N}_2\right) \to a \mathrm{CO2} + b \mathrm{H_2O} + c\mathrm{N}_2
+$$
 
 ```{python}
-from math import log
+import pandas as pd
+
+HFDF = pd.read_csv("hformation.csv",index_col=0)
+
+def hfo(component):
+  return float(HFDF["Enthalpy of formation(kJ/kmol)"][component])
+
+def MM(component):
+  return float(HFDF["M(kg/kmol)"][component])
+
+## Balanço de reações
+a = 1
+b = 2
+at = a + b/2
+c = 3.76*at
+
+HP = a*hfo("Carbon dioxide") + b*hfo("Steam") + c*hfo("Nitrogen gas")
+HR = hfo("Methane") + at*hfo("Oxygen gas") + 2.76*at*hfo("Nitrogen gas")
+
+DeltaH = HP - HR
+print("Calor de reação = %.2f kJ/kmol" %(-DeltaH))
+```
+
+E onde entra o tal *poder calorífico inferior*? Compare o valor
+
+```{python}
+print("%.2f kJ/kg" %(-DeltaH/MM("Methane")))
+```
+
+Com o valor de PCI do metano retirado da tabela:
+
+```{python}
+def LHV(component):
+  return float(HFDF["LHV(kJ/kg)"][component])
+
+print("%.2f kJ/kg" %(LHV("Methane")))
+```
+
+E você vai compreender que o *Poder Calorífico Inferior* é a entalpia de reação escrita na base mássica, *considerando uma reação estequiométrica isotérmica no estado padrão*.
+
+### Poderes caloríficos inferior e superior
+
+O *poder calorífico superior* pode ser obtido da mesma forma, supondo que a água está na forma líquida; repetindo o código anterior:
+
+```{python}
+# 'steam' foi trocado por 'water'
+HP = a*hfo("Carbon dioxide") + b*hfo("Water") + c*hfo("Nitrogen gas")
+HR = hfo("Methane") + at*hfo("Oxygen gas") + 2.76*at*hfo("Nitrogen gas")
+
+DeltaH = HP - HR
+print("Calor de reação (água líquida) = %.2f kJ/kg" %(-DeltaH/MM("Methane")))
+print("PCS retirado da tabela = %.2f kJ/kg" %(float(HFDF["HHV(kJ/kg)"]["Methane"])))
+```
+
+As diferenças podem ser devido a diferentes erros de medição nas entalpias, na massa molar e no poder calorífico.
+
+### Exemplo de medição de poder calorífico
+
+Falando nisso, como o poder calorífico pode ser medido [4]?
+
+Uma amostra de 1 g de determinado combustível é queimada em um calorímetro que contém 2 kg de água na presença de 100 g de ar na câmara de reação. Considerando que a temperatura se eleva em 2,5 ºC quando equilíbrio é estabelecido, determine o poder calorífico do comsbutível.
+
+
+## Eficiência de combustão
+
+Na prática, a combustão em um motor não acontece nessas condições em que o PCI é definido.
+
+Assim, consideramos que acontece uma liberação de energia útil, que entra no ciclo $Q_{\mathrm{ent}}$.  Definimos uma *eficiência de combustão* da maneira:
+
+$$
+\eta _{\mathrm{c}} = \frac{Q_{\mathrm{ent}}}{M _{\mathrm{cb}}\mathrm{PCI}}
+$$
+
+### Exemplo de cálculo da eficiência de combustão
+
+Vamos considerar a queda da eficiência de combustão apenas como resultado da formação parcial de monóxido de carbono, em vez da combustão completa.
+
+Continuando o exemplo anterior de combustão do metano (ainda considerando uma combustão isotérmica e isobárica), mas agora arbitrando uma razão de equivalência combustível/ar $\phi$, plote a eficiência de combustão como função de $\phi$.
+
+$$
+\mathrm{C} \mathrm{H}_4  + \frac{a_t}{\phi}\left(\mathrm{O}_2 + 3.76 \mathrm{N}_2\right) \to a \mathrm{CO2} + b \mathrm{CO} + c \mathrm{H_2O} + d\mathrm{N}_2
+$$
+
+```{python}
+## Novo balanço
+at = 2
+c = 2
 
 import numpy as np
+phi_levels = np.linspace(1,1.5)
+b = 4-2*at/phi_levels
+a = 1-b
 
-import pyromat as pm
+PCI = LHV("Methane")
+DeltaH = (hfo("Methane") - (a*hfo("Carbon dioxide") + b*hfo("Carbon monoxide") + c*hfo("Steam")))/MM("Methane")
 
-T1_list = range(250,400)
-T3_list = range(1300,2000)
-rcomp_list = range(8,12)
-
-air = pm.get("ig.air")
-
-cv = air.cv(T=298)[0]
-cp = air.cp(T=298)[0]
-k = cp/cv
-
-for T1 in T1_list:
-  for T3 in T3_list:
-    for rcomp in rcomp_list:
-      
-      T2 = T1*rcomp**(k-1)
-      T4 = T3/(rcomp**(k-1))
-      qent = cv*(T3-T2)
-      qsai = cv*(T4-T1)
-      ds = cv*log(T3/T2)
-      sger_23 = ds - qent/T3
-      sger_41 = -ds + qsai/T1
-      wperdido_23 = T1*sger_23
-      wperdido_41 = T1*sger_41
-      if wperdido_23 > wperdido_41:
-        print("Nesta condição a combustão domina as perdas:")
-        print("Razão de compressão = %.2f" %(rcomp,))
-        print("Temperatura mínima = %.2f K" %(T1,))
-        print("Temperatura máxima = %.2f K" %(T3,))
-        print()
-        
-print()
-```
-
-Pelo jeito, a exaustão sempre domina as perdas.
-
-Analisando um Ciclo Otto:
-
-```{python}
-# adaptado de http://pyromat.org/doc_howto.html#cycle_rankine
+etac =DeltaH/PCI
 
 import matplotlib.pyplot as plt
-plt.rc('font', size=14) 
-rcomp = 8
-T1 = 300
-P1 = 1
-T3 = 1500
-Vd = 1
-Vmin = Vd/(rcomp-1)
-Vmax = Vmin + Vd
 
-air = pm.get("ig.air")
-
-cv = air.cv(T=298)[0]
-cp = air.cp(T=298)[0]
-k = cp/cv
-
-# Use different color codes to change the color of the plots
-color = 'k'    # Red
-#color = 'b'   # Blue
-# This is a True/False flag to deactivate the plot text
-show_text = True
-# This is a True/False flag to allow over-plotting of previous results
-clear_plots = True
-
-# Generate some diagrams
-# Let figure 1 be a P-v diagram
-f1 = plt.figure(1,)
-if clear_plots:
-    plt.clf()
-ax1 = f1.add_subplot(111)
-ax1.set_xlabel('Volume, V (L)')
-ax1.set_ylabel('Pressão, P (bar)')
-ax1.set_title('Ciclo Otto Ideal')
-
-
-# Process 1-2
-V = np.linspace(Vmin,Vmin + Vd)
-P = P1 * (V/Vmax)**(-k)
-P2 = max(P)
-T2 = T1 * rcomp**(k-1)
-ax1.plot(V,P,color,linewidth=1.5)
-
-# Process 2-3
-P3 = P2 * T3/T2
-ax1.plot([Vmin,Vmin],[P2,P3],color,linewidth=1.5)
-
-# Process 3-4
-V = np.linspace(Vmin,Vmin + Vd)
-P = P3 * (V/Vmin)**(-k)
-P4 = min(P)
-ax1.plot(V,P,color,linewidth=1.5)
-
-# Process 4-1
-Vmax = Vmin + Vd
-ax1.plot([Vmax,Vmax],[P4,P1],color,linewidth=1.5)
-
-ax1.grid('on')
-
-#ax1.set_ylim(bottom = 1)
-#ax1.set_xlim(left = 0)
-
-if show_text:
-  ax1.text(1.001*Vmax,0.7*P1,"1")
-  ax1.text(1*Vmin,P2,"2")
-  ax1.text(0.999*Vmin,1.001*P3,"3")
-  ax1.text(1.001*Vmax,1.3*P4,"4")
-
-
+fig, ax = plt.subplots()
+ax.plot(phi_levels,etac,'ko')
+ax.set_xlabel("Razão de equivalência")
+ax.set_ylabel("Eficiência de combustão")
+ax.grid()
 plt.show()
 ```
 
-Uma maneira de reduzir as perdas na combustão é simplesmente reduzir a temperatura máxima:
+## Relação com ciclos
+
+De [3]: considere um ciclo Otto com razão de compressão 8 e estado inicial de 1 atm e 300 K antes da compressão.  A transferência de calor pelo sistema de arrefecimento gera uma eficiência de combustão de 50%. Calcule a eficiência deste ciclo e de um ciclo sobre-expandido com razão de expansão 12, sendo o combustível iso-octano com PCI = 44.4 MJ/kg e razão de equivalência unitária.
 
 ```{python}
-# adaptado de http://pyromat.org/doc_howto.html#cycle_rankine
+import pyromat as pm
+import math
 
-
-plt.rc('font', size=14) 
-rcomp = 8
-T1 = 300
-P1 = 1
-T3 = 1500
-T3min = 1000
-Vd = 1
-Vmin = Vd/(rcomp-1)
-Vmax = Vmin + Vd
-
-air = pm.get("ig.air")
-
-cv = air.cv(T=298)[0]
-cp = air.cp(T=298)[0]
-k = cp/cv
-
-# Use different color codes to change the color of the plots
-color = 'k'    # Red
-#color = 'b'   # Blue
-# This is a True/False flag to deactivate the plot text
-show_text = True
-# This is a True/False flag to allow over-plotting of previous results
-clear_plots = True
-
-
-
-
-# Generate some diagrams
-# Let figure 1 be a P-v diagram
-f1 = plt.figure(1,)
-if clear_plots:
-    plt.clf()
-ax1 = f1.add_subplot(111)
-ax1.set_xlabel('Volume, V (L)')
-ax1.set_ylabel('Pressão, P (bar)')
-ax1.set_title('Ciclo Otto Ideal')
-
-
-# Process 1-2
-V = np.linspace(Vmin,Vmin + Vd)
-P = P1 * (V/Vmax)**(-k)
-P2 = max(P)
-T2 = T1 * rcomp**(k-1)
-ax1.plot(V,P,color,linewidth=1.5)
-
-# Process 2-3
-P3 = P2 * T3/T2
-P3min = P2*T3min/T2
-ax1.plot([Vmin,Vmin],[P2,P3],color,linewidth=1.5)
-ax1.plot([Vmin,Vmin],[P2,P3min],'k--',linewidth=1.5)
-
-# Process 3-4
-V = np.linspace(Vmin,Vmin + Vd)
-P = P3 * (V/Vmin)**(-k)
-Pr = P3min* (V/Vmin)**(-k)
-P4 = min(P)
-P4min = min(Pr)
-ax1.plot(V,P,color,linewidth=1.5)
-ax1.plot(V,Pr,'k--',linewidth=1.5)
-
-# Process 4-1
-Vmax = Vmin + Vd
-ax1.plot([Vmax,Vmax],[P4,P1],color,linewidth=1.5)
-ax1.plot([Vmax,Vmax],[P4min,P1],'k--',linewidth=1.5)
-
-ax1.grid('on')
-
-#ax1.set_ylim(bottom = 1)
-#ax1.set_xlim(left = 0)
-
-plt.show()
-```
-
-O ciclo "reduzido" (tracejado) tem mesma eficiência do ciclo original (por quê?), mas menor eficiência de Carnot (pois funciona entre um intervalo de temperaturas menor). Portanto, a sua eficiência de Segunda Lei é maior. Mas qual a desvantagem desse ciclo?
-
-Como você poderia pensar numa arquitetura de ciclo diferente que reduza as perdas na descarga e portanto aumente a eficiência?
-
-## Sobre-expansão
-
-```{python}
-# adaptado de http://pyromat.org/doc_howto.html#cycle_rankine
-
-
-plt.rc('font', size=14) 
-rcomp = 8
-rexp = 10
-T1 = 300
-P1 = 1
-T3 = 1500
-T3min = 1000
-Vd = 1
-Vmin = Vd/(rcomp-1)
-Vmax = rexp*Vmin
-
-air = pm.get("ig.air")
-
-cv = air.cv(T=298)[0]
-cp = air.cp(T=298)[0]
-k = cp/cv
-
-# Use different color codes to change the color of the plots
-color = 'k'    # Red
-#color = 'b'   # Blue
-# This is a True/False flag to deactivate the plot text
-show_text = True
-# This is a True/False flag to allow over-plotting of previous results
-clear_plots = True
-
-
-
-
-# Generate some diagrams
-# Let figure 1 be a P-v diagram
-f1 = plt.figure(1,)
-if clear_plots:
-    plt.clf()
-ax1 = f1.add_subplot(111)
-ax1.set_xlabel('Volume, V (L)')
-ax1.set_ylabel('Pressão, P (bar)')
-ax1.set_title('Ciclo com sobre-expansão')
-
-
-# Process 1-2
-V = np.linspace(Vmin,Vmin + Vd)
-P = P1 * (V/Vmax)**(-k)
-P2 = max(P)
-T2 = T1 * rcomp**(k-1)
-ax1.plot(V,P,color,linewidth=1.5)
-
-# Process 2-3
-P3 = P2 * T3/T2
-ax1.plot([Vmin,Vmin],[P2,P3],color,linewidth=1.5)
-
-# Process 3-4
-V = np.linspace(Vmin,Vmin + Vd)
-VA = np.linspace(Vmin,Vmax)
-P = P3 * (V/Vmin)**(-k)
-Pr = P3 *(VA/Vmin)**(-k)
-P4 = min(P)
-P4min = min(Pr)
-ax1.plot(V,P,color,linewidth=1.5)
-ax1.plot(VA,Pr,'k--',linewidth=1.5)
-
-# Process 4-1
-ax1.plot([Vmin+Vd,Vmin+Vd],[P4,P1],color,linewidth=1.5)
-
-ax1.plot([Vmax,Vmax],[P4min,P1],'k--',linewidth=1.5)
-
-ax1.plot([Vmax,Vmin+Vd],[P1,P1],'k--',linewidth=1.5)
-
-ax1.grid('on')
-
-#ax1.set_ylim(bottom = 1)
-#ax1.set_xlim(left = 0)
-
-plt.show()
-```
-
-onde agpra definimos uma razão de expansão: o volume máximo, ao final da expansão, pelo volume mínimo (PMS). A razão de compressão continua sendo definida durante a compressão.
-
-O limite desse processo é o *Ciclo Atkinson Ideal*, onde a expansão ocorre até a pressão de admissão (a mínima pressão disponível):
-
-```{python}
-# adaptado de http://pyromat.org/doc_howto.html#cycle_rankine
-
-
-plt.rc('font', size=14) 
-rcomp = 8
+F = 0.0661
+PCI = 44.4e3
+etac = 0.2
 
 T1 = 300
-P1 = 1
-T3 = 1500
-T3min = 1000
-Vd = 1
-Vmin = Vd/(rcomp-1)
-
+rcomp = 8
+rexp = 12
 
 air = pm.get("ig.air")
 
@@ -319,129 +231,28 @@ cp = air.cp(T=298)[0]
 k = cp/cv
 
 T2 = T1*rcomp**(k-1)
+T3 = T2 + F*PCI*etac/cv
+
+etaOtto = 1 - rcomp**(1-k)
+print("Eficiência do ciclo Otto = %.2f %%" %(100*etaOtto))
+
+T4 = T3*rexp**(1-k)
+T5 = T1*rexp/rcomp
+
 qent = cv*(T3-T2)
-rexp = (rcomp*(rcomp**(k-1) + qent/(cv*T1)))**(1/k)
-Vmax = rexp*Vmin
-
-# Use different color codes to change the color of the plots
-color = 'k'    # Red
-#color = 'b'   # Blue
-# This is a True/False flag to deactivate the plot text
-show_text = True
-# This is a True/False flag to allow over-plotting of previous results
-clear_plots = True
-
-
-
-
-# Generate some diagrams
-# Let figure 1 be a P-v diagram
-f1 = plt.figure(1,)
-if clear_plots:
-    plt.clf()
-ax1 = f1.add_subplot(111)
-ax1.set_xlabel('Volume, V (L)')
-ax1.set_ylabel('Pressão, P (bar)')
-ax1.set_title('Ciclo Atkinson')
-
-
-# Process 1-2
-V = np.linspace(Vmin,Vmin + Vd)
-P = P1 * (V/Vmax)**(-k)
-P2 = max(P)
-T2 = T1 * rcomp**(k-1)
-ax1.plot(V,P,color,linewidth=1.5)
-
-# Process 2-3
-P3 = P2 * T3/T2
-ax1.plot([Vmin,Vmin],[P2,P3],color,linewidth=1.5)
-
-# Process 3-4
-V = np.linspace(Vmin,Vmin + Vd)
-VA = np.linspace(Vmin,Vmax)
-P = P3 * (V/Vmin)**(-k)
-Pr = P3 *(VA/Vmin)**(-k)
-P4 = min(P)
-P4min = min(Pr)
-ax1.plot(V,P,color,linewidth=1.5)
-ax1.plot(VA,Pr,'k--',linewidth=1.5)
-
-# Process 4-1
-ax1.plot([Vmin+Vd,Vmin+Vd],[P4,P1],color,linewidth=1.5)
-
-ax1.plot([Vmax,Vmax],[P4min,P1],'k--',linewidth=1.5)
-
-ax1.plot([Vmax,Vmin+Vd],[P1,P1],'k--',linewidth=1.5)
-
-ax1.grid('on')
-
-#ax1.set_ylim(bottom = 1)
-#ax1.set_xlim(left = 0)
-
-plt.show()
-```
-A razão de expansão máxima é dada por:
-
-$$
-r _{\mathrm{exp}}^k = r _{\mathrm{comp}}\left(r _{\mathrm{comp}}^{(k-1)} + \frac{q _{\mathrm{ent}}}{c_v T_1}\right)
-$$
-
-Seja
-
-$$
-r' = \frac{r _{\mathrm{exp}}}{r _{\mathrm{comp}}}
-$$
-Derive uma expressão para a eficiência térmica do Ciclo Atkinson em função apenas de $k$, $r _{\mathrm{comp}}$ e $r'$.
-
-```{python}
-import numpy as np
-import pyromat as pm
-import matplotlib.pyplot as plt
-
-plt.rc('font', size=14) 
-
-rcomp = 12
-T1 = 200
-qent = np.linspace(100,10000)
-
-air = pm.get("ig.air")
-
-cv = air.cv(T=298)[0]
-cp = air.cp(T=298)[0]
-k = cp/cv
-
-rexp = (rcomp*(rcomp**(k-1) + qent/(cv*T1)))**(1/k)
-
-rl = rexp/rcomp
-
-eta = 1 - k*rcomp**(1-k)*(rl-1)/(rl**k -1)
-fig, ax = plt.subplots()
-ax.plot(qent,eta)
-ax.set_xlabel("Entrada de calor [kJ/kg]")
-ax.set_ylabel("Eficiência térmica")
-plt.show()
-
+qsai = cp*(T5-T1) + cv*(T4-T5)
+wliq = qent-qsai
+etaSE  = wliq/qent
+print("Eficiência do ciclo Sobre-expandido = %.2f %%" %(100*etaSE))
 ```
 
-## Implementação
+## Referências
 
-A implementação original do Ciclo Atkinson usava um mecanismo de barras para conseguir os tempos de compressão e exaustão diferentes:
+[1]: Moran, Michael J; Shapiro, Howard N. Fundamentals of Engineering Thermodynamics (5 ed.). Chichester: Wiley, 2006.
 
-{{< figure src="Atkinson_Engine_with_Intake.gif" caption="Fonte: https://commons.wikimedia.org/w/index.php?curid=41612521">}}
+[2]: Callen, H. B. Thermodynamics and an Introduction to Thermostatistics (2nd ed.). John Wiley and Sons, 1985.
 
-A implementação moderna é baseada em válvulas:
+[3]: Heywood, J. B. Internal Combustion Engine Fundamentals. New York: McGraw-Hill, 1988.
 
-{{< youtube WKKILW3Zj_Y >}}
+[4]: Çengel, Y. A., & Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013.
 
-Portanto, a *eficiência volumétrica* do Ciclo Atkinson é menor. Como você pode calcular essa eficiência volumétrica, e como você pode determinar como a potência do ciclo Atkinson cai, em relação a um Ciclo Otto?
-
-
-## Para saber mais
-
-Por causa da sua baixa potência, os motores Atkinson são muito usados em carros híbridos: em situações de alta demanda de potência, o sistema de controle prioriza o motor elétrico. [Estas](https://quatrorodas.abril.com.br/auto-servico/o-que-ha-de-diferente-nos-motores-de-ciclo-atkinson-e-miller/
-) [reportagens](https://www.flatout.com.br/diesel-atkinson-e-miller-conheca-os-ciclos-mais-economicos-de-motor/
-) falam mais sobre isso.
-
-Claro que isso gera o debate de se isso não transfere a eficiência para usinas terméletricas (o pior caso). Porém, as maiores usinas são mais eficientes que os melhores motores [1]. Por quê?
-
-[1]: Çengel, Y. A., & Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013.
