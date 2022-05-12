@@ -30,29 +30,29 @@ $$
 Onde a taxa de transferência de calor é positiva quando entra no ciclo. Logo, as duas equações que regem o sistema são:
 
 $$
-\dot{Q}_{\mathrm{L}} + \dot{W}_{\mathrm{comp}} - \dot{Q}_{\mathrm{H}} = 0
+\dot{Q} _{\mathrm{L}} + \dot{W} _{\mathrm{comp}} - \dot{Q} _{\mathrm{H}} = 0
 $$
 
 $$
-\dot{S}_\mathrm{ger} = \frac{-\dot{Q}_{\mathrm{L}}}{T_{\mathrm{L}}} + \frac{\dot{Q}_{\mathrm{H}}}{T_{\mathrm{H}}} \ge0
+\dot{S} _\mathrm{ger} = \frac{-\dot{Q} _{\mathrm{L}}}{T _{\mathrm{L}}} + \frac{\dot{Q} _{\mathrm{H}}}{T _{\mathrm{H}}} \ge0
 $$
 
 Multiplicando a segunda Lei por `\(T_{\mathrm{H}}\)`
 
 $$
-T_{\mathrm{H}}\dot{S}_\mathrm{ger} = \frac{-\dot{Q}_{\mathrm{L}}T_{\mathrm{H}}}{T_{\mathrm{L}}} + \dot{Q}_{\mathrm{H}} \ge0
+T _{\mathrm{H}}\dot{S} _\mathrm{ger} = \frac{-\dot{Q} _{\mathrm{L}}T _{\mathrm{H}}}{T _{\mathrm{L}}} + \dot{Q} _{\mathrm{H}} \ge0
 $$
 
 O calor rejeitado é geralmente a grandeza que menos interessa para nós, porque nós precisamos de uma capacidade e temos que pagar uma potência. Assim, vou expressar essa taxa como função da geração de entropia e substituir na primeira lei:
 
 $$
-\dot{Q}_{\mathrm{L}} + \dot{W}_{\mathrm{comp}} - \left(T_{\mathrm{H}}\dot{S}_\mathrm{ger} - \frac{-\dot{Q}_{\mathrm{L}}T_{\mathrm{H}}}{T_{\mathrm{L}}} \right) = 0
+\dot{Q} _{\mathrm{L}} + \dot{W} _{\mathrm{comp}} - \left(T _{\mathrm{H}}\dot{S} _\mathrm{ger} - \frac{-\dot{Q} _{\mathrm{L}}T _{\mathrm{H}}}{T _{\mathrm{L}}} \right) = 0
 $$
 
 vamos expressar a potência:
 
 $$
-\dot{W}_{\mathrm{comp}} =  T_{\mathrm{H}}\dot{S}_\mathrm{ger}+ \dot{Q}_{\mathrm{L}} \left(  \frac{T_{\mathrm{H}}}{T_{\mathrm{L}}} -1\right)
+\dot{W} _{\mathrm{comp}} =  T _{\mathrm{H}}\dot{S} _\mathrm{ger}+ \dot{Q} _{\mathrm{L}} \left(  \frac{T _{\mathrm{H}}}{T _{\mathrm{L}}} -1\right)
 $$
 
 observe que os dois termos do lado direito são positivos. O segundo termo é o trabalho mínimo de um ciclo, que vai acontecer quando?
@@ -60,7 +60,7 @@ observe que os dois termos do lado direito são positivos. O segundo termo é o 
 Quando ciclo for totalmente reversível, isto é, sem geração de entropia no ciclo. 
 
 $$
-\dot{W}_{\mathrm{comp,rev}} =  \dot{Q}_{\mathrm{L}} \left(  \frac{T_{\mathrm{H}}}{T_{\mathrm{L}}} -1\right)
+\dot{W} _{\mathrm{comp,rev}} =  \dot{Q} _{\mathrm{L}} \left(  \frac{T _{\mathrm{H}}}{T _{\mathrm{L}}} -1\right)
 $$
 
 Observe que esse termo é função direta dos requisitos de projeto.
@@ -68,7 +68,7 @@ Observe que esse termo é função direta dos requisitos de projeto.
 O primeiro termo na equação da potência real é a penalidade que temos que pagar, o excesso de potência que vêm das irreversibilidades, e é chamado de *potência perdida* ou *taxa de destruição de exergia*
 
 $$
-\dot{W}_{\mathrm{perd}} =  T_{\mathrm{H}}\dot{S}_\mathrm{ger}
+\dot{W} _{\mathrm{perd}} =  T _{\mathrm{H}}\dot{S} _\mathrm{ger}
 $$
 
 Outra maneira termodinâmica de avaliar tudo isto: a potência mínima (reversível), que também é chamada de *transferência de exergia associada à capacidade de refrigeração*, é a potência que seria obtida entre uma máquina térmica de Carnot entre as fontes.
@@ -78,7 +78,7 @@ Estão seguindo até aqui?
 A relação entre a potência mínima do ciclo e a potência real, que contabiliza as irreversibilidades, é chamada de *eficiência de segunda lei* ou *eficiência exergética:*
 
 $$
-\eta_{\mathrm{II}} = \frac{\dot{W}_{\mathrm{comp,rev}}}{\dot{W}_{\mathrm{comp}}}
+\eta _{\mathrm{II}} = \frac{\dot{W} _{\mathrm{comp,rev}}}{\dot{W} _{\mathrm{comp}}}
 $$
 
 Ex. 11.31 Çengel 7a ed: Bananas devem ser resfriadas de 28 ˚C a 12 ˚C a uma taxa de 1140 kg/h (calor específico 3,35 kJ/(kg K)) em um refrigerador que opera no ciclo de refrigeração por compressão de vapor. A potência fornecida ao refrigerador é de 8,6 kW. Determine (a) a taxa de calor absorvido das bananas e kJ/h e o COP; (b) a potência mínima associada a esse sistema; (c) a eficiência de segunda lei e a destruição de exergia para o ciclo.
@@ -137,7 +137,7 @@ A potência perdida é proporcional à taxa de geração de entropia, logo a ger
 Geração de Entropia em um processo aberto entre dois estados A e B:
 
 $$
-\dot{S}_{\mathrm{ger}} = \dot{m}(s_B-s_A)-\frac{\dot{Q}}{T_f}
+\dot{S} _{\mathrm{ger}} = \dot{m}(s _B-s _A)-\frac{\dot{Q}}{T _f}
 $$
 
 onde cuidado deve ser tomado ao avaliar a temperatura na fronteira na qual calor está sendo transferido. De maneira geral, é interessante considerar a temperatura da fronteira de cada trocador de calor como a temperatura da fonte; nesse caso, a geração de entropia vai compreender todas as resistências térmicas (convecção interna, contato, incrustração, condução nos tubos, convecção externa), bem como geração interna pelo atrito viscoso.
