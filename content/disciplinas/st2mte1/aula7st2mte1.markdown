@@ -100,60 +100,6 @@ entra nesse combustor a 600 kPa e 307 ˚C, e o combustível é injetado no combu
 **Solução usando bibliotecas computacionais**:  Podemos usar a biblioteca [PYroMat](http://pyromat.org/documentation.html) para isso, juntamente com [uma tabela de entalpias de formação](http://fpfortkamp.com/disciplinas/mte0001/hformation.csv); não importa que sejam de fontes separadas, pois na análise de entalpia sensível aparecem apenas *diferenças* de entalpia.
 
 
-```python
-import pyromat as pm
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-
-HFDF = pd.read_csv("hformation.csv",index_col=0)
-
-def hfo(component):
-  return float(HFDF["Enthalpy of formation(kJ/kmol)"][component])
-
-def MM(component):
-  return float(HFDF["M(kg/kmol)"][component])
-
-N2 = pm.get('ig.N2')
-O2 = pm.get('ig.O2')
-CO2 = pm.get('ig.CO2')
-H2O = pm.get('ig.H2O')
-
-# Reação:
-# C8H18 + 1.4ath (O2 + 3.76N2) =  aCO2 +bH2O +c O2 + d N2 
-a = 8
-b = 9
-ath = 12.5
-c = 5
-d = 65.8
-
-T0 = 298
-T_reac = 307+273
-
-Hreac = hfo("Octane liquid") + 1.4*ath*(O2.h(T=T_reac) - O2.h(T=T0)) + 1.4*3.76*(N2.h(T=T_reac) - N2.h(T=T0))
-
-def Hprod(T):
-  hCO2 = hfo("Carbon dioxide") + (CO2.h(T=T)-CO2.h(T0))
-  hH2O = hfo("Steam") + (H2O.h(T=T)-H2O.h(T0))
-  hO2 = hfo("Oxygen gas") + (O2.h(T=T)-O2.h(T0))
-  hN2 = hfo("Nitrogen gas") + (N2.h(T=T)-N2.h(T0))
-  H = a*hCO2 + b*hH2O + c*hO2 + d*hN2
-  return H
-
-fig, ax = plt.subplots()
-
-Tvalues = np.linspace(T0,3000)
-ax.plot(Tvalues,Hreac[0]*np.ones_like(Tvalues),'k--',label="Reagentes")
-ax.plot(Tvalues,Hprod(Tvalues),'k-',label="Produtos")
-ax.set_xlabel("Temperatura [K]")
-ax.set_ylabel("Entalpia [kJ/kmol(cb)]")
-ax.legend()
-ax.grid(True)
-plt.show()
-```
-
-<img src="/disciplinas/st2mte1/aula7st2mte1_files/figure-html/unnamed-chunk-1-1.png" width="672" />
-
 
 ```python
 import pyromat as pm
@@ -211,7 +157,7 @@ ax.grid(True)
 plt.show()
 ```
 
-<img src="/disciplinas/st2mte1/aula7st2mte1_files/figure-html/unnamed-chunk-2-3.png" width="672" />
+<img src="/disciplinas/st2mte1/aula7st2mte1_files/figure-html/unnamed-chunk-1-1.png" width="672" />
 
 Podemos calcular de maneira exata *zerando* a função "resíduo" entre os dois lados do balanço:
 
