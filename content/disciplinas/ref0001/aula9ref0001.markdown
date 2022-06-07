@@ -2,7 +2,7 @@
 date: "2022-05-24"
 title: Aula 9 - Curvas de equilíbrio em tubos capilares
 type: book
-weight: 70
+weight: 80
 ---
 
 ## Vazão de compressores
@@ -137,12 +137,7 @@ m_dot_compressor_model = Pipeline(
 ('linear', LinearRegression(fit_intercept=False))])
 
 # função que faz o ajuste do modelo de fato:
-m_dot_compressor_model.fit(X_train, Y_train)
-```
-
-```
-## Pipeline(steps=[('poly', PolynomialFeatures()),
-##                 ('linear', LinearRegression(fit_intercept=False))])
+m_dot_compressor_model.fit(X_train, Y_train);
 ```
 
 Agora, podemos comparar alguns valores individuais:
@@ -179,7 +174,7 @@ print(m_dot_compressor_model.predict([[t_evap_tc[i]]])[0])
 ```
 
 ```
-## 0.010648412623469106
+## 0.010650951167004987
 ```
 
 Vamos ver como o polinômio se sai graficamente:
@@ -206,7 +201,7 @@ print(a_vector)
 ```
 
 ```
-## [1.40143125e-02 3.88141344e-04 4.54669604e-06]
+## [1.40165656e-02 3.87826435e-04 4.51752389e-06]
 ```
 
 
@@ -304,15 +299,8 @@ m_dot_tube_model = Pipeline(
 ('linear', LinearRegression(fit_intercept=False))])
 
 # função que faz o ajuste do modelo de fato:
-m_dot_tube_model.fit(X_train, Y_train)
-```
+m_dot_tube_model.fit(X_train, Y_train);
 
-```
-## Pipeline(steps=[('poly', PolynomialFeatures()),
-##                 ('linear', LinearRegression(fit_intercept=False))])
-```
-
-```python
 fig4, ax4 = plt.subplots()
 ax4.plot(t_evap_tc,m_dot_tube_tc*3600,'ko')
 ax4.plot(t_evap_tc,m_dot_tube_model.predict(t_evap_tc.reshape(-1,1))*3600,'k-')
@@ -332,7 +320,7 @@ print(b_vector)
 ```
 
 ```
-## [ 1.08665475e-02 -4.76483777e-05 -6.33651180e-07]
+## [ 1.08660104e-02 -4.77022194e-05 -6.36292389e-07]
 ```
 
 ## Equilíbrio de curvas

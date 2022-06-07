@@ -2,7 +2,7 @@
 date: "2022-05-24"
 title: Aula 9 - Curvas de equilíbrio em tubos capilares
 type: book
-weight: 70
+weight: 80
 ---
 
 ## Vazão de compressores
@@ -134,7 +134,7 @@ m_dot_compressor_model = Pipeline(
 ('linear', LinearRegression(fit_intercept=False))])
 
 # função que faz o ajuste do modelo de fato:
-m_dot_compressor_model.fit(X_train, Y_train)
+m_dot_compressor_model.fit(X_train, Y_train);
 ```
 
 Agora, podemos comparar alguns valores individuais:
@@ -260,7 +260,7 @@ m_dot_tube_model = Pipeline(
 ('linear', LinearRegression(fit_intercept=False))])
 
 # função que faz o ajuste do modelo de fato:
-m_dot_tube_model.fit(X_train, Y_train)
+m_dot_tube_model.fit(X_train, Y_train);
 
 fig4, ax4 = plt.subplots()
 ax4.plot(t_evap_tc,m_dot_tube_tc*3600,'ko')
