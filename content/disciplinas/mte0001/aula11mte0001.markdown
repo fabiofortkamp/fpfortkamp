@@ -119,6 +119,7 @@ b) Ar e combustíveis entram pré-misturados em uma tubulação a 1 atm
 
 ```python
 from math import log
+import pyromat as pm
 
 # Caso a)
 print("Correntes separadas")
@@ -154,9 +155,13 @@ y_CO2 = a/n_total
 y_H2O = b/n_total
 y_N2 = c/n_total
 
-s_CO2 = sostd("Carbon dioxide") - Ru*log(y_CO2)
-s_H2O = sostd("Water") - Ru*log(y_H2O)
-s_N2 = sostd("Nitrogen gas") - Ru*log(y_N2)
+# cada termo tem três contribuições:
+# 1. a referência absoluta (pois estamos comparando substâncias diferentes)
+# 2. a variação devido à temperatura, na pressão padrão
+# 3. a variação devido à pressão
+s_CO2 = sostd("Carbon dioxide") + (CO2.s(T=Tprod,p=1e-5*P0) -CO2.s(T=T0,p=1e-5*P0))*MMCO2 -  Ru*log(y_CO2)
+s_H2O = sostd("Water")  + (H2O.s(T=Tprod,p=1e-5*P0) -CO2.s(T=T0,p=1e-5*P0))*MMH2O - Ru*log(y_H2O)
+s_N2 = sostd("Nitrogen gas") + (N2.s(T=Tprod,p=1e-5*P0) -N2.s(T=T0,p=1e-5*P0))*MMN2 - Ru*log(y_N2)
 
 S_P = a*s_CO2 + b*s_H2O + c*s_N2
 
@@ -165,7 +170,7 @@ print("S_ger = %.3f kJ/(kmol(cb) K)" %(S_ger_sep,))
 ```
 
 ```
-## S_ger = 1648.774 kJ/(kmol(cb) K)
+## S_ger = 2382.996 kJ/(kmol(cb) K)
 ```
 
 
@@ -199,7 +204,7 @@ print("S_ger = %.3f kJ/(kmol(cb) K)" %(S_ger_mist,))
 ```
 
 ```
-## S_ger = 1639.640 kJ/(kmol(cb) K)
+## S_ger = 2373.862 kJ/(kmol(cb) K)
 ```
 
 Por que essa diferença?
