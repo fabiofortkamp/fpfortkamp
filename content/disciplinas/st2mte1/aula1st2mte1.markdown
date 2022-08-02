@@ -118,6 +118,19 @@ Além disso, o ciclo de Carnot demanda um tempo infinito para ser completado, po
 
 Ou seja: o ciclo de Carnot não é nada prático. Nós utilizamos outros ciclos, pagando com redução da eficiência para conseguirmos trabalhar de maneira prática, gerando altas potências em espaços limitados.
 
+## Motores de combustão interna
+
+O vídeo abaixo contém uma explicação geral bastante boa sobre os componentes e o funcionamento de motores de combustão interna:
+
+{{< youtube Ul1XuiJE0Dw >}}
+
+O motor acima apresentado é um *motor de ignição por faísca* (MIF), também chamado de *motor Otto*; o outro grande tipo é o *motor de ignição espontânea*, ou MIE. Você consegue enumerar diferenças entre elas, baseado no seu conhecimento anterior a este curso?
+
+Algumas outras questões para repensar:
+
+1. Quantos graus o virabrequim gira para completar os 4 tempos de um motor (de ignição por faísca, por exemplo)? Como a pressão dentro do cilindro varia? Onde ocorrem a ignição e a abertura e fechamento das válvulas?
+2. O que limita mecanicamente a operação dos motores? O que limita as altas rotações dos motores? A alta pressão?
+3. Por que temos motores com vários cilindros pequenos, e não apenas apenas um cilindro grande (o que reduziria o número de componentes, por exemplo).
 
 
 ## Referências

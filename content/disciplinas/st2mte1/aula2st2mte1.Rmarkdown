@@ -1,6 +1,6 @@
 ---
 date: "2022-04-05"
-title: Aula 2 - Ciclos Ideais de Motores de Combustão interna
+title: Aula 2 - Ciclos Ideais de Motores de Combustão Interna
 type: book
 weight: 30
 ---

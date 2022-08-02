@@ -7,7 +7,7 @@ weight: 40
 
 ## Análise de Segunda Lei dos Ciclos Ideais
 
-[Anteriormente](https://fpfortkamp.com/disciplinas/st2mte1/aula2st2mte1/) descrevemos os ciclos ideias de motores de combustão interna e como calcular a eficiência e o trabalho específico líquido dos ciclos, e discutimos a influência de cada parâmetro.
+[Anteriormente](https://fpfortkamp.com/disciplinas/st2mte1/aula2st2mte1/) descrevemos os ciclos ideais de motores de combustão interna e como calcular a eficiência e o trabalho específico líquido dos ciclos, e discutimos a influência de cada parâmetro.
 
 Em particular, estamos focando na *eficiência*.
 
@@ -85,7 +85,8 @@ Todo ciclo termodinâmico de um sistema fechado (isto é, sem reposição de flu
 
 A força da desigualdade é medida pela *geração de entropia*, que por convenção é positiva:
 
-`$$s _\mathrm{ger} = -\oint\frac{\delta q}{T} \ge 0
+$$
+s _\mathrm{ger} = -\oint\frac{\delta q}{T} \ge 0
 $$
 
 Onde a taxa de transferência de calor é positiva quando entra no ciclo. Logo, as duas equações que regem o sistema são:
@@ -231,7 +232,7 @@ $$
 
 ## Torque e potência efetiva
 
-Ao rotacionar, o virabrequim transmite um certo *torque*, a capacidade de exercer forças sobre um certo braço de alavanca. Este torque é transmitido para a embreagem, e dali para outros sistemas.
+Ao rotacionar, o virabrequim transmite um certo *torque*, a capacidade de exercer forças sobre um certo braço de alavanca. Este torque é transmitido para a embreagem, e dali para outros sistemas. O torque gerado vence as resistências impostas: se você dirige, já deve ter observado que o carro se comporta diferente no asfalto ou numa estrada de chão, ou subindo e descendo um morro. O torque é diferente em cada situação dessa!
 
 O torque do virabrequim pode ser medido com um *dinamômetro*, medindo literamente a força que o motor faz e o braço de alavanca em relação ao ponto de medição da força:
 
@@ -310,9 +311,9 @@ $$
 
 *A potência de atrito depende primariamente da rotação* [3]:
 
-- Em baixas velocidades, o que domina é o contato metálico (motor parado, sem lubrificação)
-- Em médias velocidades, o que domina é o atrito viscoso dos fluidos
-- Em altas velocidades, o que domina é a dissipação turbulenta dos gases em altas velocidades (proporcional à energia cinética)
+- Em baixas velocidades, o que domina é o contato metálico (motor parado, sem lubrificação);
+- Em médias velocidades, o que domina é o atrito viscoso dos fluidos;
+- Em altas velocidades, o que domina é a dissipação turbulenta dos gases em altas velocidades (proporcional à energia cinética).
 
 ## Consumo de combustível
 
@@ -360,7 +361,7 @@ onde `\(\rho_{\mathrm{a,i}}\)` é a densidade do ar na admissão. A eficiência 
 
 Adaptados de [3]:
 
-1. Encontre uma expressão para a PME como função de eficiência global, eficiência volumétrica, poder calorífico, razão combustível-ar e densidade do ar na admissão e explique por quê a PME de MIE é menor que MIF. O que isso significa?
+1. Encontre uma expressão para a PME como função de eficiência global, eficiência volumétrica, poder calorífico, razão combustível-ar e densidade do ar na admissão e explique por que a PME de MIE é menor que MIF. Por que a PME no ponto de máxima potência é *menor* que no ponto de máximo torque. O que isso significa?
 2. Quais as vantagens e desvantagens de usar 4 válvulas por cilindro em vez de duas?
 3. Como, usando apenas as equações teóricas apresentadas aqui, podemos construir uma curva real de potência?
 
@@ -387,6 +388,13 @@ plt.show()
 ```
 
 <img src="/disciplinas/st2mte1/aula3st2mte1_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+
+4. O consumo específico é muito pouco dependente da rotação:
+
+{{< figure src="bsfc.png" caption="Fonte: [4]">}}
+
+Como explicar isso? Do que exatamente depende o consumo específico?
+
 
 ## Referências
 
