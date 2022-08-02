@@ -109,6 +109,143 @@ $$
 
 onde, ressalte-se a temperatura deve ser em graus Celsius. O calor espeecífico de cada substância pode ser computado com tabelas apropriadas [1], e deve ser computado na temperatura média entre 0 ºC e a temperatura do componente (i.e. metade da temperatura do componente). Outra simplificação usada é assumir que as cinzas e os gases estão na mesma temperatura `\(T_{\mathrm{g}}\)`.
 
+### Exercícios numéricos
+
+Vamos resolver o exercício 2.1 de [1]:
+
+Primeiramente, vamos analisar um balanço de massa no atemperador (dispositivo onde água fria entra para controlar a temperatura do vapor):
+
+
+```python
+# Dados das tabelas do exercício
+m11 = 94.1 # kg/s
+m13 = 97.4
+mw = m13-m11
+print("Vazão no atemperador = %.1f kg/s" %(mw,))
+```
+
+```
+## Vazão no atemperador = 3.3 kg/s
+```
+
+As paredes d'água são responsáveis pela mudança de estados 2-3, não esquecendo de contabilizar a saída de líquido saturado, logo:
+
+
+```python
+P2 = 140e5
+T2 = 180+273
+
+P3 = 140e5
+T3 = 336.8 + 273
+x3 = 0.99
+
+m3 = 93
+m2 = 94
+mp = m2-m3
+h2 = PropsSI("H","T",T2,"P",P2,"Water")
+h3 = PropsSI("H","T",T3,"Q",x3,"Water")
+hp = PropsSI("H","Q",0,"P",P2,"Water")
+
+Q_dot_PA = m3*h3 + mp*hp - m2*h2
+print("Calor cedido para paredes d'água = %.2f MW" %(1e-6*Q_dot_PA))
+```
+
+```
+## Calor cedido para paredes d'água = 173.61 MW
+```
+
+Observe a importância do economizador: quanto mais energia o estado 2 adiciona, menos energia as paredes d'água precisa adicionar para chegar no estado 3 - o que economiza custo dos tubos e combustível.
+
+Para os superaquecedores:
+
+
+```python
+m8 = m9 = 100
+T8 = 440 + 273
+P8 = 135e5
+
+T9 = 520+273
+P9 = 130e5
+
+h8 = PropsSI("H","T",T8,"P",P8,"Water")
+h9 = PropsSI("H","T",T9,"P",P9,"Water")
+Q_dot_S = m8*(h9-h8)
+print("Calor cedido para superaquecedores = %.2f MW" %(1e-6*Q_dot_S))
+```
+
+```
+## Calor cedido para superaquecedores = 23.88 MW
+```
+
+Para os reaquecedores:
+
+
+```python
+m10 = 94.1
+T10 = 340 + 273
+P10 = 32e5
+
+T13 = 520+273
+P13 = 28e5
+
+Pw = 140e5
+Tw = 180+273
+h10 = PropsSI("H","T",T10,"P",P10,"Water")
+h13 = PropsSI("H","T",T13,"P",P13,"Water")
+hw = PropsSI("H","T",Tw,"P",Pw,"Water")
+Q_dot_R = m13*h13 - (m10*h10 + mw*hw)
+print("Calor cedido para reaquecedores = %.2f MW" %(1e-6*Q_dot_R))
+```
+
+```
+## Calor cedido para reaquecedores = 48.23 MW
+```
+
+Já para a questão 2.2, temos:
+
+
+```python
+m_dot_cb = 20
+Tcb = 25+273
+PCI = 17.473e6
+mar = 7.357
+omega = 0.013
+mg = 8.080
+mcz = 0.295
+Tar = 300+273
+
+cpcb = 1.5e3
+cpar = 1e3
+cpvp = 2e3 # @ 150 ºC de temperatura média
+
+# Calor liberado na combustão:
+Q_dot_d = m_dot_cb*(PCI + cpcb*(Tcb-273) + mar*(cpar + omega*cpvp)*(Tar-273))
+print("Calor liberado na combustão = %.2f MW" %(1e-6*Q_dot_d))
+```
+
+```
+## Calor liberado na combustão = 395.50 MW
+```
+
+
+```python
+Q_dot_G = Q_dot_d - (Q_dot_PA + Q_dot_S + Q_dot_R)
+
+# assumir uma temperatura de 1000ºC, de maneira que 
+cpg = 1.15e3
+cpcz  = 1.08e3
+
+# Balanço de energia no lado dos gases:
+Tg = Q_dot_G/(m_dot_cb*(mg*cpg + mcz*cpcz))
+print("Temperatura dos gases = %.2f ºC" %(Tg,))
+```
+
+```
+## Temperatura dos gases = 779.30 ºC
+```
+
+Esse valor deveria ser corrigido, calculando um novo calor específico na nova temperatura média.
+
 ## Referências
 
 

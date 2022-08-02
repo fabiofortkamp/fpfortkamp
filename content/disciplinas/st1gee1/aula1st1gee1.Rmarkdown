@@ -12,7 +12,7 @@ Afinal, energia pode ser gerada? Este nome não é estranho?
 Você pode entender esta disciplina como o estudo da geração de energia *útil* - que, em Engenharia Térmica, geralmente significa duas coisas:
 
 1. Calor a altas temperaturas;
-2. Potência mecânica
+2. Potência mecânica.
 
 Calor é útil em processos gerais de aquecimento, como para conforto térmico em regiões muito frias e para diminuir a viscosidade de óleos lubrificantes. Potência mecânica, em geral, sempre é útil para movimentar cargas e gerar energia elétrica - ou, no mínimo, para ser dissipada de volta e gerar calor.
 
@@ -26,9 +26,7 @@ Geradores de vapor são geralmente usados em sistemas chamados de *máquinas té
 
 Na realidade, geradores de vapor não precisam ser utilizados em máquinas térmicas, e é possível simplesmente ter uma fornalha que recebe água de uma fonte contínua (como um rio), é constantemente alimentada com ar e combustível (usando automação industrial), e gera vapor para um sistema de aquecimento residencial, por exemplo, sem nenhuma turbina envolvida. Entretanto, isto é um desperdício: a fornalha atinge temperaturas acima de 1000 ºC, e trocadores de calor dificilmente trabalham acima dos 200 ºC, até pela resistência dos materiais que compõem o trocador, enquanto que turbinas trabalham perto dos 500 ºC. Assim, faz mais sentido, se vamos ter uma reação de combustão, usar o vapor quente para uma turbina e, *após ele expandir e se resfriar um pouco*, passar pelos trocadores de calor conforme desejado. 
 
-Por estas considerações, o curso de Máquinas Térmicas não é pré-requisito para este, mas assume-se que você estudou os *Ciclos de Rankine* (os ciclos das usinas termelétricas) em uma disciplina de Termodinâmica. Para este curso, os conceitos apresentados [nesta introdução à disciplina de Máquinas Térmicas](https://fpfortkamp.com/disciplinas/mte0001/aula1mte0001/) são suficientes, e você deve estudar este recurso antes de continuar. Nós vamos usar o Ciclo Rankine como base para estimar os estados do vapor, e em seguida vamos entrar nos detalhes de como o vapor passa por estes estados (e.g. como calcular a quantidade de ar e combustível necessária para vaporizar a água, como a vazão e a pressão do vapor são controladas, quais materiais de tubos de vapor são usados etc.)
-
-A figura abaixo mostra um diagrama temperatura-entropia do ciclo Rankine simples:
+O ciclo termodinâmico básico para geradores de vapor é o ciclo de Rankine. A figura abaixo mostra um diagrama temperatura-entropia do ciclo Rankine simples:
 
 {{< figure src="shapiro-rankine.png" caption="Fonte: [1]">}}
 
@@ -122,8 +120,6 @@ O gargalo de eficiências, a fonte de irreversibilidades, é a transferência de
 
 ```{r setup, include=FALSE, eval=FALSE}
 library(reticulate)
-py_install("CoolProp")
-
 ```
 
 Neste estágio do curso, é importante saber fazer uma Análise de Primeira Lei da Termodinâmica nos dois ciclos descritos acima (Carnot e Rankine simples). Eu recomendo usar [CoolProp](http://www.coolprop.org/index.html) para calcular os pontos termodinâmicos.
@@ -175,10 +171,6 @@ eta_Rankine = w_Rankine/qcald_Rankine
 print("Eficiência de Rankine: %.2f %%" %(eta_Rankine*100))
 print("Trabalho de Rankine: %.2f kJ/kg" %(w_Rankine/1000))
 ```
-
-### Análise do fluido de trabalho
-
-Exercícios 11.26-11.28 [3]: Um suprimento de água quente geotérmica é utilizado como fonte energética num ciclo de Rankine ideal. O fluido de trabalho no ciclo é R-134a e, na seção de saída do gerador de vapor, o fluido está no estado de vapor saturado a 85 ˚C. Sabendo que a temperatura no condensador é de 40 ˚C, calcule o rendimento térmico desse ciclo. Repita com água e amônia.
 
 
 ## Referências
