@@ -17,7 +17,7 @@ library(reticulate)
 
 A maioria dos sistemas de refrigeração funciona segundo o *Ciclo Padrão de Compressão de Vapor*.
 
-O vídeo abaixo fornece uma boa introdção a este tipo de sistema:
+O vídeo abaixo fornece uma boa introdução a este tipo de sistema:
 
 {{< youtube VHrfwDax3GA >}}
 
@@ -225,6 +225,14 @@ COPumido = (h1linha-h4)/(h2linha-h1linha)
 
 print(COPseco)
 print(COPumido)
+```
+
+Exercício 11-13 de [1]: Comparar o COP de sistemas de 
+refrigeração com o condensador a 1000 kPa e o evaporador a 4 ˚C, com R-134a, 
+amônia e R-1234yf.
+
+```{python}
+
 ```
 
 ## Referências
