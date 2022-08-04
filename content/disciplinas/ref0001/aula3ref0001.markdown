@@ -682,9 +682,10 @@ print(etasc)
 ```
 ## 0.42943582742845204
 ```
+
 ## Exemplo
     
-Exercício 11-26 de [3]: Um refrigerador utiliza R-134a como fluido de trabalho. As pressões de evaporação e condensação são 200 kPa e 1400 kPa respectivamente. A eficiência isentrópica de compressão é de 88%. O refrigerante entra no compressor a uma taxa de 0,025 kg/s superaquecido em 10,1 °C e sai do condensador  subresfriado a 4,4 °C. Determine a capacidade, potência e COP para esse ciclo e para o ciclo ideal em comparação.
+Exercício 11-26 de [3]: Um refrigerador utiliza R-134a como fluido de trabalho. As pressões de evaporação e condensação são 200 kPa e 1400 kPa respectivamente. A eficiência isentrópica de compressão é de 88%. O refrigerante entra no compressor a uma taxa de 0,025 kg/s superaquecido em 10,1 °C e sai do condensador  subresfriado a 4,4 °C. Determine a capacidade, potência e COP para esse ciclo e para o ciclo ideal em comparação que utiliza o mesmo compressor.
 
 
 ```python
@@ -705,9 +706,6 @@ h5 = PropsSI("H","T",Tevap,"Q",1,fluid)
 s5 = PropsSI("S","T",Tevap,"Q",1,fluid)
 v5 = 1/PropsSI("D","T",Tevap,"Q",1,fluid)
 
-mideal = 0.025
-Vd = mideal * v5
-
 s7 = s5
 h7 = PropsSI("H","P",Pcond,"S",s7,fluid)
 
@@ -726,9 +724,13 @@ h3 = PropsSI("H","T",T3,"Q",0,fluid)
 h4 = h3
 h8 = h6
 
-m = Vd / v1
-# All the states are known, now.
-#
+
+m = 0.025
+Vd = m * v1
+
+
+mideal = Vd / v5
+
 QLideal = mideal*(h5-h8)
 Wcompideal = mideal*(h7-h5)
 COPideal = QLideal/Wcompideal
@@ -737,84 +739,74 @@ QL = m*(h1-h4)
 Wcomp = m*(h2-h1)
 COP = QL/Wcomp
 
-print(m)
+print("Ciclo real:")
 ```
 
 ```
-## 0.023820363261660923
-```
-
-```python
-print(QLideal)
-```
-
-```
-## 2930.416777715669
+## Ciclo real:
 ```
 
 ```python
-print(Wcompideal)
+print("Capacidade = %.2f W" %(QL,))
 ```
 
 ```
-## 1015.7668127678583
-```
-
-```python
-print(COPideal)
-```
-
-```
-## 2.88493061683182
+## Capacidade = 3316.26 W
 ```
 
 ```python
-print(QL)
+print("Potência = %.2f W" %(Wcomp,))
 ```
 
 ```
-## 3159.7760828710866
-```
-
-```python
-print(Wcomp)
-```
-
-```
-## 1160.0062504431605
+## Potência = 1217.45 W
 ```
 
 ```python
-print(COP)
+print("COP = %.2f " %(COP,))
 ```
 
 ```
-## 2.7239302216379855
-```
-
-```python
-print((COP-COPideal)*100/COPideal)
-```
-
-```
-## -5.580737167628745
+## COP = 2.72
 ```
 
 ```python
-print(Tevap-273)
+print("Ciclo ideal:")
 ```
 
 ```
-## -9.926272460233065
+## Ciclo ideal:
 ```
 
 ```python
-print(Tcond-273)
+print("Capacidade = %.2f W" %(QLideal,))
 ```
 
 ```
-## 52.57235906833
+## Capacidade = 3075.54 W
 ```
+
+```python
+print("Potência = %.2f W" %(Wcompideal,))
+```
+
+```
+## Potência = 1066.07 W
+```
+
+```python
+print("COP = %.2f " %(COPideal,))
+
+```
+
+```
+## COP = 2.88
+```
+
+Para finalizar - uma boa visão geral dos vários aspectos referentes a essas variações:
+
+{{< youtube cVw0imEK0xk >}}
+
 ## Referências
 
 [1]: Hermes, C. J. L. Uma metodologia para a simulação transiente de refrigeradores domésticos. Tese (Doutorado em Engenharia Mecânica). Florianópolis: Universidade Federal de Santa Catarina, 2006.

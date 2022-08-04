@@ -608,9 +608,10 @@ h2s = PropsSI("H","P",Pcond,"S",s2s,fluid)
 etasc = (h2s-h1)/(Wcomp/m)
 print(etasc)
 ```
+
 ## Exemplo
     
-Exercício 11-26 de [3]: Um refrigerador utiliza R-134a como fluido de trabalho. As pressões de evaporação e condensação são 200 kPa e 1400 kPa respectivamente. A eficiência isentrópica de compressão é de 88%. O refrigerante entra no compressor a uma taxa de 0,025 kg/s superaquecido em 10,1 °C e sai do condensador  subresfriado a 4,4 °C. Determine a capacidade, potência e COP para esse ciclo e para o ciclo ideal em comparação.
+Exercício 11-26 de [3]: Um refrigerador utiliza R-134a como fluido de trabalho. As pressões de evaporação e condensação são 200 kPa e 1400 kPa respectivamente. A eficiência isentrópica de compressão é de 88%. O refrigerante entra no compressor a uma taxa de 0,025 kg/s superaquecido em 10,1 °C e sai do condensador  subresfriado a 4,4 °C. Determine a capacidade, potência e COP para esse ciclo e para o ciclo ideal em comparação que utiliza o mesmo compressor.
 
 ```{python}
 from CoolProp.CoolProp import PropsSI
@@ -630,9 +631,6 @@ h5 = PropsSI("H","T",Tevap,"Q",1,fluid)
 s5 = PropsSI("S","T",Tevap,"Q",1,fluid)
 v5 = 1/PropsSI("D","T",Tevap,"Q",1,fluid)
 
-mideal = 0.025
-Vd = mideal * v5
-
 s7 = s5
 h7 = PropsSI("H","P",Pcond,"S",s7,fluid)
 
@@ -651,9 +649,13 @@ h3 = PropsSI("H","T",T3,"Q",0,fluid)
 h4 = h3
 h8 = h6
 
-m = Vd / v1
-# All the states are known, now.
-#
+
+m = 0.025
+Vd = m * v1
+
+
+mideal = Vd / v5
+
 QLideal = mideal*(h5-h8)
 Wcompideal = mideal*(h7-h5)
 COPideal = QLideal/Wcompideal
@@ -662,20 +664,25 @@ QL = m*(h1-h4)
 Wcomp = m*(h2-h1)
 COP = QL/Wcomp
 
-print(m)
-print(QLideal)
-print(Wcompideal)
-print(COPideal)
+print("Ciclo real:")
+print("Capacidade = %.2f W" %(QL,))
+print("Potência = %.2f W" %(Wcomp,))
+print("COP = %.2f " %(COP,))
 
-print(QL)
-print(Wcomp)
-print(COP)
+print("Ciclo ideal:")
+print("Capacidade = %.2f W" %(QLideal,))
+print("Potência = %.2f W" %(Wcompideal,))
+print("COP = %.2f " %(COPideal,))
 
-print((COP-COPideal)*100/COPideal)
-print(Tevap-273)
-print(Tcond-273)
+
+
 
 ```
+
+Para finalizar - uma boa visão geral dos vários aspectos referentes a essas variações:
+
+{{< youtube cVw0imEK0xk >}}
+
 ## Referências
 
 [1]: Hermes, C. J. L. Uma metodologia para a simulação transiente de refrigeradores domésticos. Tese (Doutorado em Engenharia Mecânica). Florianópolis: Universidade Federal de Santa Catarina, 2006.
