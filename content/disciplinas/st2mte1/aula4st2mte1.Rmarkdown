@@ -391,7 +391,11 @@ Seja
 $$
 r' = \frac{r _{\mathrm{exp}}}{r _{\mathrm{comp}}}
 $$
-Derive uma expressão para a eficiência térmica do Ciclo Atkinson em função apenas de $k$, $r _{\mathrm{comp}}$ e $r'$.
+Derive uma expressão para a eficiência térmica do Ciclo Atkinson em função apenas de $k$, $r _{\mathrm{comp}}$ e $r'$. O resultado é (mas tente derivar você mesmo!):
+
+$$
+\eta_{\mathrm{t, Atkinson}} = 1 - k r_{\mathrm{comp}}^{1-k}\left(\frac{r'-1}{r'^k -1}\right)
+$$
 
 ```{python}
 import numpy as np
