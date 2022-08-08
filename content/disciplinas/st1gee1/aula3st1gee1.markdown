@@ -1,203 +1,258 @@
 ---
-date: "2022-04-28"
-title: Aula 3 - Fornalhas e composição de combustíveis
+date: "2022-03-31"
+title: Aula 2 - Funcionamento e componentes de geradores de vapor
 type: book
 weight: 30
 ---
 
-## Fornalhas
+## O Ciclo de Potência a Vapor com Reaquecimento
 
-A fornalha é a instalação onde ocorre a reação de combustão em um gerador de vapor [1]; é onde ar e combustível são *alimentados* e onde os gases são formados:
+[Anteriormente](https://fpfortkamp.com/disciplinas/st1gee1/aula1st1gee1/), discutimos as aplicações de geradores de vapor, e mencionamos que, para aproveitar o máximo as altas temperaturas dos gases quentes liberados em processos de combustão industriais, geradores de vapor são usualmente empregados em ciclos de potência, onde a turbina funciona a altas temperaturas. 
+
+Em termos de implementação de um gerador de vapor, temos um esquema assim:
 
 {{< figure src="gerador-adaptado.png" caption="Fonte: Adaptado de [1]">}}
 
-O projeto da fornalha deve garantir as condições de queima adequadas para o combustível que está sendo usado. Os combustíveis mais usados atualmente em geradores de vapor são:
+cujo ciclo termodinâmico aproximado seria:
 
-1. Carvão mineral
-2. Lenha
-3. Óleo combustível
-4. Gás Natural
-5. Biomassa
+{{< figure src="reaquecimento-adaptado.png" caption="Fonte: Adaptado de [2]">}}
 
-Que fatores você acha que estão envolvidos na escolha de um destes combustíveis?
-
-Dependendo da fase do combustível e de suas características, diferentes tipos de fornalha existem [1]:
-
-1. Fornalhas de queima em suspensão
-2. Fornalhas de queima em grelha
-3. Fornalhas de queima em leitos fluidizados.
-
-É uma via de mão dupla: podemos projetar uma fornalha para um combustível escolhido, mas também podemos trocar o combustível se a fornalha já construída for compatível.
-
-Uma das principais características de uma fornalha é seu *volume*. Pense em situações limite: o que você acha que acontece com o processo de combustão quando o volume da fornalha é muito pequeno? E quando é muito grande?
-
-Uma maneira de quantificar essa determinação de uma faixa para o volume de uma fornalha é a *carga térmica volumétrica*, definida como a razão entre o calor liberado na combustão (definido na [aula passada](https://fpfortkamp.com/disciplinas/st1gee1/aula2st1gee1/))  e o volume da fornalha. A figura seguinte apresenta valores típicos de carga térmica volumétrica, dependendo do tipo de fornalha, do tipo de caldeira (que vamos estudar mais para a frente), e do tipo de combustível:
-
-{{< figure src="carga-termica.png" caption="Fonte: [1]">}}
-
-## Composição de combustíveis
-
-Na avaliação do processo de queima, a principal característica que importa dos combustíveis é a sua *composição gravimétrica*, isto é, as frações mássicas que são ocupadas por cada componente. 
-
-Os combustíveis industriais são uma mistura de [2]:
-
-1. Carbono ($\mathrm{C}$)
-2. Hidrogênio ($\mathrm{H2}$)
-3. Enxofre ($\mathrm{S}$)
-4. Oxigênio ($\mathrm{O}_2$)
-5. Nitrogênio ($\mathrm{N}_2$)
-6. Umidade ($\mathrm{H_2O}$)
-7. Cinzas
-
-É preciso ser bastante claro na indicação da composição do combustível. Por exemplo, vamos dizer uma amostra de carvão é analisada e percebe-se que ele tem um teor de umidade de 20%. O carvão então é seco e analisado novamente, e descobre-se que, na base seca, ele tem 60% de carbono. Se estamos analisando uma reação do carvão já seco, então este é o teor de carbono; porém, se analisarmos uma reação do carvão úmido, então o seu teor de carbono em relação à massa total é 60% de 80%, ou 48%.
-
-Nós vamos denotar `\(x_i\)` a fração mássica do componente `\(i\)` no combustível a ser analisado.
-
-## Visão geral da combustão
-
-Uma reação de combustão é uma reação de algumas substâncias ou elementos com oxigênio, com subsequente liberação de energia.
-
-Cada um dos componentes tem a sua reação química balanceada com o oxigênio, com a sua respectiva liberação de energia, como por exemplo [1]:
-
-$$
-\mathrm{C} + \mathrm{O}_2 \to \mathrm{CO}_2 + 33900 \,\mathrm{kJ/kg}
-$$
-
-$$
-\mathrm{S} + \mathrm{O}_2 \to \mathrm{S}\mathrm{O}_2 + 9200 \,\mathrm{kJ/kg}
-$$
-Chamo a atenção para a reação do enxofre. Como vamos falar, o enxofre é um componente indesejado mas inevitável dos combustíveis, que até ajuda a liberar energia, mas muito pouca.
-
-No caso do gás natural, o que é mais comum é expressar a composição em base volumétrica normal, isto é, a cada 1 m$^3$ de gás natural a 0 ºC e 1 atm, qual o volume parcial de cada hidrocarboneto que compõe o gás. Por exemplo, no caso do etano:
-
-$$
-2\mathrm{C}_2\mathrm{H}_6 + 7\mathrm{O}_2 \to 4\mathrm{CO}_2 + 6 \mathrm{H}_2\mathrm{O} + 51870 \,\mathrm{kJ/kg}
-$$
-Os gases de interesse em combustão podem ser tratados como gases ideais [3]. O volume ocupado por 1 kmol de *todos os gases ideais* uma uma pressão e temperatura especificados é o mesmo, independente da composição do gás. Portanto, se em 100 m$^3$ de gás natural há, digamos, 10 m$^3$ de etano, isso é completamente equivalente a dizer que, em 100 kmol de gás natural, há 10 kmol de etano.  Nós usamos a notação `\(y_i\)` para denotar a fração molar (ou volumétrica) de misturas de gases.
-
-Na prática, os combustíveis industriais são misturas de todos esses componentes. O que chamamos de gás natural, por exemplo, é uma mistura do etano com metano e outros gases mais pesados. A lenha contém carbono, enxofre e outros componentes. Esses valores de energia por cada componente se somam e continuem para o *poder calorífico* dos combustíveis, e como vimos em aulas anteriores, esse poder calorífico é transferido para o vapor d'água na caldeira. 
-
-Reparar que é necessário oxigênio para ocasionar a reação. Poderíamos até fornecer oxigênio puro, o que seria mais eficiente, mas muito caro. Na prática, fornecemos ar, que vamos considerar como uma mistura de ar seco e umidade, sendo o ar seco uma mistura de oxigênio e nitrogênio. Consideramos também que cada 1 kg de ar seco carrega `\(\omega\)` kg de umidade (vapor d'água dissolvido no ar). 
-
-Em base molar (ou volumétrica, já que consideramos o ar um gás ideal que é uma mistura de gases ideais `\(\mathrm{O}_2\)` e `\(\mathrm{N}_2\)`), o ar contém 21% de oxigênio e 79% de nitrogênio. Cada mol de `\(\mathrm{O}_2\)` é acompanhado por 3,76 kmol (21% = 1 / (1 + 3,76)).
-
-## Poder calorífico inferior
-
-A maneira correta de calcular o poder calorífico inferior de combustíveis é escrever a reação e aplicar a Primeira Lei da Termodinâmica a essa reação. 
-
-Considere uma reação de um determinado combustível, com a composição gravimétrica especificada. Na fornalha, não há realização de trabalho; vamos denotar `\(\dot{Q}_{\mathrm{comb}}\)` a taxa de liberação de calor na combustão. Uma análise de Primeira Lei da Termodinâmica em regime permanente, sem variações de energia cinética e potencial, fornece:
-
-$$
-\dot{m}_{\mathrm{cb}}h_{\mathrm{cb}} + \dot{m}_{\mathrm{ar}}h_{\mathrm{ar}} = \dot{Q}_{\mathrm{comb}} + \dot{m}_{\mathrm{g}}h_{\mathrm{g}}
-$$
-Os valores de entalpia específica são tabelados, porém são tabelados *em relação a uma referência para a substância*. Como aqui temos diferentes substâncias, precisamos estabelecer uma relação entre as referências das diferentes substâncias.
-
-Na análise da combustão, geralmente estabelecemos que o *estado de referência padrão* de todas as substâncias envolvidas é 25 ºC e 1 atm. A entalpia de uma substância reagente no estado padrão é a sua *entalpia de formação*, e, por convenção, a entalpia de formação dos seguintes compostos é nula:
-
-1. Carbono monoatômico
-2. Gás nitrogênio
-3. Gás oxigênio
-4. Gás hidrogênio
-
-O valor absoluto do calor liberado em uma reação de combustão, quando todos os reagentes e produtos são mantidos na mesma temperatura (usualmente a própria temperatura do estado padrão), é o seu *poder calorífico*. O poder calorífico é *inferior* quando o vapor d'água formado está na fase gasosa (o que é geralmente o caso).
-
-O PCI de um combustível, portanto, deve ser calculado escrevendo a reação de combustão, determinando os balanços estequiométricos, e então aplicando a Primeira Lei.
-
-Porém, com boa aproximação [1], o PCI pode ser calculado diretamente com base na composição.
-
-### Para combustíveis sólidos
-
-$$
-\mathrm{PCI} = 33900x _{\mathrm{C}} + 141800 \left(x _{\mathrm{H_2}} - \frac{x _{\mathrm{O_2}}}{8}\right) + 9200 x _{\mathrm{S}} - 2400 \left(9 x _{\mathrm{H_2}} + x _{\mathrm{H_2O}}\right)
-$$
-
-onde o resultado está em kJ/kg e as frações mássicas são números decimais, não em porcentagens.
-
-### Para combustíveis gasosos
-
-Como o gás natural é uma mistura de gases ideais, podemos ponderar o poder calorífico de cada componente na base mássica:
-
-$$
-\mathrm{PCI} = \sum_i x_i \mathrm{PCI}_i
-$$
-
-onde, cuidado! As frações volumétricas precisam ser convertidas em frações mássicas.
+A água é captada de uma fonte, tratada, bombeada e passa pelo economizador, onde é pré-aquecida até entrar no tambor, um vaso de pressão separador. A água é aquecida pelo vapor quente presente no tambor, e sai como líquido saturado em direção às paredes d'água - tubos fixados na parede da fornalha, onde a água recebe calor por radiação resultante do processo de combustão e é vaporizada, retornando ao tambor. Este separa o vapor saturado que passa pelos superaquecedores, vai para a primeira turbina, e ao retornar é reaquecido, antes de seguir para o segundo estágio de expansão. Observe o fluxo de gases quentes que vai transferindo calor para a água em diversos estágios.
 
 ### Exemplos
 
-**Comparação de poder caloríficos**:
 
-Considere um carvão com composição na base seca:
 
-- 47% de carbono
-- 3% de hidrogênio
-- 4% de enxofre
-- 5% de oxigênio
-- 1% de nitrogênio
-- 40% de cinzas
+Problema 8.18 de [3]: Medições mostram que, em um ciclo Rankine ideal com superaquecimento e reaquecimento:
+A temperatura na entrada da primeira turbina é de 600 ºC
+A pressão na entrada da primeira turbina é de 10 MPa
+A temperatura na saída do reaquecedor é de 500 ºC
+A pressão de condensação é de 6 kPa
+O título na entrada do condensador é de 90% (valor mínimo recomendado)
+Qual a eficiência térmica desse ciclo?
 
-Calcule o PCI aplicando a Primeira Lei e com a expressão aproximada.
+
 
 
 ```python
-xC = 0.47
-xH2 = 0.03
-xS = 0.04
-xO2 = 0.05
-xN2 = 0.01
+from CoolProp.CoolProp import PropsSI
 
-MC = 12.01
-hfCO2 = -393520
+P4 = 10e6
+T4 = 600 + 273
+T6 = 500 + 273
+P7 = 6e3
+x7 = 0.9
 
-MS = 32.054
-hfSO2 = -267100
+h1 = PropsSI("H","P",P7,"Q",0,"Water")
+s1 = PropsSI("S","P",P7,"Q",0,"Water")
 
-MH2 = 2.016
-hfH2Ov = -241820
-PCIp = abs(hfCO2*xC/MC + hfSO2*xS/MS + hfH2Ov*xH2/MH2)
-PCIa =  33900*xC+ 141800 *(xH2-xO2/8) + 9200*xS - 2400* (9 *xH2 )
-print("PCI (Primeira Lei) = %.2f MJ/kg" %(1e-3*PCIp))
+h8 = PropsSI("H","P",P7,"Q",1,"Water")
+s8 = PropsSI("S","P",P7,"Q",1,"Water")
+
+h7 = h1 + x7*(h8-h1)
+s7 = s1 + x7*(s8-s1)
+
+h4 = PropsSI("H","P",P4,"T",T4,"Water")
+s4 = PropsSI("S","P",P4,"T",T4,"Water")
+
+
+h2 = PropsSI("H","P",P4,"S",s1,"Water")
+
+P6 = PropsSI("P","S",s7,"T",T6,"Water")
+h6 = PropsSI("H","P",P6,"T",T6,"Water")
+
+h5 = PropsSI("H","P",P6,"S",s4,"Water")
+
+qent = (h4 - h2) + (h6-h5)
+qsai = h7 - h1
+wliq = qent - qsai
+eta = wliq/qent
+print(eta)
 ```
 
 ```
-## PCI (Primeira Lei) = 19.33 MJ/kg
+## 0.4419315185003957
 ```
+
+## E do lado dos gases?
+
+Muito do que foi visto até aqui provavelmente é apenas uma revisão. A grande questão dessa disciplina é juntar cálculos do Ciclo Rankine com cálculos da combustão.
+
+Fazemos agora uma análise de Primeira Lei na Fornalha. O ar entra a `\(T_{\mathrm{ar}}\)` e carrega uma certa umidade absoluta `\(\omega_{\mathrm{ar}}\)` (na mesma temperatura). O combustível entra a `\(T_{\mathrm{cb}}\)` e vazão `\(\dot{m}_{\mathrm{cb}}\)`, em relação à qual todas as vazões são referenciadas. Quando escrevemos `\(m_i\)`, sem o ponto em cima, estamos falando da vazão do componente `\(i\)` por unidade de vazão de combustível. Essas grandezas específicas podem ser calculadas com base na reação de combustão e na composição dos combustíveis, conforme será visto mais para frente.
+
+O combustível entra em combustão e libera o seu *poder calorífico inferior* `\(\mathrm{PCI}\)`. A soma do PCI e das energias sensíveis do ar e do combustível é o *calor disponível na combustão*:
+
+$$
+\dot{Q} _{\mathrm{D}} = \dot{m} _{\mathrm{cb}} \left(h _{\mathrm{cb}} + m _{\mathrm{ar}}\left(h _{\mathrm{ar}} + \omega _{\mathrm{ar}} h _{\mathrm{\omega}}\right) + \mathrm{PCI}\right)
+$$
+
+Parte desse calor é liberado para as paredes d'água `\(\dot{Q}_{\mathrm{P}}\)`, para o superaquecedor `\(\dot{Q}_{\mathrm{S}}\)` e para o reaquecedor `\(\dot{Q}_{\mathrm{R}}\)`. Estas três grandezas são associadas à análise do Ciclo Rankine.
+
+O que resta de energia na fornalha se reverte em *energia residual dos gases e das cinzas*:
+
+$$
+\dot{Q}  _{\mathrm{G}} = \dot{m} _{\mathrm{cb}}\left(m _{\mathrm{g}}h _{\mathrm{g}} + m _\mathrm{cz}h _{\mathrm{cz}}\right)
+$$
+
+O balanço de energia na fornalha é então
+
+$$
+\dot{Q} _{\mathrm{D}} = \dot{Q} _{\mathrm{P}} + \dot{Q} _{\mathrm{R}} + \dot{Q} _{\mathrm{S}} + \dot{Q} _{\mathrm{G}}
+$$
+
+
+Há mais uma simplificação que pode ser feita: assumimos que a temperatura de referência de todas as substâncias é 0 ºC, com isso:
+
+$$
+h_i = c_{p,i} T_i
+$$
+
+onde, ressalte-se a temperatura deve ser em graus Celsius. O calor espeecífico de cada substância pode ser computado com tabelas apropriadas [1], e deve ser computado na temperatura média entre 0 ºC e a temperatura do componente (i.e. metade da temperatura do componente). Outra simplificação usada é assumir que as cinzas e os gases estão na mesma temperatura `\(T_{\mathrm{g}}\)`.
+
+### Exercícios numéricos
+
+Vamos resolver o exercício 2.1 de [1]:
+
+Primeiramente, vamos analisar um balanço de massa no atemperador (dispositivo onde água fria entra para controlar a temperatura do vapor):
+
 
 ```python
-print("PCI (approx) = %.2f MJ/kg" %(1e-3*PCIa))
+# Dados das tabelas do exercício
+m11 = 94.1 # kg/s
+m13 = 97.4
+mw = m13-m11
+print("Vazão no atemperador = %.1f kg/s" %(mw,))
 ```
 
 ```
-## PCI (approx) = 19.02 MJ/kg
+## Vazão no atemperador = 3.3 kg/s
 ```
 
-**Exercício 3.1 de [1]**: Considere uma fornalha projetada para queimar 1 kg/s de carvão com composição na base seca:
-
-- 47% de carbono
-- 3% de hidrogênio
-- 4% de enxofre
-- 5% de oxigênio
-- 1% de nitrogênio
-- 40% de cinzas
-
-Calcule o calor disponível na fornalha, considerando que o carvão é fornecido seco ou úmido (20% de umidade), desprezando as contribuições de calor sensível.
-
-**Exercício  adaptado 15-103 de [4]**: Calcule o PCI de uma mistura gasosa de 40% em volume de butano ($\mathrm{C}_4\mathrm{H}_{10}$) e 60% de propano ($\mathrm{C}_3\mathrm{H}_8$)
+As paredes d'água são responsáveis pela mudança de estados 2-3, não esquecendo de contabilizar a saída de líquido saturado, logo:
 
 
+```python
+P2 = 140e5
+T2 = 180+273
+
+P3 = 140e5
+T3 = 336.8 + 273
+x3 = 0.99
+
+m3 = 93
+m2 = 94
+mp = m2-m3
+h2 = PropsSI("H","T",T2,"P",P2,"Water")
+h3 = PropsSI("H","T",T3,"Q",x3,"Water")
+hp = PropsSI("H","Q",0,"P",P2,"Water")
+
+Q_dot_PA = m3*h3 + mp*hp - m2*h2
+print("Calor cedido para paredes d'água = %.2f MW" %(1e-6*Q_dot_PA))
+```
+
+```
+## Calor cedido para paredes d'água = 173.61 MW
+```
+
+Observe a importância do economizador: quanto mais energia o estado 2 adiciona, menos energia as paredes d'água precisa adicionar para chegar no estado 3 - o que economiza custo dos tubos e combustível.
+
+Para os superaquecedores:
+
+
+```python
+m8 = m9 = 100
+T8 = 440 + 273
+P8 = 135e5
+
+T9 = 520+273
+P9 = 130e5
+
+h8 = PropsSI("H","T",T8,"P",P8,"Water")
+h9 = PropsSI("H","T",T9,"P",P9,"Water")
+Q_dot_S = m8*(h9-h8)
+print("Calor cedido para superaquecedores = %.2f MW" %(1e-6*Q_dot_S))
+```
+
+```
+## Calor cedido para superaquecedores = 23.88 MW
+```
+
+Para os reaquecedores:
+
+
+```python
+m10 = 94.1
+T10 = 340 + 273
+P10 = 32e5
+
+T13 = 520+273
+P13 = 28e5
+
+Pw = 140e5
+Tw = 180+273
+h10 = PropsSI("H","T",T10,"P",P10,"Water")
+h13 = PropsSI("H","T",T13,"P",P13,"Water")
+hw = PropsSI("H","T",Tw,"P",Pw,"Water")
+Q_dot_R = m13*h13 - (m10*h10 + mw*hw)
+print("Calor cedido para reaquecedores = %.2f MW" %(1e-6*Q_dot_R))
+```
+
+```
+## Calor cedido para reaquecedores = 48.23 MW
+```
+
+Já para a questão 2.2, temos:
+
+
+```python
+m_dot_cb = 20
+Tcb = 25+273
+PCI = 17.473e6
+mar = 7.357
+omega = 0.013
+mg = 8.080
+mcz = 0.295
+Tar = 300+273
+
+cpcb = 1.5e3
+cpar = 1e3
+cpvp = 2e3 # @ 150 ºC de temperatura média
+
+# Calor liberado na combustão:
+Q_dot_d = m_dot_cb*(PCI + cpcb*(Tcb-273) + mar*(cpar + omega*cpvp)*(Tar-273))
+print("Calor liberado na combustão = %.2f MW" %(1e-6*Q_dot_d))
+```
+
+```
+## Calor liberado na combustão = 395.50 MW
+```
+
+
+```python
+Q_dot_G = Q_dot_d - (Q_dot_PA + Q_dot_S + Q_dot_R)
+
+# assumir uma temperatura de 1000ºC, de maneira que 
+cpg = 1.15e3
+cpcz  = 1.08e3
+
+# Balanço de energia no lado dos gases:
+Tg = Q_dot_G/(m_dot_cb*(mg*cpg + mcz*cpcz))
+print("Temperatura dos gases = %.2f ºC" %(Tg,))
+```
+
+```
+## Temperatura dos gases = 779.30 ºC
+```
+
+Esse valor deveria ser corrigido, calculando um novo calor específico na nova temperatura média.
 
 ## Referências
 
 
 [1]: Bazzo, E. Geração de vapor (2 ed.). Florianópolis: Editora UFSC, 1995.
 
-[2]: Lora, E. E. S., & Nascimento, M. A. R. do. Geração Termelétrica: Planejamento, Projeto e Operação. Rio de Janeiro: Interciência, 2004.
+[2]: Çengel, Y. A., & Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013.
 
-[3]: Heywood, J. B. Internal Combustion Engine Fundamentals. New York: McGraw-Hill, 1988.
-
-
-Çengel, Y. A., & Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013.
-
-[4]: Moran, Michael J; Shapiro, Howard N. Fundamentals of Engineering Thermodynamics (5 ed.). Chichester: Wiley, 2006.
+[3]: Moran, Michael J; Shapiro, Howard N. Fundamentals of Engineering Thermodynamics (5 ed.). Chichester: Wiley, 2006.
 
 

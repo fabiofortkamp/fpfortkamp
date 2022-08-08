@@ -1,240 +1,126 @@
 ---
-date: "2022-05-12"
-title: Aula 5 - Caldeiras
+date: "2022-05-06"
+title: Aula 4 - Processo de combustão -  suprimentos de ar e combustível
 type: book
-weight: 50
-status: draft
+weight: 40
 ---
 
-## Alimentação de caldeiras
+## Balanço energético
 
-Considere um gerador de vapor que opera a 141 bar e consome 100 kg/s de vapor. As bombas [deste catálogo](https://www.shinkohir.co.jp/pdf/catalog/Centrifugal_Pumps_CL-100D.pdf) dão conta do recado?
+[Na aula passada](https://fpfortkamp.com/disciplinas/st1gee1/aula3st1gee1/), introduzimos o estudo das fornalhas, incluindo sua classificação e aspectos de projeto, e a análise da composição do combustível. O conhecimento das frações mássicas (para combustíveis sólidos ou líquidos) ou volumétricas (para combustíveis gasosos) determina as propriedades relevantes dos combustíveis, como o poder calorífico inferior, que determina o calor liberado durante o processo de combustão.
 
+O calor liberado na combustão é `\(\dot{Q}_{\mathrm{D}} \approx \dot{m}_{\mathrm{cb}} \mathrm{PCI}\)`. Pare para analisar uma fornalha e determine para onde essa energia vai.
 
-```python
-from CoolProp.CoolProp import PropsSI
+O objetivo de uma fornalha em um gerador de vapor é levar a água do estado de entrada ao estado desejado de pressão e temperatura. Seja `\(\dot{Q}_{\mathrm{u}}\)` a taxa de transferência de calor *útil* que a água recebe (que vai incluir trocadores diferentes, dependendo da configuração do ciclo). 
 
-P1 = 1e5
-T1 = 25 + 273
-u1 = PropsSI("U","P",P1,"T",T1,"Water")
-rho1 = PropsSI("D","P",P1,"T",T1,"Water")
+A **eficiência de caldeira** é:
 
-s1 = PropsSI("S","P",P1,"T",T1,"Water")
+$$
+\eta _{\mathrm{c}} = \frac{\dot{Q} _{\mathrm{u}}}{\dot{Q} _{\mathrm{D}}}
+$$
+O conhecimento dessa eficiência determina o consumo de combustível, conforme exemplo a seguir:
 
-P2 = 141e5
-s2 = s1
-u2 = PropsSI("U","P",P2,"S",s1,"Water")
-rho2 = PropsSI("D","P",P2,"S",s1,"Water")
-g = 9.81
+### Exemplo 1 [1]
 
-mdot_v = 100
-Vdot_v = mdot_v / rho1
+Uma unidade geradora de vapor, com capacidade para 200 kg/s de vapor superaquecido a 12 000 kPa e 520 ºC, é projetada para queimar óleo. A temperatura da água de alimentação é de 260 ºC (como essa temperatura é maior que a temperatura ambiente?). Calcule a vazão de combustível para eficiências de caldiera de 90 % e 85%. Admita um PCI de 41600 kJ/kg.
 
-
-H = 1/g*(P2/rho2 - P1/rho1) + (u2-u1)/g
-print("Capacity = %.2f m3/h" %(Vdot_v*3600,))
-```
-
-```
-## Capacity = 361.05 m3/h
-```
-
-```python
-print("Head = %.2f m" %(H,))
-```
-
-```
-## Head = 1426.86 m
-```
-
-```python
-print((u2-u1)/g)
-```
-
-```
-## 4.4199799340862445
-```
-Se você olhar o catálogo, vai ver que sim.
-
-## Ciclo regenerativo - desaeração
-
-De [1]: Uma usina de potência opera em um ciclo regenerativo de vapor com um AAA aberto. Vapor entra no primeiro estágio da turbina a 12 MPa e 520 ˚C e expande a 1 MPa, onde parte do vapor é extraído e direcionado a um AAA aberto operando nessa pressão. O restante do vapor expande através do segundo estágio da turbina até 6 kPa. Líquido saturado sai do AAA a 1 MPa. Considerando processos isentrópicos na turbina e na bomba, calcule:
-a) eficiência térmica
-b) Vazão de vapor no primeiro estágio da turbina, em kg/h, para uma potência líquida de 330 MW.
-Em seguida, compare esses valores com um ciclo Rankine com superaquecimento operando nas mesmas condições sem regeneração. Calcule a economia de combustível (em kg/s), considerando óleo de caldeira (PCI = 41,6 MJ/kg) com eficiência de caldeira de 85%.
-
+**Solução**:
 
 
 ```python
 from CoolProp.CoolProp import PropsSI
-
-P_cald = 12e6
-T6 = 520
-P_AAA = 1e6
-P_cond = 6e3
-W_dot_liq = 330e6
-
 fluid = 'Water'
 
-print("Ciclo com regeneração")
-```
-
-```
-## Ciclo com regeneração
-```
-
-```python
-h1 = PropsSI("H","P",P_cond,"Q",0,fluid)
-v1 = 1.0/PropsSI("D","P",P_cond,"Q",0,fluid)
-
-h2 = h1 + v1*(P_AAA-P_cond)
-
-h3 = PropsSI("H","P",P_AAA,"Q",0,fluid)
-v3 = 1.0/PropsSI("D","P",P_AAA,"Q",0,fluid)
-
-h4 = h3 + v3*(P_cald-P_AAA)
-
-h5 = PropsSI("H","P",P_cald,"Q",1,fluid)
-h6 = PropsSI("H","P",P_cald,"T",T6+273,fluid)
-s6 = PropsSI("S","P",P_cald,"T",T6+273,fluid)
-
-s7 = s6
-h7 = PropsSI("H","P",P_AAA,"S",s7,fluid)
-
-s8 = s6
-h8 = PropsSI("H","P",P_cond,"S",s8,fluid)
-
-y = (h3-h2)/(h7-h2)
-
-wTI = h6-h7
-wTII = (1-y)*(h7-h8)
-wBI = (1-y)*(h2-h1)
-wBII = (h4-h3)
-
-w_liq = wTI + wTII - wBI - wBII
-
-q_cald = h5-h4
-q_superaq = h6-h5
-q_ent = q_cald + q_superaq
-
-eta = w_liq / q_ent
-print("Eficiência = %.2f %%" %(100*eta))
-```
-
-```
-## Eficiência = 45.54 %
-```
-
-```python
-m_dot_v = W_dot_liq / w_liq
-
-m_dot_v_kg_h = m_dot_v * 3600
-print("Vazão de vapor = %.2f kg/h" %(m_dot_v_kg_h))
-```
-
-```
-## Vazão de vapor = 992657.36 kg/h
-```
-
-```python
-Q_ent_reg = m_dot_v*q_ent
-
-print()
-```
-
-```python
-print("Ciclo sem regeneração")
-```
-
-```
-## Ciclo sem regeneração
-```
-
-```python
-h1 = PropsSI("H","P",P_cond,"Q",0,fluid)
-v1 = 1.0/PropsSI("D","P",P_cond,"Q",0,fluid)
-
-h2 = h1 + v1*(P_cald-P_cond)
-
-h3 = PropsSI("H","P",P_cald,"Q",1,fluid)
-h4 = PropsSI("H","P",P_cald,"T",T6+273,fluid)
-s4 = PropsSI("S","P",P_cald,"T",T6+273,fluid)
-
-s5 = s4
-h5 = PropsSI("H","P",P_cond,"S",s5,fluid)
-
-
-wT = h4-h5
-wB = (h2-h1)
-
-w_liq = wT  - wB
-
-q_cald = h3-h2
-q_superaq = h4-h3
-q_ent = q_cald + q_superaq
-
-m_dot_v = W_dot_liq / w_liq
-
-Q_ent_super = m_dot_v * q_ent
-
-eta = w_liq / q_ent
-print("Eficiência = %.2f %%" %(100*eta))
-```
-
-```
-## Eficiência = 42.36 %
-```
-
-```python
-m_dot_v_kg_h = m_dot_v * 3600
-print("Vazão de vapor = %.2f kg/h" %(m_dot_v_kg_h))
-
-## Consumo de combustível
-```
-
-```
-## Vazão de vapor = 865829.53 kg/h
-```
-
-```python
-eta_c = 0.85
+mdotv = 200
+hv = PropsSI("H","P",12e6,"T",520+273,fluid)
+ha = PropsSI("H","T",260+273,"Q",0,fluid)
 PCI = 41.6e6
-Deltam = (Q_ent_super - Q_ent_reg)/(eta_c * PCI)
 
-print("Redução no consumo ao usar regeneração = %.2f kg/s de óleo" %(Deltam))
+for etac in [85,90]:
+  print("Eficiência de caldeira: %d %%" %(etac,))
+  mdotcb = 100*mdotv * (hv-ha)/(PCI*etac)
+  print("Vazão de óleo = %.2f kg/s" %(mdotcb,))
+  print()
+
 ```
 
 ```
-## Redução no consumo ao usar regeneração = 1.54 kg/s de óleo
+## Eficiência de caldeira: 85 %
+## Vazão de óleo = 12.83 kg/s
+## 
+## Eficiência de caldeira: 90 %
+## Vazão de óleo = 12.12 kg/s
 ```
-
-## Variação da densidade da água líquida e vapor com a pressão
 
 
 ```python
-import matplotlib.pyplot as plt
-import numpy as np
-
-P = np.linspace(1e5,160e5)
-rhol = np.array([PropsSI("D","P",Pi,"Q",0,"Water") for Pi in P])
-rhov = np.array([PropsSI("D","P",Pi,"Q",1,"Water") for Pi in P])
-
-fig, ax = plt.subplots()
-ax.plot(1e-5*P,rhol,'k-')
-ax.plot(1e-5*P,rhov,'k--')
-ax.set_xlabel("Pressão [bar]")
-ax.set_ylabel("Densidade [kg/m3]")
-ax.grid()
-plt.show()
+print(PropsSI("H","T",260+273,"Q",0,fluid))
 ```
 
-<img src="/disciplinas/st1gee1/aula5st1gee1_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+```
+## 1134212.217998698
+```
+
+```python
+print(PropsSI("H","T",260+273,"P",12e6,fluid))
+```
+
+```
+## 1133371.6918532187
+```
+
+### Como aumentar a eficiência de caldeira?
+
+Perguntas do tipo "o que influencia a eficiência" são melhor respondidas pela Segunda Lei da Termodinâmica, que diz que a geração de entropia em um processo deve ser sempre não-negativa.
+
+Por exemplo, vamos focar nas perdas de calor do gerador por condução nas paredes dos equipamentos. Considere o seguinte problema [2]: a fornalha está a uma temperatura `\(T_{\mathrm{H}}\)` e tem uma área de contato `\(A_{\mathrm{H}}\)` com um ambiente a `\(T_0\)`, através de uma espessura de isolamento `\(t_{\mathrm{H}}\)`, que é pequena o suficiente para que o volume de isolamento seja `\(A_{\mathrm{H}} t_{\mathrm{H}}\)`. Outros componentes estão a `\(T_{\mathrm{L}} > T_0\)`, têm uma área `\(A_{\mathrm{L}}\)` e uma espessura `\(t_{\mathrm{L}}\)`. O volume total de isolamento é fixo; qual a razão ótima entre espessuras de isolamento que minimiza a perda de calor total?
+
+## Cálculo do suprimento de ar
+
+Suponha um combustível (sólido ou líquido) com fração de carbono `\(x_{\mathrm{C}}\)`. A reação estequiométrica de combustão dessa quantidade de carbono é:
+
+$$
+\frac{x _{\mathrm{C}}}{M _{\mathrm{C}}}\mathrm{C} + n _{\mathrm{O _2}}\mathrm{O}_2 \to n _{\mathrm{{CO _2}}}\mathrm{CO} _2
+$$
+donde `\(n_{\mathrm{{CO_2}}} = n_{\mathrm{O_2}} = \frac{x_{\mathrm{C}}}{M_{\mathrm{C}}}\)`. Ou seja, para cada `\(x_{\mathrm{C}}\)` de carbono em um combustível, são requeridos `\(\frac{x_{\mathrm{C}} M_{\mathrm{O_2}}}{M_{\mathrm{C}}}\)` (em massa) de oxigênio, e formados `\(\frac{x_{\mathrm{C}} M_{\mathrm{CO_2}}}{M_{\mathrm{C}}}\)` de gás carbônico.
+
+Isso pode ser repetido para os outros componentes, de maneira a calcular a *massa de ar estequiométrico* para cada unidade de massa de combustível (calculado conforme anteriormente) [1]:
+
+$$
+m _{\mathrm{ar}}^* = 138.2\left({\frac{x _{\mathrm{C}}}{12}} + \frac{x _{\mathrm{H_2}}}{4} + \frac{x _{\mathrm{S}}}{32} - \frac{x _{\mathrm{O_2}}}{32}\right)
+$$
+Em termos volumétricos:
+
+$$
+\mathcal{V} _{\mathrm{ar}}^* = 106.7\left({\frac{x _{\mathrm{C}}}{12}} + \frac{x _{\mathrm{H_2}}}{4} + \frac{x _{\mathrm{S}}}{32} - \frac{x _{\mathrm{O_2}}}{32}\right)
+$$
+
+Onde esta unidade está em m$^3$n, ou seja, medidos nas condições normais (0º C, 1 atm).
+
+De maneira semelhante, o volume de gases é:
+
+$$
+\mathcal{V} _{\mathrm{g}}^* = 22.4\left(\frac{x _{\mathrm{C}}}{12} + \frac{x _{\mathrm{H_2}}}{2} + \frac{x _{\mathrm{S}}}{32} + \frac{x _{\mathrm{H_2 O}}}{18}\right) + 0.79 \mathcal{V} _{\mathrm{ar}}^*
+$$
+
+Na prática, um *excesso de ar* `\(e\)` deve ser fornecido para garantir a queima total, de maneira que:
+
+$$
+\mathcal{V} _{\mathrm{ar}} = e \mathcal{V} _{\mathrm{ar}}^*
+$$
+
+$$
+\mathcal{V} _{\mathrm{g}} = \mathcal{V} _{\mathrm{g}}^* + (e-1)\mathcal{V} _{\mathrm{ar}}^*
+$$
+
+O que limita os valores máximos e mínimos do excesso de ar?
+
+Para expressões semelhantes para combustíveis gasosos, consulte [1].
 
 ## Referências
 
-[1]: Moran, Michael J; Shapiro, Howard N. Fundamentals of Engineering Thermodynamics (5 ed.). Chichester: Wiley, 2006.
 
+[1]: Bazzo, E. Geração de vapor (2 ed.). Florianópolis: Editora UFSC, 1995.
 
-
-
+[2]: Bejan, A. Convection Heat Transfer (2nd ed.). New York: John Wiley & Sons, 1995.
 

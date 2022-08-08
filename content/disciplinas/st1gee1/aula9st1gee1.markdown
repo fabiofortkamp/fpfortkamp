@@ -90,6 +90,6 @@ ax.set_ylabel("Erro relativo da densidade em relação ao valor de gás ideal")
 plt.show()
 ```
 
-<img src="/disciplinas/st1gee1/aula8st1gee1_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+<img src="/disciplinas/st1gee1/aula9st1gee1_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 
 
