@@ -134,12 +134,12 @@ Exercício 10.25 [2]: Os trabalhos líquidos e as eficiências térmicas do cicl
 from CoolProp.CoolProp import PropsSI
 
 Pcond = 50e3
-Pcald = 10e6
+Pcald = 5e6
 
-# 2 = entrada da caldeira de Carnot
-# 3 = entrada da turbina
-h2 = PropsSI("H","P",Pcald,"Q",0,"Water")
-h3 = PropsSI("H","P",Pcald,"Q",1,"Water")
+# 4' = entrada da caldeira de Carnot
+# 1 = entrada da turbina
+h4l = PropsSI("H","P",Pcald,"Q",0,"Water")
+h1 = PropsSI("H","P",Pcald,"Q",1,"Water")
 
 Tcald = PropsSI("T","P",Pcald,"Q",0,"Water")
 Tcond = PropsSI("T","P",Pcond,"Q",0,"Water")
@@ -149,35 +149,36 @@ print("Eficiência de Carnot: %.2f %%" %(eta_Carnot*100))
 ```
 
 ```
-## Eficiência de Carnot: 39.32 %
+## Eficiência de Carnot: 34.00 %
 ```
 
 ```python
-qcald_Carnot = h3 - h2
+qcald_Carnot = h1 - h4l
 w_Carnot = qcald_Carnot * eta_Carnot
 print("Trabalho de Carnot: %.2f kJ/kg" %(w_Carnot/1000))
 
-# 1' = saída do condensador de Rankine
+# 3 = saída do condensador de Rankine
 ```
 
 ```
-## Trabalho de Carnot: 518.00 kJ/kg
+## Trabalho de Carnot: 557.49 kJ/kg
 ```
 
 ```python
-h1_linha = PropsSI("H","P",Pcond,"Q",0,"Water")
-v1_linha = 1/PropsSI("D","P",Pcond,"Q",0,"Water")
+h3 = PropsSI("H","P",Pcond,"Q",0,"Water")
+v3 = 1/PropsSI("D","P",Pcond,"Q",0,"Water")
 
-wbomba = v1_linha * (Pcald - Pcond)
-h2_linha = h1_linha + wbomba
+wbomba = v3 * (Pcald - Pcond)
+h4 = h3 + wbomba
 
-qcald_Rankine = h3-h2_linha
+qcald_Rankine = h1-h4
 
-# 4 = entrada do condensador de Rankine
-s3 = PropsSI("S","P",Pcald,"Q",1,"Water")
-h4 = PropsSI("H","P",Pcond,"S",s3,"Water")
+# 2 = entrada do condensador de Rankine
+s1 = PropsSI("S","P",Pcald,"Q",1,"Water")
+s2 = s1
+h2 = PropsSI("H","P",Pcond,"S",s2,"Water")
 
-qcond_Rankine = h4 - h1_linha
+qcond_Rankine = h2 - h3
 
 w_Rankine = qcald_Rankine - qcond_Rankine
 eta_Rankine = w_Rankine/qcald_Rankine
@@ -185,7 +186,7 @@ print("Eficiência de Rankine: %.2f %%" %(eta_Rankine*100))
 ```
 
 ```
-## Eficiência de Rankine: 32.46 %
+## Eficiência de Rankine: 29.32 %
 ```
 
 ```python
@@ -193,7 +194,7 @@ print("Trabalho de Rankine: %.2f kJ/kg" %(w_Rankine/1000))
 ```
 
 ```
-## Trabalho de Rankine: 770.83 kJ/kg
+## Trabalho de Rankine: 717.89 kJ/kg
 ```
 
 
