@@ -2,7 +2,7 @@
 date: "2022-03-31"
 title: Aula 2 - Funcionamento e componentes de geradores de vapor
 type: book
-weight: 30
+weight: 20
 ---
 
 ## O Ciclo de Potência a Vapor com Reaquecimento
@@ -71,7 +71,7 @@ print(eta)
 ```
 
 ```
-## 0.4419315185003957
+## 0.4419315185005392
 ```
 
 ## E do lado dos gases?

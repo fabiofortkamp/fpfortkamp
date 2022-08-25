@@ -2,7 +2,7 @@
 date: "2022-03-31"
 title: Aula 1 - Introdução à Geração de Energia
 type: book
-weight: 20
+weight: 10
 ---
 
 ## Por quê estudar Geração de Energia
