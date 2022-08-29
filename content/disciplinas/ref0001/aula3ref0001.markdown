@@ -5,8 +5,6 @@ type: book
 weight: 30
 ---
 
-
-
 Na [aula anterior](https://fpfortkamp.com/disciplinas/ref0001/aula2ref0001/), falamos do Ciclo Padrão de Compressão de Vapor para Sistemas de Refrigeração. Este ciclo é mais realista que o Ciclo de Carnot ao modelar sistemas reais e considerar como de fato os componentes funcionam, especialmente em que região do domo de saturação eles trabalham.
 
 Porém, o ciclo visto ainda é muito ideal, como pode ser visto na figura abaixo (com código para gerar o ciclo!):
@@ -141,6 +139,8 @@ Nesta aula, vamos ver variações do Ciclo Padrão que tornam ele mais realista.
 
 ## Vazão de refrigerante
 
+O primeiro passo para trazer mais realismo é considerar como o refrigerante escoa pelo sistema. Na nossa análise de componentes, vamos começar pela análise do *compressor*, que é responsável por fornecer a vazão para o fluido refrigerante; então vamos examinar a seguinte questão: se mudamos o *ciclo* a ser seguido pelo fluido, mas mantemos o mesmo compressor, o que acontece com a vazão de fluido?
+
 Utilizando uma Análise de Primeira Lei, a capacidade de refrigeração e a potência de compressão são dadas por (respectivamente):
 
 $$
@@ -151,7 +151,7 @@ $$
 \dot{W}_{\mathrm{ent}} = \dot{m}(h_2 - h_1)
 $$
 
-De onde vem essa vazão mássica? Do compressor! Acontece que os compressores não fornecem uma vazão mássica, e sim uma *volumétrica* (eles deslocam um determinado volume de fluido). Vamos assumir um compressor ideal, sem volume morto. Assim, a vazão mássica real pode ser calculada como:
+Acontece que os compressores não fornecem uma vazão mássica `\(\dot{m}\)`, e sim uma *volumétrica* (eles deslocam um determinado volume de fluido). Vamos assumir um compressor ideal, sem volume morto. Assim, a vazão mássica real pode ser calculada como:
 
 $$
 \dot{m} = \frac{\dot{\mathcal{V}} _{\mathrm{D}}}{v _1}
@@ -187,7 +187,7 @@ Isso vai ser importante nas análises a seguir.
 
 Num diagrama `\(P-h\)`, o efeito refrigerante  e o trabalho de compressão podem ser obtidas pelo "comprimento" horizontal desse processo.
 
-Vamos discutir como melhorar esse ciclo, i.e. aumentar a capacidade e o COP. Como restrição, não podemos mexer nas pressões de evaporação e condensação, pois elas são dependentes das condições ambientes, como vamos ter oportunidade de ver em aulas futuras.
+Vamos discutir como melhorar esse ciclo, i.e. aumentar a capacidade e o COP (considerando o compressor como fixo). Como restrição, não podemos mexer nas pressões de evaporação e condensação, pois elas são dependentes das condições ambientes, como vamos ter oportunidade de ver em aulas futuras.
 
 Baseado nisso, partindo de um ciclo assim, o que vocês fariam para aumentar a **capacidade**. O que vocês fariam para aumentar o **COP**?
 
@@ -465,44 +465,6 @@ Ao arrastar o ponto 1 para a direita, o efeito refrigerante sempre aumenta, mas 
 
 Em relação à potência de compressão, de maneira similar vamos ter esse conflito. O trabalho de compressão pode aumentar ou diminuir, dependendo da forma da isentrópica, lembrando que o estado de descarga é definido pela pressão. Se a isentrópica ficar mais horizontal, o trabalho aumenta. Mas ainda precisamos considerar o efeito volúmico; mesmo se aumentar o trabalho, o compressor acaba fazendo menos trabalho por menos massa escoando.
 
-Tudo são propriedades do fluido refrigerante.
-
-
-```python
-from CoolProp.CoolProp import PropsSI
-
-Tevap = 273
-Tcond = 35 + 273
-fluid = "R134a"
-
-Pevap = PropsSI("P","T",Tevap,"Q",1,fluid)
-Pcond = PropsSI("P","T",Tcond,"Q",1,fluid)
-
-h1 = PropsSI("H","T",Tevap,"Q",1,fluid)
-v1 = 1/PropsSI("D","T",Tevap,"Q",1,fluid)
-
-dTsup = 5
-h1linha = PropsSI("H","T",Tevap+dTsup,"P",Pevap,fluid)
-v1linha = 1/PropsSI("D","T",Tevap+dTsup,"P",Pevap,fluid)
-h4 = PropsSI("H","T",Tcond,"Q",0,fluid)
-
-qvolumico = (h1-h4)/v1
-print(qvolumico*1e-3)
-```
-
-```
-## 2149.0285308674083
-```
-
-```python
-qvolumico_linha= (h1linha-h4)/v1linha
-print(qvolumico_linha*1e-3)
-```
-
-```
-## 2157.5834979511515
-```
-
 ### Trocador de calor intermediário
 
 Na prática, os dois efeitos acima são alcançados simultaneamente: o tubo capilar forma um trocador de calor com a linha de sucção (tubulação entre evaporador e compressor):
@@ -639,7 +601,7 @@ plt.show()
 #plt.show(block=False)
 ```
 
-<img src="/disciplinas/ref0001/aula3ref0001_files/figure-html/unnamed-chunk-5-7.png" width="672" />
+<img src="/disciplinas/ref0001/aula3ref0001_files/figure-html/unnamed-chunk-4-7.png" width="672" />
     
 Observe que o grau de superaquecimento e o grau de subresfriamento não são independentes, pois deve ser satisfeito o balanço de energia no trocador intermediário:
 
@@ -657,31 +619,6 @@ $$
 onde a eficiência, como falado, pode ser ajustada de dados experimentais, e o estado "2s" é o estado que haveria se o processo fosse isentrópico. O estado "2" é o estado real que deve ser usado nos cálculos de Primeira Lei.
 
 O que causa essa geração de entropia?
-
-A partir do [datasheet mostrado anteriormente](https://products.embraco.com/commtrol/api/pdf/compressor/datasheet/7187?&condensing_temperature=54.4&evaporating_temperature=-23.3&units=w&units_temp=metric-system&filters%5Bbare%5D=513701421&filters%5Brefrigerant%5D%5B%5D=R-600a&filters%5Bstandard%5D=ASHRAE&filters%5Bfrequency%5D=60), como podemos estimar a eficiência isentrópica?
-
-
-```python
-Tevap = -10 + 273
-Tcond = 35 + 273
-Wcomp = 217
-m = 6.16/3600
-fluid = "R600a"
-
-h1 = PropsSI("H","T",Tevap,"Q",1,fluid)
-s1 = PropsSI("S","T",Tevap,"Q",1,fluid)
-s2s = s1
-
-Pcond = PropsSI("P","T",Tcond,"Q",1,fluid)
-h2s = PropsSI("H","P",Pcond,"S",s2s,fluid)
-
-etasc = (h2s-h1)/(Wcomp/m)
-print(etasc)
-```
-
-```
-## 0.42943582742845204
-```
 
 ## Exemplo
     

@@ -236,11 +236,6 @@ print(COPumido)
 ## 4.284453071804536
 ```
 
-Exercício 11-13 de [1]: Comparar o COP de sistemas de 
-refrigeração com o condensador a 1000 kPa e o evaporador a 4 ˚C, com R-134a, amônia e R-1234yf.
-
-
-
 ## Referências
 
 [1]: Çengel, Y. A., & Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013.
