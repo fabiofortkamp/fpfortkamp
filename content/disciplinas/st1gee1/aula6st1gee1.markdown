@@ -1,9 +1,8 @@
 ---
 date: "2022-05-12"
-title: Aula 5 - Caldeiras
+title: Aula 6 - Caldeiras
 type: book
 weight: 50
-status: draft
 ---
 
 ## Alimentação de caldeiras
@@ -52,7 +51,7 @@ print((u2-u1)/g)
 ```
 
 ```
-## 4.419979937438673
+## 4.4199799340862445
 ```
 Se você olhar o catálogo, vai ver que sim.
 
