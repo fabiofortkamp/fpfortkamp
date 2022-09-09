@@ -7,9 +7,12 @@ weight: 40
 
 ## Balanço energético
 
-[Na aula passada](https://fpfortkamp.com/disciplinas/st1gee1/aula3st1gee1/), introduzimos o estudo das fornalhas, incluindo sua classificação e aspectos de projeto, e a análise da composição do combustível. O conhecimento das frações mássicas (para combustíveis sólidos ou líquidos) ou volumétricas (para combustíveis gasosos) determina as propriedades relevantes dos combustíveis, como o poder calorífico inferior, que determina o calor liberado durante o processo de combustão.
+[Na aula passada](https://fpfortkamp.com/disciplinas/st1gee1/aula4st1gee1/), introduzimos o estudo das fornalhas, incluindo sua classificação e aspectos de projeto, e a análise da composição do combustível. O conhecimento das frações mássicas (para combustíveis sólidos ou líquidos) ou volumétricas (para combustíveis gasosos) determina as propriedades relevantes dos combustíveis, como o poder calorífico inferior, que determina o calor liberado durante o processo de combustão.
 
-O calor liberado na combustão é $\dot{Q}_{\mathrm{D}} \approx \dot{m}_{\mathrm{cb}} \mathrm{PCI}$. Pare para analisar uma fornalha e determine para onde essa energia vai.
+O calor liberado na combustão é $\dot{Q}_{\mathrm{D}} \approx \dot{m}_{\mathrm{cb}} \mathrm{PCI}$. Duas perguntas para pensar: 
+
+1. Que hipóteses estão incluídas nessa aproximação? 
+2. Para onde essa energia vai?
 
 O objetivo de uma fornalha em um gerador de vapor é levar a água do estado de entrada ao estado desejado de pressão e temperatura. Seja $\dot{Q}_{\mathrm{u}}$ a taxa de transferência de calor *útil* que a água recebe (que vai incluir trocadores diferentes, dependendo da configuração do ciclo). 
 
@@ -20,9 +23,9 @@ $$
 $$
 O conhecimento dessa eficiência determina o consumo de combustível, conforme exemplo a seguir:
 
-### Exemplo 1 [1]
+### Exemplo 1 [1]:
 
-Uma unidade geradora de vapor, com capacidade para 200 kg/s de vapor superaquecido a 12 000 kPa e 520 ºC, é projetada para queimar óleo. A temperatura da água de alimentação é de 260 ºC (como essa temperatura é maior que a temperatura ambiente?). Calcule a vazão de combustível para eficiências de caldiera de 90 % e 85%. Admita um PCI de 41600 kJ/kg.
+Uma unidade geradora de vapor, com capacidade para 200 kg/s de vapor superaquecido a 12 000 kPa e 520 ºC, é projetada para queimar óleo. A temperatura da água de alimentação é de 260 ºC (como essa temperatura é maior que a temperatura ambiente?). Calcule a vazão de combustível para eficiências de caldeira de 90 % e 85%. Admita um PCI de 41600 kJ/kg.
 
 **Solução**:
 
@@ -44,16 +47,25 @@ for etac in [85,90]:
 
 ```
 
+No exemplo acima, qual a entalpia da água de alimentação a 260 ºC? Observe nos cálculos abaixo que temos duas opções que dão resultados muito próximos: calculamos as propriedades como saturada na temperatura dada, ou assumimos que não há queda de pressão na caldeira e que portanto a água de alimentação está na mesma pressão do vapor que sai:
+
 ```{python}
 print(PropsSI("H","T",260+273,"Q",0,fluid))
 print(PropsSI("H","T",260+273,"P",12e6,fluid))
 ```
 
+O que você *não pode fazer* é pegar as propriedades do líquido saturada *na pressão*:
+
+```{python}
+print(PropsSI("H","Q",0,"P",12e6,fluid))
+```
+
+
 ### Como aumentar a eficiência de caldeira?
 
-Perguntas do tipo "o que influencia a eficiência" são melhor respondidas pela Segunda Lei da Termodinâmica, que diz que a geração de entropia em um processo deve ser sempre não-negativa.
+Há diversas maneiras de aumentar a eficiência de caldeira.
 
-Por exemplo, vamos focar nas perdas de calor do gerador por condução nas paredes dos equipamentos. Considere o seguinte problema [2]: a fornalha está a uma temperatura $T_{\mathrm{H}}$ e tem uma área de contato $A_{\mathrm{H}}$ com um ambiente a $T_0$, através de uma espessura de isolamento $t_{\mathrm{H}}$, que é pequena o suficiente para que o volume de isolamento seja $A_{\mathrm{H}} t_{\mathrm{H}}$. Outros componentes estão a $T_{\mathrm{L}} > T_0$, têm uma área $A_{\mathrm{L}}$ e uma espessura $t_{\mathrm{L}}$. O volume total de isolamento é fixo; qual a razão ótima entre espessuras de isolamento que minimiza a perda de calor total?
+Como exemplo, vamos considerar as perdas de calor do gerador por condução nas paredes dos equipamentos. Considere o seguinte problema [2]: a fornalha está a uma temperatura $T_{\mathrm{H}}$ e tem uma área de contato $A_{\mathrm{H}}$ com um ambiente a $T_0$, através de uma espessura de isolamento $t_{\mathrm{H}}$, que é pequena o suficiente para que o volume de isolamento seja $A_{\mathrm{H}} t_{\mathrm{H}}$. Outros componentes estão a $T_{\mathrm{L}} > T_0$, têm uma área $A_{\mathrm{L}}$ e uma espessura $t_{\mathrm{L}}$. O volume total de isolamento é fixo; qual a razão ótima entre espessuras de isolamento que minimiza a perda de calor total?
 
 ## Cálculo do suprimento de ar
 
