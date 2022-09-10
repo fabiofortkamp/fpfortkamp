@@ -150,7 +150,7 @@ def PCI_sl(xC,xH2,xO2,xS,xH2O):
 
 PCIb = PCI_sl(xC,xH2,xO2,xS,0)
 xH2O = 0.2
-PCIu = PCI_sl((1-xH2O)*xC,(1-xH2O)*xH2,(1-xH2O)*xO2,(1-xH2O)*xS,0)
+PCIu = PCI_sl((1-xH2O)*xC,(1-xH2O)*xH2,(1-xH2O)*xO2,(1-xH2O)*xS,xH2O)
 Qdot_db = mdot_cb*PCIb
 Qdot_du = mdot_cb*PCIu
 print("Calor disponível (base seca) = %.2f MW" %(1e-3*Qdot_db))
@@ -165,7 +165,7 @@ print("Calor disponível (base úmida) = %.2f MW" %(1e-3*Qdot_du))
 ```
 
 ```
-## Calor disponível (base úmida) = 15.22 MW
+## Calor disponível (base úmida) = 14.74 MW
 ```
 
 
