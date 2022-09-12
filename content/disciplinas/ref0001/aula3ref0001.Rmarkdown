@@ -136,7 +136,11 @@ $$
 \dot{W}_{\mathrm{ent}} = \dot{m}(h_2 - h_1)
 $$
 
-Acontece que os compressores não fornecem uma vazão mássica $\dot{m}$, e sim uma *volumétrica* (eles deslocam um determinado volume de fluido). Vamos assumir um compressor ideal, sem volume morto. Assim, a vazão mássica real pode ser calculada como:
+Acontece que os compressores não fornecem uma vazão mássica $\dot{m}$, e sim uma *volumétrica* (eles deslocam um determinado volume de fluido). Para isso, precisamos de um modelo matemático que permita calcular essa vazão a partir de parâmetros geométricos e operacionais do compressor.
+
+### Modelagem de compressores alternativos
+
+Vamos primeiramente assumir um compressor ideal, sem volume morto. A vazão mássica real pode ser calculada como:
 
 $$
 \dot{m} = \frac{\dot{\mathcal{V}} _{\mathrm{D}}}{v _1}
@@ -148,27 +152,234 @@ $$
 \dot{\mathcal{V}} _{\mathrm{D}} = {\mathcal{V}} _{\mathrm{D}} n z
 $$
 
-onde $\mathcal{V} _{\mathrm{D}}$ é a cilindrada ou volume deslocado do motor. Observe em um [datasheet de compressor](https://products.embraco.com/commtrol/api/pdf/compressor/datasheet/7187?&condensing_temperature=54.4&evaporating_temperature=-23.3&units=w&units_temp=metric-system&filters%5Bbare%5D=513701421&filters%5Brefrigerant%5D%5B%5D=R-600a&filters%5Bstandard%5D=ASHRAE&filters%5Bfrequency%5D=60) que todos esses parâmetros são fixos na construção do compressor (com alguns detalhes que vamos vamos ver mais para a frente, como a variação da rotação ou a desativação de cilindros). Logo, é a taxa de deslocamento que é constante (para um dado compressor) e não depende do ciclo (i.e. em que temperaturas ele vai trabalhar); a vazão mássica vai depender do volume específico na sucção.
+onde $\mathcal{V} _{\mathrm{D}}$ é a cilindrada ou volume deslocado do motor. Observe em um [datasheet de compressor](https://products.embraco.com/commtrol/api/pdf/compressor/datasheet/7187?&condensing_temperature=54.4&evaporating_temperature=-23.3&units=w&units_temp=metric-system&filters%5Bbare%5D=513701421&filters%5Brefrigerant%5D%5B%5D=R-600a&filters%5Bstandard%5D=ASHRAE&filters%5Bfrequency%5D=60) que todos esses parâmetros são fixos na construção do compressor (com alguns detalhes que vamos vamos ver mais para a frente, como a variação da rotação ou a desativação de cilindros). Logo, é a taxa de deslocamento que é constante (para um dado compressor) e não depende do ciclo (i.e. em que temperaturas ele vai trabalhar); a vazão mássica vai depender do volume específico na sucção - ou, mais genericamente, do ciclo a ser seguido.
 
-Podemos reescrever as expressões anteriores como:
+Vamos usar os dados do datasheet linkado acima e plotar a vazão mássica mostrada no catálogo (i.e. dados experimentais) com o modelo ideal:
+
+```{python}
+import matplotlib.pyplot as plt
+from CoolProp.CoolProp import PropsSI
+import numpy as np
+import pandas as pd
+
+df = pd.read_csv("reciprocating.csv",delimiter=',',skiprows=5)
+
+plt.rc('font', size=12)
+
+Vd = 13.54e-6 # in m3
+n = 60 #Hz
+z = 1
+fluid = 'R600a'
+Treturn = 32.2 + 273
+
+Vd_dot = Vd * n * z # m3/s
+df = df[df["Condensing Temperature [C]"] == 35]
+
+T_evap = df["Evaporating Temperature [C]"].values
+m_dot_actual = df["Gas Flow Rate [kg/h]"].values
+
+# we take the inverse of the density 
+# of the vapor at the evaporing *pressure*
+# and the return gas temperature
+v_in = np.array([(1.0/PropsSI("D","T",Treturn,"P",PropsSI("P","T",Te+273,"Q",1,fluid),fluid)) for Te in T_evap])
+m_dot_ideal = 3600*Vd_dot/v_in
+
+fig, ax = plt.subplots()
+ax.plot(T_evap,m_dot_ideal,'k-',label="Ideal")
+ax.plot(T_evap,m_dot_actual,'ko',label="Real")
+ax.set_xlabel("Temperatura de evaporação [ºC]")
+ax.set_ylabel("Vazão mássica de gás [kg/h]")
+ax.legend()
+ax.grid()
+plt.show()
+```
+
+Claramente, a vazão real de um compressor alternativo não pode ser explicada com base neste modelo ideal!
+
+O que está faltando é a *eficiência volumétrica*:
 
 $$
-\dot{Q} _{\mathrm{L}} = \dot{\mathcal{V}}  _{\mathrm{D}}\frac{(h _1-h _4)}{v _1}
+\eta_{\mathrm{v}} = \frac{\dot{m}}{\frac{\dot{\mathcal{V}} _{\mathrm{D}}}{v _{\mathrm{in}}}}
 $$
 
-onde o numerador da fração é chamado de *efeito refrigerante*, e a fração como um todo é chamado de *efeito refrigerante volúmico*. 
+O modelo mais básico de eficiência volumétrica inclui apenas a expansão do volume morto, representada na figura abaixo:
+
+{{< figure src="compressor-expansion.png" caption="Fonte: [2]">}}
+
+Suponha que a pressão de descarga está fixa em $p_d$. O compressor tem um volume morto $V_c$, e a sua cilindrada é $V_3-V_c$. Observe que, à medida que a pressão de aspiração cai ($p_1, p_2, p_3$), o gás contido no volume morto precisa se expandir mais e mais até a válvula de aspiração abrir (o que ocorre quando a pressão interna se iguala à pressão de aspiração, ignorando perdas de carga). Ou seja, uma fração maior da cilindrada fica ocupada pela simples expansão do volume morto, sem que fluido novo de fato entre e seja movimentado pelo cilindro.
+
+Pode-se mostrar que a eficiência volumétrica devido a apenas esse efeito é dada por:
+
+$$
+\eta_{\mathrm{v,VM}} = 1 + \varepsilon\left(1-\frac{v _{\mathrm{asp}}}{v _{\mathrm{desc}}}\right)
+$$
+
+onde $\varepsilon$ é a razão entre o volume morto e a cilindrada, "asp" é o estado de aspiração e "desc" de descarga.
+
+
+### Variação das métricas de refrigeração com a vazão do compressor
+
+Uma análise bastante útil que se faz é, ao considerar possíveis variações do ciclo de refrigeração, verificar o que acontece quando o mesmo compressor é usado com diferentes trocadores de calor, isto é, quando as condições de evaporação e condensação mudam.
+
+A capacidade de refrigeração mantida pelo compressor é
+
+$$
+\dot{Q} _{\mathrm{L}} = \eta _{\mathrm{v}}\dot{\mathcal{V}}  _{\mathrm{D}}\frac{(h _1-h _4)}{v _1}
+$$
+
+onde o numerador da fração é chamado de *efeito refrigerante específico*, e a fração como um todo é chamado de *efeito refrigerante volúmico*. 
 
 Para a potência:
 
 $$
-\dot{W} _{\mathrm{ent}} = \dot{\mathcal{V}} _{\mathrm{D}}\frac{(h _2-h _1)}{v _1}
+\dot{W} _{\mathrm{ent}} = \eta _{\mathrm{v}} \dot{\mathcal{V}} _{\mathrm{D}}\frac{(h _2-h _1)}{v _1}
 $$
 
-onde o numerador é o *trabalho de compressão*, a fração é o *trabalho volúmico*.
+onde o numerador é o *trabalho de compressão específico*, a fração é o *trabalho de compressão volúmico*.
 
-Isso vai ser importante nas análises a seguir.
+
+Nos códigos abaixo vemos como as métricas variam conforme a temperatura de evaporação varia, mantendo a temperatura de condensação fixa, e usando o Ciclo Padrão ideal (sem superaquecimento ou subresfriamento, compressão ideal).
+
+```{python}
+import matplotlib.pyplot as plt
+import numpy as np
+from CoolProp.CoolProp import PropsSI
+
+fluid = 'R600a'
+Vd = 13.54e-6 # in m3
+n = 60 #Hz
+z = 1
+
+
+Vd_dot = Vd * n * z # m3/s
+fig30, ax30 = plt.subplots()
+
+Tcond = 35
+Tevap_list = np.linspace(-35,35)
+etav_list = []
+mdot_list = []
+
+Pcond = PropsSI("P","T",Tcond+273,"Q",1,fluid)
+h4 = PropsSI("H","P",Pcond,"Q",0,fluid)
+epsilon = 0.01
+
+for Te in Tevap_list:
+  v1 = 1.0/PropsSI("D","T",Te+273,"Q",1,fluid)
+  s1 = PropsSI("S","T",Te+273,"Q",1,fluid)
+  v2 = 1.0/PropsSI("D","P",Pcond,"S",s1,fluid)
+  h1 = PropsSI("H","T",Te+273,"Q",1,fluid)
+  etav = 1 + epsilon*(1-v1/v2)
+  mdot = etav * Vd_dot/v1
+  qL = (h1-h4)*1e-3
+  mdot_list.append(3600*mdot)
+  etav_list.append(100*etav)
+
+ax30.plot(Tevap_list,mdot_list,'ko-',label="Vazão")
+ax30.set_xlabel("Temperatura de evaporação [ºC]")
+ax30.set_ylabel("Vazão mássica [kg/h]")
+
+ax40 = ax30.twinx()
+ax40.plot(Tevap_list,etav_list,'kx--',label="Eficiência volumétrica")
+ax40.set_ylabel("Eficiência volumétrica [%]")
+ax40.grid()
+fig30.legend()
+plt.show()
+```
+
+```{python}
+import matplotlib.pyplot as plt
+import numpy as np
+from CoolProp.CoolProp import PropsSI
+
+fluid = 'R600a'
+Vd = 13.54e-6 # in m3
+n = 60 #Hz
+z = 1
+
+
+Vd_dot = Vd * n * z # m3/s
+fig30, ax30 = plt.subplots()
+
+Tcond = 35
+Tevap_list = np.linspace(-35,35)
+qL_list = []
+QL_list = []
+
+Pcond = PropsSI("P","T",Tcond+273,"Q",1,fluid)
+h4 = PropsSI("H","P",Pcond,"Q",0,fluid)
+epsilon = 0.01
+
+for Te in Tevap_list:
+  v1 = 1.0/PropsSI("D","T",Te+273,"Q",1,fluid)
+  s1 = PropsSI("S","T",Te+273,"Q",1,fluid)
+  v2 = 1.0/PropsSI("D","P",Pcond,"S",s1,fluid)
+  h1 = PropsSI("H","T",Te+273,"Q",1,fluid)
+  etav = 1 + epsilon*(1-v1/v2)
+  mdot = etav * Vd_dot/v1
+  qL = (h1-h4)*1e-3
+  qL_list.append(qL)
+  QL_list.append(mdot*qL)
+  
+ax30.plot(Tevap_list,qL_list,'ko-',label="ERE")
+ax30.set_xlabel("Temperatura de evaporação [ºC]")
+ax30.set_ylabel("Efeito refrigerante específico [kJ/kg]")
+
+ax40 = ax30.twinx()
+ax40.plot(Tevap_list,QL_list,'kx--',label="Cap.")
+ax40.set_ylabel("Capacidade de refrigeração [kW]")
+ax40.grid()
+fig30.legend()
+plt.show()
+```
+
+```{python}
+
+fig30, ax30 = plt.subplots()
+
+Tcond = 35
+Tevap_list = np.linspace(-35,35)
+w_list = []
+Wcomp_list = []
+
+Pcond = PropsSI("P","T",Tcond+273,"Q",1,fluid)
+h4 = PropsSI("H","P",Pcond,"Q",0,fluid)
+epsilon = 0.01
+
+for Te in Tevap_list:
+  v1 = 1.0/PropsSI("D","T",Te+273,"Q",1,fluid)
+  s1 = PropsSI("S","T",Te+273,"Q",1,fluid)
+  v2 = 1.0/PropsSI("D","P",Pcond,"S",s1,fluid)
+  h1 = PropsSI("H","T",Te+273,"Q",1,fluid)
+  h2 = PropsSI("H","P",Pcond,"S",s1,fluid)
+  
+  etav = 1 + epsilon*(1-v1/v2)
+  mdot = etav * Vd_dot/v1
+  w = (h2-h1)*1e-3
+  w_list.append(w)
+  Wcomp_list.append(mdot*w)
+  
+ax30.plot(Tevap_list,w_list,'ko-',label="TCE")
+ax30.set_xlabel("Temperatura de evaporação [ºC]")
+ax30.set_ylabel("Trabalho de compressão específico [kJ/kg]")
+
+ax40 = ax30.twinx()
+ax40.plot(Tevap_list,Wcomp_list,'kx--',label="Pot.")
+ax40.set_ylabel("Potência [kW]")
+ax40.grid()
+fig30.legend()
+plt.show()
+```
+
+Sugestões de outras análises:
+
+
+1. Como o COP varia com a mudança nas condições de operação?
+2. Inverta a análise: mantenha a temperatura de evaporação fixa e varie a temperatura de condensação. O que acontece?
+
 
 ## Modificações do Ciclo Padrão
+
+O conhecimento de que o compressor, com suas características internas, dirige a vazão e portanto as métricas de refrigeração, permite-nos analisar como melhorar essas métricas modificando o ciclo, mas mantendo o mesmo compressor.
 
 Num diagrama $P-h$, o efeito refrigerante  e o trabalho de compressão podem ser obtidas pelo "comprimento" horizontal desse processo.
 
@@ -561,7 +772,7 @@ O que causa essa geração de entropia?
 
 ## Exemplo
     
-Exercício 11-26 de [3]: Um refrigerador utiliza R-134a como fluido de trabalho. As pressões de evaporação e condensação são 200 kPa e 1400 kPa respectivamente. A eficiência isentrópica de compressão é de 88%. O refrigerante entra no compressor a uma taxa de 0,025 kg/s superaquecido em 10,1 °C e sai do condensador  subresfriado a 4,4 °C. Determine a capacidade, potência e COP para esse ciclo e para o ciclo ideal em comparação que utiliza o mesmo compressor.
+Exercício 11-26 de [3]: Um refrigerador utiliza R-134a como fluido de trabalho. As pressões de evaporação e condensação são 200 kPa e 1400 kPa respectivamente. A eficiência isentrópica de compressão é de 88%. O refrigerante entra no compressor a uma taxa de 0,025 kg/s superaquecido em 10,1 °C e sai do condensador  subresfriado a 4,4 °C. Determine a capacidade, potência e COP para esse ciclo e para o ciclo ideal em comparação que utiliza o mesmo compressor (que possui volume morto nulo - caracerístico de compressores rotativos, assunto de próximas aulas).
 
 ```{python}
 from CoolProp.CoolProp import PropsSI
