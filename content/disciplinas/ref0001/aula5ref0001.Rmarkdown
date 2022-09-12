@@ -1,362 +1,212 @@
 ---
-date: "2022-04-20"
-title: Aula 5 - Mais detalhes sobre o desempenho de compressores
+date: "2022-05-10"
+title: Aula 7 - Análise de Segunda Lei dos Sistemas de Refrigeração
 type: book
-weight: 40
+weight: 60
 ---
 
+## Potência mínima de um sistema de refrigeração
 
-## Comparação entre compressores alternativos e rotativos
+Em termos de requisitos, um sistema de refrigeração é caracterizado da seguinte forma: um sistema de refrigeração deve manter um ambiente a uma temperatura baixa $T_{\mathrm{L}}$ enquanto o ambiente ao redor está a $T_{\mathrm{H}}$. O ambiente frio está isolado do quente, mas não perfeitamente, de maneira que calor tende a ir na direção do quente para o frio, até que as temperaturas se estabilizem; se o ambiente quente for muito maior que o frio (em termos da sua capacidade térmica), o ambiente frio vai receber calor até ficar a $T_{\mathrm{H}}$. Isso é uma consequência do Princício do Aumento da Entropia, que por sua vez é uma consequência da Segunda Lei da Termodinâmica
 
-Vamos importar três conjuntos de dados, que foram retirados de diferentes catálogos. O compressor alternativo foi abordado na [aula passada](https://products.embraco.com/commtrol/api/pdf/compressor/datasheet/7187?&condensing_temperature=54.4&evaporating_temperature=-23.3&units=w&units_temp=metric-system&filters%5Bbare%5D=513701421&filters%5Brefrigerant%5D%5B%5D=R-600a&filters%5Bstandard%5D=ASHRAE&filters%5Bfrequency%5D=60), enquanto os outros foram retirados [deste catálogo de compressor scroll](https://www.bitzer.de/shared_media/documentation/esp-100-6.pdf) e [deste compressor parafuso](https://www.bitzer.de/shared_media/documentation/sp-300-5.pdf)
+Para evitar isso, inserimos um sistema de refrigeração que drena a capacidade $\dot{Q}_{\mathrm{L}}$ que mantem o ambiente frio a $T_{\mathrm{L}}$. Esse sistema, para satisfazer a Segunda Lei da Termodinâmica, vai drenar uma potência $\dot{W}_{\mathrm{comp}}$. E para satisfazer a Primeira Lei da Termodinâmica, o sistema rejeita $\dot{Q}_{\mathrm{H}}$ para a fonte quente.
 
-```{python}
-import pandas as pd
+Repararam como eu fiquei citando a Primeira e a Segunda Lei da Termodinâmica toda hora? São elas que determinam como o sistema vai funcionar. Porém, existe uma diferença: enquanto a Primeira Lei é uma equação e nos permite calcular métricas, a Segunda Lei é uma inequação e ela impõe limites. 
 
-recdf = pd.read_csv("reciprocating.csv",delimiter=',',skiprows=5)
-print(recdf)
-
-screwdf = pd.read_csv("screw.csv",delimiter=',',skiprows=6)
-print(screwdf)
-
-scrolldf = pd.read_csv("scroll.csv",delimiter=',',skiprows=6)
-print(scrolldf)
-```
-
-Links para os arquivos de texto acima:
-
-- [`reciprocating.csv`](https://fpfortkamp.com/disciplinas/ref0001/reciprocating.csv)
-- [`screw.csv`](https://fpfortkamp.com/disciplinas/ref0001/screw.csv)
-- [`scroll.csv`](https://fpfortkamp.com/disciplinas/ref0001/scroll.csv)
-
-Comparando a vazão real e ideal de compressores alternativos:
-
-```{python}
-import matplotlib.pyplot as plt
-from CoolProp.CoolProp import PropsSI
-import numpy as np
-
-plt.rc('font', size=12)
-
-Vd = 13.54e-6 # in m3
-n = 60 #Hz
-z = 1
-fluid = 'R600a'
-Treturn = 32.2 + 273
-
-Vd_dot = Vd * n * z # m3/s
-
-T_cond = np.unique(recdf["Condensing Temperature [C]"].values)
-fig, ax = plt.subplots()
-colors=["k","b","r"]
-
-i = 0
-for Tc in T_cond:
-  df = recdf[recdf["Condensing Temperature [C]"] == Tc]
-  T_evap = df["Evaporating Temperature [C]"].values
-  m_dot_actual = df["Gas Flow Rate [kg/h]"].values
-  
-  # we take the inverse of the density 
-  # of the vapor at the evaporing *pressure*
-  # and the return gas temperature
-  v_in = np.array([(1.0/PropsSI("D","T",Treturn,"P",PropsSI("P","T",Te+273,"Q",1,fluid),fluid)) for Te in T_evap])
-  m_dot_ideal = 3600*Vd_dot/v_in
-  
-  ax.plot(T_evap,m_dot_ideal,'-',color=colors[i],label="Ideal, Tcond = %.2f ºC" %(Tc))
-  ax.plot(T_evap,m_dot_actual,'o',color=colors[i],label="Actual")
-  
-  i = i+1
-  
-ax.set_xlabel("Evaporating temperature [ºC]")
-ax.set_ylabel("Gas flow rate [kg/h]")
-ax.legend()
-ax.grid()
-plt.show()
-```
-
-Em termos de eficiência volumétrica:
-
-```{python}
-import matplotlib.pyplot as plt
-from CoolProp.CoolProp import PropsSI
-import numpy as np
-
-plt.rc('font', size=12)
-
-Vd = 13.54e-6 # in m3
-n = 60 #Hz
-z = 1
-fluid = 'R600a'
-Treturn = 32.2 + 273
-
-Vd_dot = Vd * n * z # m3/s
-
-T_cond = np.unique(recdf["Condensing Temperature [C]"].values)
-fig, ax = plt.subplots()
-colors=["k","b","r"]
-
-i = 0
-for Tc in T_cond:
-  df = recdf[recdf["Condensing Temperature [C]"] == Tc]
-  T_evap = df["Evaporating Temperature [C]"].values
-  m_dot_actual = df["Gas Flow Rate [kg/h]"].values
-  
-  # we take the inverse of the density 
-  # of the vapor at the evaporing *pressure*
-  # and the return gas temperature
-  v_in = np.array([(1.0/PropsSI("D","T",Treturn,"P",PropsSI("P","T",Te+273,"Q",1,fluid),fluid)) for Te in T_evap])
-  m_dot_ideal = 3600*Vd_dot/v_in
-  eta_v = m_dot_actual/m_dot_ideal
-  
-  ax.plot(T_evap,eta_v*100,'-',color=colors[i],label="Tcond = %.2f ºC" %(Tc))
-  
-  i = i+1
-  
-ax.set_xlabel("Evaporating temperature [ºC]")
-ax.set_ylabel("Volumetric efficiency [%]")
-ax.set_ylim(50,110)
-ax.legend()
-ax.grid()
-plt.show()
-```
-
-Como reduzir isso a uma única curva? Será que apenas a razão de pressões de condensação e evaporação determina a eficiência volumétrica?
-
-
-```{python}
-
-fig, ax = plt.subplots()
-colors=["k","b","r"]
-
-T_cond = np.unique(recdf["Condensing Temperature [C]"].values)
-
-
-i = 0
-for Tc in T_cond:
-  df = recdf[recdf["Condensing Temperature [C]"] == Tc]
-  T_evap = df["Evaporating Temperature [C]"].values
-  m_dot_actual = df["Gas Flow Rate [kg/h]"].values
-  
-  # we take the inverse of the density 
-  # of the vapor at the evaporing *pressure*
-  # and the return gas temperature
-  v_in = np.array([(1.0/PropsSI("D","T",Treturn,"P",PropsSI("P","T",Te+273,"Q",1,fluid),fluid)) for Te in T_evap])
-  m_dot_ideal = 3600*Vd_dot/v_in
-  eta_v = m_dot_actual/m_dot_ideal
-  
-  Pcond = PropsSI("P","T",Tc+273,"Q",1,fluid)
-  Pevap = np.array([PropsSI("P","T",Te+273,"Q",1,fluid) for Te in T_evap])
-  ax.plot(Pcond/Pevap,eta_v*100,'-',color=colors[i],label="Tcond = %.2f ºC" %(Tc))
-  
-  i = i+1
-  
-ax.set_xlabel("Condensing pressure / Evaporating pressure")
-ax.set_ylabel("Volumetric efficiency [%]")
-ax.legend()
-ax.grid()
-plt.show()
-```
-Pelo jeito não. Você tem alguma outra sugestão de variável única que determine a eficiência volumétrica?
-
-## Curvas de capacidade do compressor alternativo
-
-Vamos plotar o desempenho do compressor alternativo em termos da sua capacidade de refrigeração:
-
-```{python}
-import matplotlib.pyplot as plt
-from CoolProp.CoolProp import PropsSI
-import numpy as np
-
-plt.rc('font', size=12)
-
-Vd = 13.54e-6 # in m3
-n = 60 #Hz
-z = 1
-fluid = 'R600a'
-Treturn = 32.2 + 273
-
-Vd_dot = Vd * n * z # m3/s
-
-T_cond = np.unique(recdf["Condensing Temperature [C]"].values)
-fig, ax = plt.subplots()
-colors=["k","b","r"]
-
-i = 0
-for Tc in T_cond:
-  df = recdf[recdf["Condensing Temperature [C]"] == Tc]
-  T_evap = df["Evaporating Temperature [C]"].values
-  Q_dot_actual = df["Cooling Capacity [W]"].values
-  
-  ax.plot(T_evap,Q_dot_actual,'o',color=colors[i],label="Tcond = %.2f ºC" %(Tc))
-  
-  i = i+1
-  
-ax.set_xlabel("Evaporating temperature [ºC]")
-ax.set_ylabel("Cooling Capacity [W]")
-ax.legend()
-ax.grid()
-plt.show()
-```
-Como calcular a capacidade em um ponto novo?
-
-Vamos utilizar *aprendizado de máquina*: selecionar alguns pontos para tentar uma reação cúbica:
+Lembram da Desigualdade de Clausius?
 
 $$
-\dot{Q} _{\mathrm{L}} = a _0 + a _1  t _{\mathrm{evap}} + a _2 t _{\mathrm{evap}}^2 + a_3 t _{\mathrm{evap}} ^3 
+\oint\frac{\delta \dot{Q}}{T} \le 0
 $$
-onde $t_{\mathrm{evap}}$ é a temperaratura de evaporação em graus Celsius. 
 
-No aprendizado *supervisionado*, nós selecionamos alguns pontos para ajustar os coeficientes, utilizando o [um modelo de regressão linear](https://scikit-learn.org/stable/modules/linear_model.html). Observe que o modelo é linear *nos coeficientes*, que são as incógnitas; os valores de temperatura de evaporação e suas potências são determinados a partir dos dados.
+Todo ciclo termodinâmico de um sistema fechado (isto é, sem reposição de fluido) deve satisfazer isso. Por que **deve**? Porque não há evidência experimental em contrário; nunca se conseguiu construir um ciclo que consiga desobedecer isso.
+
+A força da desigualdade é medida pela *taxa de geração de entropia*, que por convenção é positiva:
+
+$$
+\dot{S}_\mathrm{ger} = -\oint\frac{\dot{\delta Q}}{T} \ge 0
+$$
+
+Onde a taxa de transferência de calor é positiva quando entra no ciclo. Logo, as duas equações que regem o sistema são:
+
+$$
+\dot{Q} _{\mathrm{L}} + \dot{W} _{\mathrm{comp}} - \dot{Q} _{\mathrm{H}} = 0
+$$
+
+$$
+\dot{S} _\mathrm{ger} = \frac{-\dot{Q} _{\mathrm{L}}}{T _{\mathrm{L}}} + \frac{\dot{Q} _{\mathrm{H}}}{T _{\mathrm{H}}} \ge0
+$$
+
+Multiplicando a segunda Lei por $T_{\mathrm{H}}$
+
+$$
+T _{\mathrm{H}}\dot{S} _\mathrm{ger} = \frac{-\dot{Q} _{\mathrm{L}}T _{\mathrm{H}}}{T _{\mathrm{L}}} + \dot{Q} _{\mathrm{H}} \ge0
+$$
+
+O calor rejeitado é geralmente a grandeza que menos interessa para nós, porque nós precisamos de uma capacidade e temos que pagar uma potência. Assim, vou expressar essa taxa como função da geração de entropia e substituir na primeira lei:
+
+$$
+\dot{Q} _{\mathrm{L}} + \dot{W} _{\mathrm{comp}} - \left(T _{\mathrm{H}}\dot{S} _\mathrm{ger} - \frac{-\dot{Q} _{\mathrm{L}}T _{\mathrm{H}}}{T _{\mathrm{L}}} \right) = 0
+$$
+
+vamos expressar a potência:
+
+$$
+\dot{W} _{\mathrm{comp}} =  T _{\mathrm{H}}\dot{S} _\mathrm{ger}+ \dot{Q} _{\mathrm{L}} \left(  \frac{T _{\mathrm{H}}}{T _{\mathrm{L}}} -1\right)
+$$
+
+observe que os dois termos do lado direito são positivos. O segundo termo é o trabalho mínimo de um ciclo, que vai acontecer quando?
+
+Quando ciclo for totalmente reversível, isto é, sem geração de entropia no ciclo. 
+
+$$
+\dot{W} _{\mathrm{comp,rev}} =  \dot{Q} _{\mathrm{L}} \left(  \frac{T _{\mathrm{H}}}{T _{\mathrm{L}}} -1\right)
+$$
+
+Observe que esse termo é função direta dos requisitos de projeto.
+
+O primeiro termo na equação da potência real é a penalidade que temos que pagar, o excesso de potência que vêm das irreversibilidades, e é chamado de *potência perdida* ou *taxa de destruição de exergia*
+
+$$
+\dot{W} _{\mathrm{perd}} =  T _{\mathrm{H}}\dot{S} _\mathrm{ger}
+$$
+
+Outra maneira termodinâmica de avaliar tudo isto: a potência mínima (reversível), que também é chamada de *transferência de exergia associada à capacidade de refrigeração*, é a potência que seria obtida entre uma máquina térmica de Carnot entre as fontes.
+
+Estão seguindo até aqui?
+
+A relação entre a potência mínima do ciclo e a potência real, que contabiliza as irreversibilidades, é chamada de *eficiência de segunda lei* ou *eficiência exergética:*
+
+$$
+\eta _{\mathrm{II}} = \frac{\dot{W} _{\mathrm{comp,rev}}}{\dot{W} _{\mathrm{comp}}}
+$$
+
+Ex. 11.31 Çengel 7a ed: Bananas devem ser resfriadas de 28 ˚C a 12 ˚C a uma taxa de 1140 kg/h (calor específico 3,35 kJ/(kg K)) em um refrigerador que opera no ciclo de refrigeração por compressão de vapor. A potência fornecida ao refrigerador é de 8,6 kW. Determine (a) a taxa de calor absorvido das bananas e kJ/h e o COP; (b) a potência mínima associada a esse sistema; (c) a eficiência de segunda lei e a destruição de exergia para o ciclo.
 
 ```{python}
-from sklearn.metrics import r2_score
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
+T_H = 28 + 273
+T_L = 12 + 273
+mdot = 1140 # kg/h
+cp = 3.35 # kJ/(kg K)
+Wdot_comp = 8.6 #kW
 
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.pipeline import Pipeline
+# Primeira Lei aplicada nas bananas
 
-X = recdf.values[:,:1] # first column (evaporating temperature) as a 2D array, as required
-YQL = recdf["Cooling Capacity [W]"].values
+Qdot_L = mdot * cp * (T_H - T_L) #kJ/h
+print("Calor absorvido das bananas = %.2f kJ/h" %(Qdot_L,))
 
-# 80 % of data selected at random to find ("fit") the coeficientes
-X_train,X_test,QL_train,QL_test = train_test_split(X,YQL,test_size=0.2) 
+COP = Qdot_L*(1/3600) / Wdot_comp
+print("COP = %.2f" %(COP,))
 
-QL_quadratic_model = Pipeline(
-[
-('poly', PolynomialFeatures(degree=3)),
-('linear', LinearRegression(fit_intercept=False))])
-QL_quadratic_model.fit(X_train, QL_train)
+Wdot_rev = Qdot_L * (T_H/T_L - 1) * 1/3600 # kW
+print("Potência mínima = %.2f kW" %(Wdot_rev,))
 
-# now evalutate the model at the test values
-# (not used to calculate the coefficients)
-QL_quadratic_pred = QL_quadratic_model.predict(X_test)
-
-fig4, ax4 = plt.subplots()
-ax4.scatter(QL_test,QL_quadratic_pred)
-ax4.grid()
-ax4.set_xlabel('Simulated cooling capacity (test set) [W]]')
-ax4.set_ylabel('Predicted cooling capacity (test set) [W]')
-ax4.set_title('accuracy (R^2) =  %.5f'
-% r2_score(QL_test, QL_quadratic_pred))
-plt.show()
+eta_II = Wdot_rev / Wdot_comp
+print("Eficiência de Segunda Lei = %.2f %%" %(100*eta_II))
 ```
 
-Agora podemos simplesmente *prever* os dados em um novo valor de temperatura de evaporação:
+Observe que nenhuma informação sobre o ciclo foi necessária. Além disso, na situação realmente ideal, as bananas entram na temperatura quente e saem na temperatura fria, sem nenhuma resistência térmica envolvida.
+
+## Cálculo da geração de entropia e da potência perdida
+
+A potência perdida é proporcional à taxa de geração de entropia, logo a geração de entropia é a moeda pela qual avaliamos o quão bom é um componente e quanto ele está contribuindo para as irreversibilidades totals.
+
+Geração de Entropia em um processo aberto entre dois estados A e B:
+
+$$
+\dot{S} _{\mathrm{ger}} = \dot{m}(s _B-s _A)-\frac{\dot{Q}}{T _f}
+$$
+
+onde cuidado deve ser tomado ao avaliar a temperatura na fronteira na qual calor está sendo transferido. De maneira geral, é interessante considerar a temperatura da fronteira de cada trocador de calor como a temperatura da fonte; nesse caso, a geração de entropia vai compreender todas as resistências térmicas (convecção interna, contato, incrustração, condução nos tubos, convecção externa), bem como geração interna pelo atrito viscoso.
+
+Repare o balanço: se o processo for totalmente reversível, todo o aumento de entropia é explicado pela transferência de calor; se há um desbalanço, então quer dizer que houve geração de entropia.
+
+Também repare que a transferência de trabalho não contribui para a geração de entropia! Essa é a diferença entre calor e trabalho.
+
+Podemos analisar para cada componente.
+
+Ex. 11.35 Çengel 7a ed: Um refrigerador opera no ciclo de refrigeração por compressão de vapor ideal que utiliza R-134a como fluido de trabalho. A fonte fria está a 5 ˚C e a quente a 25 ˚C, e a capacidade é de 500 W.
+
+Calcule a geração de entropia em cada componente e a potência perdida para dois casos:
+
+1. Trocadores de calor idealizados
+2. Trocadores de calor imperfeitos, de maneira que evapora a -10 ˚C e condensa-se a 57,9 ˚C.
 
 ```{python}
-print(QL_quadratic_model.predict(np.array([[-17]])))
-```
-
-Os coeficientes são ( $a_0$--$a_3$):
-
-```{python}
-print(QL_quadratic_model.named_steps["linear"].coef_)
-```
-
-## Desempenho de compressores scroll
-
-Para compressores scroll:
-
-```{python}
-import matplotlib.pyplot as plt
 from CoolProp.CoolProp import PropsSI
-import numpy as np
 
-plt.rc('font', size=12)
+fluid = "R134a"
 
-fluid = 'R134a'
-Treturn = 20
+T_L = 5 + 273
+T_H = 25 + 273
+Qdot_L = 500
 
-Vd_dot = 25 # m3/h
+T_evap_set = -10 + 273
+T_cond_set = 57.9 + 273
 
-T_cond = np.unique(scrolldf["Condensing Temperature [C]"].values)
-fig, ax = plt.subplots()
-colors=["k","b","r"]
-
-i = 0
-for Tc in T_cond:
-  df = scrolldf[scrolldf["Condensing Temperature [C]"] == Tc]
-  T_evap = df["Evaporating Temperature [C]"].values
-  h4 = PropsSI("H","T",Tc+273,"Q",0,fluid)
-  v_in = np.empty_like(T_evap)
-  h1 = np.empty_like(T_evap)
+for T_evap in [T_L,T_evap_set]:
+  if T_evap == T_evap_set:
+    T_cond = T_cond_set
+    print("Trocadores imperfeitos")
+    
+  else:
+    T_cond = T_H
+    print("Trocadores ideais")
   
-  for (j,Te) in enumerate(T_evap):
-    if (Tc == 50 and Te <= -10):
-      v_in[j] = 1.0/PropsSI("D","T",Te+273+10,"P",PropsSI("P","T",Te+273,"Q",1,fluid),fluid)
-      h1[j] = PropsSI("H","T",Te+273+10,"P",PropsSI("P","T",Te+273,"Q",1,fluid),fluid)
-    else:
-      v_in[j] = 1.0/PropsSI("D","T",Treturn+273,"P",PropsSI("P","T",Te+273,"Q",1,fluid),fluid)
-      h1[j] = PropsSI("H","T",Treturn+273,"P",PropsSI("P","T",Te+273,"Q",1,fluid),fluid)
+  h1 = PropsSI("H","T",T_evap,"Q",1,fluid)
+  s1 = PropsSI("S","T",T_evap,"Q",1,fluid)
   
-  Q_dot_actual = df["Cooling Capacity [W]"].values
-  m_dot_actual = 3600*Q_dot_actual/(h1-h4)
+  P2 = PropsSI("P","T",T_cond,"Q",1,fluid)
+  s2 = s1
+  h2 = PropsSI("H","P",P2,"S",s2,fluid)
   
-  # we take the inverse of the density 
-  # of the vapor at the evaporing *pressure*
-  # and the return gas temperature
+  h3 = PropsSI("H","T",T_cond,"Q",0,fluid)
+  s3 = PropsSI("S","T",T_cond,"Q",0,fluid)
   
-  m_dot_ideal = Vd_dot/v_in
-  eta_v = m_dot_actual/m_dot_ideal
+  h4 = h3
+  P_evap = PropsSI("P","T",T_evap,"Q",1,fluid)
+  s4 = PropsSI("S","H",h4,"P",P_evap,fluid)
   
-  ax.plot(T_evap,eta_v*100,'-',color=colors[i],label="Ideal, Tcond = %.2f ºC" %(Tc))
-  i = i+1
+  q_L = h1 - h4
+  mdot = Qdot_L/q_L
+  q_H = h2 - h3
+  Qdot_H = mdot*q_H
+  Wdot_comp = mdot*(h2-h1)
+  print("Potência de compressão = %.2f W" %(Wdot_comp))
   
-ax.set_xlabel("Evaporating temperature [ºC]")
-ax.set_ylabel("Volumetric efficiency [%]")
-ax.set_ylim(50,110)
-ax.legend()
-ax.grid()
-plt.show()
+  Sdot_ger_comp = mdot*(s2-s1)
+  print("Geração de entropia no compressor = %.2g W/K" %(Sdot_ger_comp,))
+  Sdot_ger_cond = mdot*(s3 - s2) + Qdot_H/T_H
+  print("Geração de entropia no condensador = %.2g W/K" %(Sdot_ger_cond,))
+  Sdot_ger_DE = mdot*(s4 - s3)
+  print("Geração de entropia no DE = %.2g W/K" %(Sdot_ger_DE,))
+  Sdot_ger_evap = mdot*(s1 - s4) - Qdot_L/T_L
+  print("Geração de entropia no evaporador = %.2g W/K" %(Sdot_ger_evap,))
+  print()
+    
 ```
-Essa é a grande vantagem dos compressores scroll: sua alta eficiência volumétrica. Porém, atente-se ao custo desses compressores.
 
-## Desempenho de compressores parafuso
+Observem como os trocadores imperfeitos contribuem para a potência, e nesse caso em específico, é o condensador o maior vilão. Repare também que "mexer nos trocadores" afeta também o desempenho do dispositivo de expansão!
+
+Porém, falar nos valores de "geração de entropia" gera dúvidas quanto a sua interpretação. Por isso, podemos transformar esses valores em "potência perdida" ou "taxa de destruição da exergia":
 
 ```{python}
-import matplotlib.pyplot as plt
-from CoolProp.CoolProp import PropsSI
-import numpy as np
-
-plt.rc('font', size=12)
-
-fluid = 'R134a'
-
-Vd_dot = 46 # m3/h
-
-T_cond = np.unique(screwdf["Condensing Temperature [C]"].values)
-fig, ax = plt.subplots()
-colors=["k","b","r"]
-
-i = 0
-for Tc in T_cond:
-  df = screwdf[screwdf["Condensing Temperature [C]"] == Tc]
-  T_evap = df["Evaporating Temperature [C]"].values
-  Pcond = PropsSI("P","T",Tc+273,"Q",0,fluid)
-  h4 = PropsSI("H","T",Tc+273-5,"P",Pcond,fluid)
-  v_in = np.array([1.0/PropsSI("D","T",Te+273+10,"P",PropsSI("P","T",Te+273,"Q",1,fluid),fluid) for Te in T_evap])
-  h1 = np.array([PropsSI("H","T",Te+273+10,"P",PropsSI("P","T",Te+273,"Q",1,fluid),fluid) for Te in T_evap])
-  
-  Q_dot_actual = df["Cooling Capacity [W]"].values
-  m_dot_actual = 3600*Q_dot_actual/(h1-h4)
-  
-  # we take the inverse of the density 
-  # of the vapor at the evaporing *pressure*
-  # and the return gas temperature
-  
-  m_dot_ideal = Vd_dot/v_in
-  eta_v = m_dot_actual/m_dot_ideal
-  
-  ax.plot(T_evap,eta_v*100,'-',color=colors[i],label="Ideal, Tcond = %.2f ºC" %(Tc))
-  i = i+1
-  
-ax.set_xlabel("Evaporating temperature [ºC]")
-ax.set_ylabel("Volumetric efficiency [%]")
-ax.set_ylim(50,110)
-ax.legend()
-ax.grid()
-plt.show()
+Wdot_dest_comp = Sdot_ger_comp*T_H
+print("Destruição de exergia no compressor = %.2f W" %(Wdot_dest_comp,))
+Wdot_dest_cond = Sdot_ger_cond*T_H
+print("Destruição de exergia no condensador = %.2f W" %(Wdot_dest_cond,))
+Wdot_dest_DE = Sdot_ger_DE*T_H
+print("Destruição de exergia no DE = %.2f W" %(Wdot_dest_DE,))
+Wdot_dest_evap = Sdot_ger_evap*T_H
+print("Destruição de exergia no evaporador = %.2f W" %(Wdot_dest_evap,))
+print()
 ```
-O rendimento volumétrico dos compressores parafuso não tão alto como os scroll, mas mais alto que os compressores alternativos. Além disso, o ponto de operação influencia bastante; como você pode reduzir os dados?
 
+Para entender esses valores: a potência destruída no condensador, por exemplo, poderia ser recuperada se o calor rejeitado neste componente alimentasse uma máquina térmica de Carnot:
+
+```{python}
+Wdot_rec_cond = Qdot_H*(1-T_H/T_cond)
+print(Wdot_rec_cond)
+```
+
+Para pensar: por que esse calor rejeitado no condensador não pode ser aproveitado para algo útil? Quais os limitantes?
