@@ -5,101 +5,19 @@ type: book
 weight: 40
 ---
 
-## Comparação entre compressores alternativos e rotativos
 
-Vamos importar três conjuntos de dados, que foram retirados de diferentes catálogos. O compressor alternativo foi abordado na [aula passada](https://products.embraco.com/commtrol/api/pdf/compressor/datasheet/7187?&condensing_temperature=54.4&evaporating_temperature=-23.3&units=w&units_temp=metric-system&filters%5Bbare%5D=513701421&filters%5Brefrigerant%5D%5B%5D=R-600a&filters%5Bstandard%5D=ASHRAE&filters%5Bfrequency%5D=60), enquanto os outros foram retirados [deste catálogo de compressor scroll](https://www.bitzer.de/shared_media/documentation/esp-100-6.pdf) e [deste compressor parafuso](https://www.bitzer.de/shared_media/documentation/sp-300-5.pdf)
+
+## Análise de dados de catálogos de compressores
+
+Vamos importar três conjuntos de dados, que foram retirados de diferentes catálogos. O compressor alternativo foi abordado na [aula passada](https://productsapi.embraco.com/datasheet/compressor/EGAS100CLP/513701421/?kit_number=1&standard=ASHRAE&test_application=LBP&refrigerant=R-600a&compressor_speed=3600&unit_system=w&measurement_system=metric), enquanto os outros foram retirados [deste catálogo de compressor scroll](https://www.bitzer.de/shared_media/documentation/esp-100-6.pdf) e [deste compressor parafuso](https://www.bitzer.de/shared_media/documentation/sp-300-5.pdf)
 
 
 ```python
 import pandas as pd
 
 recdf = pd.read_csv("reciprocating.csv",delimiter=',',skiprows=5)
-print(recdf)
-```
-
-```
-##     Evaporating Temperature [C]  ...   Efficiency [W/W]
-## 0                           -35  ...               1.29
-## 1                           -30  ...               1.52
-## 2                           -25  ...               1.77
-## 3                           -20  ...               2.04
-## 4                           -15  ...               2.33
-## 5                           -10  ...               2.63
-## 6                           -35  ...               1.24
-## 7                           -30  ...               1.41
-## 8                           -25  ...               1.61
-## 9                           -20  ...               1.82
-## 10                          -15  ...               2.05
-## 11                          -10  ...               2.28
-## 12                          -35  ...               1.16
-## 13                          -30  ...               1.32
-## 14                          -25  ...               1.48
-## 15                          -20  ...               1.66
-## 16                          -15  ...               1.85
-## 17                          -10  ...               2.04
-## 
-## [18 rows x 7 columns]
-```
-
-```python
 screwdf = pd.read_csv("screw.csv",delimiter=',',skiprows=6)
-print(screwdf)
-```
-
-```
-##     Evaporating Temperature [C]  ...  Power [W]
-## 0                           -15  ...       5810
-## 1                           -10  ...       6020
-## 2                            -5  ...       6230
-## 3                             0  ...       6440
-## 4                             5  ...       6650
-## 5                            10  ...       6860
-## 6                            -5  ...       8070
-## 7                             0  ...       8280
-## 8                             5  ...       8490
-## 9                            10  ...       8710
-## 10                           15  ...       8920
-## 11                            0  ...      10660
-## 12                            5  ...      10850
-## 13                           10  ...      11040
-## 14                           15  ...      11240
-## 
-## [15 rows x 4 columns]
-```
-
-```python
 scrolldf = pd.read_csv("scroll.csv",delimiter=',',skiprows=6)
-print(scrolldf)
-```
-
-```
-##     Evaporating Temperature [C]  ...  Power [W]
-## 0                         -15.0  ...       2980
-## 1                         -10.0  ...       2990
-## 2                          -5.0  ...       3000
-## 3                           0.0  ...       3020
-## 4                           5.0  ...       3060
-## 5                           7.5  ...       3080
-## 6                          10.0  ...       3110
-## 7                          12.5  ...       3150
-## 8                         -15.0  ...       3710
-## 9                         -10.0  ...       3720
-## 10                         -5.0  ...       3740
-## 11                          0.0  ...       3770
-## 12                          5.0  ...       3800
-## 13                          7.5  ...       3810
-## 14                         10.0  ...       3830
-## 15                         12.5  ...       3840
-## 16                        -15.0  ...       4690
-## 17                        -10.0  ...       4650
-## 18                         -5.0  ...       4640
-## 19                          0.0  ...       4670
-## 20                          5.0  ...       4700
-## 21                          7.5  ...       4750
-## 22                         10.0  ...       4730
-## 23                         12.5  ...       4730
-## 
-## [24 rows x 4 columns]
 ```
 
 Links para os arquivos de texto acima:
@@ -108,12 +26,13 @@ Links para os arquivos de texto acima:
 - [`screw.csv`](https://fpfortkamp.com/disciplinas/ref0001/screw.csv)
 - [`scroll.csv`](https://fpfortkamp.com/disciplinas/ref0001/scroll.csv)
 
-Comparando a vazão real e ideal de compressores alternativos:
+## Vazão real de compressores alternativos
+
+Examinando o catálogo, observamos que a vazão aspirada pelo compressor depende da temperatura de evaporação e de condensação - **porém, observe que a temperatura de sucção e de entrada do tubo capilar estão especificadas**. Logo, as condições de evaporação e condensação determinam na verdade a pressão de sucção e descarga do compressor, enquanto que as outras temperaturas determinam o grau de superaquecimento e de subresfriamento do ciclo.
 
 
 ```python
 import matplotlib.pyplot as plt
-from CoolProp.CoolProp import PropsSI
 import numpy as np
 
 plt.rc('font', size=12)
@@ -135,20 +54,11 @@ for Tc in T_cond:
   df = recdf[recdf["Condensing Temperature [C]"] == Tc]
   T_evap = df["Evaporating Temperature [C]"].values
   m_dot_actual = df["Gas Flow Rate [kg/h]"].values
-  
-  # we take the inverse of the density 
-  # of the vapor at the evaporing *pressure*
-  # and the return gas temperature
-  v_in = np.array([(1.0/PropsSI("D","T",Treturn,"P",PropsSI("P","T",Te+273,"Q",1,fluid),fluid)) for Te in T_evap])
-  m_dot_ideal = 3600*Vd_dot/v_in
-  
-  ax.plot(T_evap,m_dot_ideal,'-',color=colors[i],label="Ideal, Tcond = %.2f ºC" %(Tc))
-  ax.plot(T_evap,m_dot_actual,'o',color=colors[i],label="Actual")
-  
+  ax.plot(T_evap,m_dot_actual,'o',color=colors[i],label="Tcond = %.2f ºC" %(Tc))
   i = i+1
   
-ax.set_xlabel("Evaporating temperature [ºC]")
-ax.set_ylabel("Gas flow rate [kg/h]")
+ax.set_xlabel("Temperatura de Evaporação [ºC]")
+ax.set_ylabel("Vazão de gás [kg/h]")
 ax.legend()
 ax.grid()
 plt.show()
@@ -156,25 +66,9 @@ plt.show()
 
 <img src="/disciplinas/ref0001/aula4ref0001_files/figure-html/unnamed-chunk-2-1.png" width="672" />
 
-Em termos de eficiência volumétrica:
-
-
 ```python
-import matplotlib.pyplot as plt
 from CoolProp.CoolProp import PropsSI
-import numpy as np
 
-plt.rc('font', size=12)
-
-Vd = 13.54e-6 # in m3
-n = 60 #Hz
-z = 1
-fluid = 'R600a'
-Treturn = 32.2 + 273
-
-Vd_dot = Vd * n * z # m3/s
-
-T_cond = np.unique(recdf["Condensing Temperature [C]"].values)
 fig, ax = plt.subplots()
 colors=["k","b","r"]
 
@@ -182,26 +76,28 @@ i = 0
 for Tc in T_cond:
   df = recdf[recdf["Condensing Temperature [C]"] == Tc]
   T_evap = df["Evaporating Temperature [C]"].values
+  Pcond = PropsSI("P","T",Tc+273,"Q",0,fluid)
+  v_in = np.array([1.0/PropsSI("D","T",Te+273+10,"P",PropsSI("P","T",Te+273,"Q",1,fluid),fluid) for Te in T_evap])
+  
   m_dot_actual = df["Gas Flow Rate [kg/h]"].values
   
   # we take the inverse of the density 
   # of the vapor at the evaporing *pressure*
   # and the return gas temperature
-  v_in = np.array([(1.0/PropsSI("D","T",Treturn,"P",PropsSI("P","T",Te+273,"Q",1,fluid),fluid)) for Te in T_evap])
-  m_dot_ideal = 3600*Vd_dot/v_in
-  eta_v = m_dot_actual/m_dot_ideal
+  
+  m_dot_ideal = Vd_dot/v_in
+  eta_v = m_dot_actual/(3600*m_dot_ideal)
   
   ax.plot(T_evap,eta_v*100,'-',color=colors[i],label="Tcond = %.2f ºC" %(Tc))
-  
   i = i+1
   
-ax.set_xlabel("Evaporating temperature [ºC]")
-ax.set_ylabel("Volumetric efficiency [%]")
-ax.set_ylim(50,110)
+ax.set_xlabel("Temperatura de evaporação [ºC]")
+ax.set_ylabel("Eficiência volumétrica [%]")
+ax.set_ylim(0,110)
 ```
 
 ```
-## (50.0, 110.0)
+## (0.0, 110.0)
 ```
 
 ```python
@@ -212,46 +108,237 @@ plt.show()
 
 <img src="/disciplinas/ref0001/aula4ref0001_files/figure-html/unnamed-chunk-3-3.png" width="672" />
 
-Como reduzir isso a uma única curva? Será que apenas a razão de pressões de condensação e evaporação determina a eficiência volumétrica?
-
+O ciclo que é seguido então, para o ponto de mais alta temperatura de condensação e mais baixa temperatura de evaporação é:
 
 
 ```python
+# adaptado de http://pyromat.org/doc_howto.html#cycle_rankine
+plt.rc('font', size=14) 
 
-fig, ax = plt.subplots()
-colors=["k","b","r"]
+# Vapor compression cycle analysis
 
-T_cond = np.unique(recdf["Condensing Temperature [C]"].values)
+# Use different color codes to change the color of the plots
+color = 'r'    # Red
+#color = 'b'   # Blue
+# This is a True/False flag to deactivate the plot text
+show_text = True
+# This is a True/False flag to allow over-plotting of previous results
+clear_plots = True
+
+Tevap = T_evap[0] + 273
+Tcond = Tc + 273
+Tliquid = 32.2 + 273
+dTsup = Tliquid - Tevap
+
+Pevap = PropsSI("P","T",Tevap,"Q",1,fluid)
+hvevap = PropsSI("H","P",Pevap,"Q",1,fluid)
+h1 = PropsSI("H","T",Tliquid,"P",Pevap,fluid)
+s1 = PropsSI("S","P",Pevap,"H",h1,fluid)
+P1 = Pevap
+
+Pcond = PropsSI("P","T",Tcond,"Q",1,fluid)
+
+P2 = Pcond
+s2 = s1
+h2 = PropsSI("H","P",P2,"S",s2,fluid)
 
 
-i = 0
-for Tc in T_cond:
-  df = recdf[recdf["Condensing Temperature [C]"] == Tc]
-  T_evap = df["Evaporating Temperature [C]"].values
-  m_dot_actual = df["Gas Flow Rate [kg/h]"].values
-  
-  # we take the inverse of the density 
-  # of the vapor at the evaporing *pressure*
-  # and the return gas temperature
-  v_in = np.array([(1.0/PropsSI("D","T",Treturn,"P",PropsSI("P","T",Te+273,"Q",1,fluid),fluid)) for Te in T_evap])
-  m_dot_ideal = 3600*Vd_dot/v_in
-  eta_v = m_dot_actual/m_dot_ideal
-  
-  Pcond = PropsSI("P","T",Tc+273,"Q",1,fluid)
-  Pevap = np.array([PropsSI("P","T",Te+273,"Q",1,fluid) for Te in T_evap])
-  ax.plot(Pcond/Pevap,eta_v*100,'-',color=colors[i],label="Tcond = %.2f ºC" %(Tc))
-  
-  i = i+1
-  
-ax.set_xlabel("Condensing pressure / Evaporating pressure")
-ax.set_ylabel("Volumetric efficiency [%]")
-ax.legend()
-ax.grid()
+P3 = Pcond
+hlcond = PropsSI("H","P",P3,"Q",0,fluid)
+h3 = PropsSI("H","T",Tliquid,"P",Pcond,fluid)
+
+P4 = Pevap
+h4 = h3
+
+# All the states are known, now.
+#
+qL = h1-h4
+qH = h2-h3
+wcomp = h2-h1
+COP = qL/wcomp
+
+
+# Generate some diagrams
+# Let figure 1 be a P-h diagram
+f1 = plt.figure(1,)
+if clear_plots:
+    plt.clf()
+ax1 = f1.add_subplot(111)
+ax1.set_xlabel('Entalpia, h (kJ/kg)')
+ax1.set_ylabel('Pressão, P (bar)')
+ax1.set_title('Ciclo de Compressão de Vapor')
+
+
+# Generate the dome on both plots
+Tt = PropsSI("TTRIPLE",fluid)
+Pt = PropsSI("PTRIPLE",fluid)
+
+Tcr = PropsSI("TCRIT",fluid)
+Pcr = PropsSI("PCRIT",fluid)
+
+T = np.arange(Tt,Tcr,2.5)
+
+hL = 1e-3*np.array([
+  PropsSI("H","T",Ti,"Q",0,fluid) for Ti in T
+])
+hV = 1e-3*np.array([
+  PropsSI("H","T",Ti,"Q",1,fluid) for Ti in T
+])
+P = 1e-5*np.array([
+  PropsSI("P","T",Ti,"Q",0,fluid) for Ti in T
+])
+
+ax1.plot(hL,P,'k')
+ax1.plot(hV,P,'k')
+
+# Process 1-2
+p = np.linspace(P1,P2)
+h = np.array([PropsSI("H","P",Pi,"S",s1,fluid) for Pi in p])
+ax1.plot(h*1e-3,1e-5*p,color,linewidth=1.5)
+
+# Process 2-3
+ax1.plot(1e-3*np.array([h2,h3]),1e-5*np.array([P2,P3]),color,linewidth=1.5)
+
+# Process 3-4
+ax1.plot(1e-3*np.array([h3,h4]),1e-5*np.array([P3,P4]),color,linewidth=1.5)
+
+# Process 4-5
+ax1.plot(1e-3*np.array([h4,h1]),1e-5*np.array([P4,P1]),color,linewidth=1.5)
+
+ax1.grid('on')
+ax1.set_yscale('log')
+
+ax1.set_ylim(bottom = 0.1)
+```
+
+```
+## (0.1, 90.73127791782629)
+```
+
+```python
+ax1.set_xlim(left = 0)
+```
+
+```
+## (0.0, 787.4314855953381)
+```
+
+```python
+if show_text:
+    ax1.text(1.03e-3*h1,0.99*1e-5*P1,"1")
+    ax1.text(1.01e-3*h2,0.99*1e-5*P2,"2")
+    ax1.text(0.90e-3*h3,0.99*1e-5*P3,"3")
+    ax1.text(0.90e-3*h4,0.99*1e-5*P4,"4")
+
 plt.show()
+#plt.show(block=False)
 ```
 
 <img src="/disciplinas/ref0001/aula4ref0001_files/figure-html/unnamed-chunk-4-5.png" width="672" />
-Pelo jeito não. Você tem alguma outra sugestão de variável única que determine a eficiência volumétrica?
+
+Examine o código acima e veja como o diagrama foi gerado, principalmente em termos das especeficicações das variações do ciclo padrão.
+
+Em termos de métricas, na temperatura de condensação (em ºC) de 
+
+
+```python
+print(Tc)
+```
+
+```
+## 55
+```
+
+e de evaporação (em ºC) de:
+
+
+```python
+print(Tevap-273)
+```
+
+```
+## -30
+```
+
+as métricas calculadas de acordo com o ciclo são:
+
+
+```python
+print("Cálculos de ciclo:")
+```
+
+```
+## Cálculos de ciclo:
+```
+
+```python
+print("Efeito refrigerante específico  = %.2f kJ/kg" %(1e-3*qL))
+```
+
+```
+## Efeito refrigerante específico  = 335.48 kJ/kg
+```
+
+```python
+print("Trabalho de compressão específico  = %.2f kJ/kg" %(1e-3*wcomp))
+```
+
+```
+## Trabalho de compressão específico  = 132.63 kJ/kg
+```
+
+```python
+print("COP  = %.2f" %(COP))
+```
+
+```
+## COP  = 2.53
+```
+
+Vamos comparar esses dados (obtidos apenas a partir do ciclo) com os dados que são retirados do catálogo:
+
+
+```python
+Qdot = df["Cooling Capacity [W]"].values[0]
+Wdot = df["Power [W]"].values[0]
+COP_exp = df["Efficiency [W/W]"].values[0]
+mdot = m_dot_actual[0]/3600 # kg/h para kg/s
+qL_exp = Qdot/mdot
+wcomp_exp = Wdot/mdot
+
+print("Dados de catálogo:")
+```
+
+```
+## Dados de catálogo:
+```
+
+```python
+print("Efeito refrigerante específico  = %.2f kJ/kg" %(1e-3*qL_exp))
+```
+
+```
+## Efeito refrigerante específico  = 334.29 kJ/kg
+```
+
+```python
+print("Trabalho de compressão específico  = %.2f kJ/kg" %(1e-3*wcomp_exp))
+```
+
+```
+## Trabalho de compressão específico  = 257.14 kJ/kg
+```
+
+```python
+print("COP  = %.2f" %(COP_exp))
+```
+
+```
+## COP  = 1.30
+```
+
+O ERE calculado pelo ciclo bate com os dados experimentais, mas o trabalho de compressão (e por consequência o COP) não. Por quê?
+
 
 ## Curvas de capacidade do compressor alternativo
 
@@ -287,91 +374,134 @@ for Tc in T_cond:
   
   i = i+1
   
-ax.set_xlabel("Evaporating temperature [ºC]")
-ax.set_ylabel("Cooling Capacity [W]")
+ax.set_xlabel("Temperatura de evaporação [ºC]")
+ax.set_ylabel("Capacidade de refrigeração [W]")
 ax.legend()
 ax.grid()
 plt.show()
 ```
 
-<img src="/disciplinas/ref0001/aula4ref0001_files/figure-html/unnamed-chunk-5-7.png" width="672" />
+<img src="/disciplinas/ref0001/aula4ref0001_files/figure-html/unnamed-chunk-9-7.png" width="672" />
 Como calcular a capacidade em um ponto novo?
 
-Vamos utilizar *aprendizado de máquina*: selecionar alguns pontos para tentar uma reação cúbica:
+Podemos utilizar um modelo de regressão linear. Você *modela* a capacidade como uma função do tipo:
 
 $$
-\dot{Q} _{\mathrm{L}} = a _0 + a _1  t _{\mathrm{evap}} + a _2 t _{\mathrm{evap}}^2 + a_3 t _{\mathrm{evap}} ^3 
+\dot{Q} _{\mathrm{L,modelo}} = a _0 + a _1 t _{\mathrm{evap}} + a _2 t _{\mathrm{cond}}
 $$
-onde `\(t_{\mathrm{evap}}\)` é a temperaratura de evaporação em graus Celsius. 
 
-No aprendizado *supervisionado*, nós selecionamos alguns pontos para ajustar os coeficientes, utilizando o [um modelo de regressão linear](https://scikit-learn.org/stable/modules/linear_model.html). Observe que o modelo é linear *nos coeficientes*, que são as incógnitas; os valores de temperatura de evaporação e suas potências são determinados a partir dos dados.
+Pelo **Método dos Mínimos Quadrados**, os coeficientes `\(a_i\)` são tais que minimizam a soma dos quadrados dos erros entre modelo e dados experimentais. Seja uma observação `\(i\)` (i.e., um conjunto de dados em uma dada temperatura de condensação e evaporação). Então o erro dessa observação é:
 
+$$
+e _i = \left(\dot{Q}_{\mathrm{L,modelo},i} - \dot{Q}_{\mathrm{L,exp},i}\right)
+$$
+onde "exp" quer dizer os dados experimentais tirados de um catálogo. A soma dos quadrados dos erros é:
 
-```python
-from sklearn.metrics import r2_score
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
+$$
+S = \sum _i e _i^2
+$$
 
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.pipeline import Pipeline
+e os coeficientes são a solução do sistema de equações:
 
-X = recdf.values[:,:1] # first column (evaporating temperature) as a 2D array, as required
-YQL = recdf["Cooling Capacity [W]"].values
+$$
+\frac{\partial S}{\partial a _0} = 0
+$$
 
-# 80 % of data selected at random to find ("fit") the coeficientes
-X_train,X_test,QL_train,QL_test = train_test_split(X,YQL,test_size=0.2) 
+$$
+\frac{\partial S}{\partial a _1} = 0
+$$
+$$
+\frac{\partial S}{\partial a _2} = 0
+$$
 
-QL_quadratic_model = Pipeline(
-[
-('poly', PolynomialFeatures(degree=3)),
-('linear', LinearRegression(fit_intercept=False))])
-QL_quadratic_model.fit(X_train, QL_train)
-
-# now evalutate the model at the test values
-# (not used to calculate the coefficients)
-```
-
-```
-## Pipeline(steps=[('poly', PolynomialFeatures(degree=3)),
-##                 ('linear', LinearRegression(fit_intercept=False))])
-```
-
-```python
-QL_quadratic_pred = QL_quadratic_model.predict(X_test)
-
-fig4, ax4 = plt.subplots()
-ax4.scatter(QL_test,QL_quadratic_pred)
-ax4.grid()
-ax4.set_xlabel('Simulated cooling capacity (test set) [W]]')
-ax4.set_ylabel('Predicted cooling capacity (test set) [W]')
-ax4.set_title('accuracy (R^2) =  %.5f'
-% r2_score(QL_test, QL_quadratic_pred))
-plt.show()
-```
-
-<img src="/disciplinas/ref0001/aula4ref0001_files/figure-html/unnamed-chunk-6-9.png" width="672" />
-
-Agora podemos simplesmente *prever* os dados em um novo valor de temperatura de evaporação:
+O uso do Método dos Mínimos Quadrados vai dar origem a um sistema matricial de equações, que pode ser resolvido; tente deduzir agora como ficaria as três equações acima na forma matricial e observe o código abaixo:
 
 
 ```python
-print(QL_quadratic_model.predict(np.array([[-17]])))
+M = recdf[["Evaporating Temperature [C]","Condensing Temperature [C]","Cooling Capacity [W]"]].values
+
+te_values = M[:,0]
+tc_values = M[:,1]
+QdotL_values = M[:,2]
+
+m = len(te_values) #número de pontos
+Se = np.sum(te_values)
+Sc = np.sum(tc_values)
+SQ = np.sum(QdotL_values)
+Se2 = np.sum(te_values**2)
+Sc2 = np.sum(tc_values**2)
+Sce = np.sum(tc_values*te_values)
+SQe = np.sum(te_values*QdotL_values)
+SQc = np.sum(tc_values*QdotL_values)
+
+A = np.array([
+  [m,Se,Sc],
+  [Se,Se2,Sce],
+  [Sc,Sce,Sc2]])
+b = np.array([SQ,SQe,SQc])
+a0,a1,a2 = np.linalg.solve(A,b)
 ```
 
-```
-## [410.21971277]
-```
-
-Os coeficientes são ( `\(a_0\)`--$a_3$):
+Gerando figuras para comparar:
 
 
 ```python
-print(QL_quadratic_model.named_steps["linear"].coef_)
+T_cond = np.unique(recdf["Condensing Temperature [C]"].values)
+colors=["k","b","r"]
+
+i = 0
+for Tc in T_cond:
+  fig, ax = plt.subplots()
+  df = recdf[recdf["Condensing Temperature [C]"] == Tc]
+  T_evap = df["Evaporating Temperature [C]"].values
+  T_evap_model = np.linspace(min(T_evap),max(T_evap))
+  Q_dot_actual = df["Cooling Capacity [W]"].values
+  Q_dot_model = a0 + a1*T_evap_model + a2*Tc
+  
+  ax.plot(T_evap,Q_dot_actual,'o',color=colors[i],label="Exp.")
+  ax.plot(T_evap_model,Q_dot_model,'--',color=colors[i],label="Mod.")
+  i = i+1
+  
+  ax.set_xlabel("Temperatura de evaporação [ºC]")
+  ax.set_ylabel("Capacidade de refrigeração [W]")
+  ax.legend()
+  ax.grid()
+  ax.set_title("Temperatura de condensação = %.2f ºC"  %(Tc,))
+  fig.savefig("A4_QL_Tc_%d.png" %(Tc,),dpi=600)
 ```
 
+<img src="/disciplinas/ref0001/aula4ref0001_files/figure-html/unnamed-chunk-11-9.png" width="672" />
+
+
+```r
+knitr::include_graphics('A4_QL_Tc_35.png')
 ```
-## [8.33194814e+02 3.10746454e+01 3.84202128e-01 1.16843972e-03]
+
+<div class="figure" style="text-align: center">
+<img src="A4_QL_Tc_35.png" alt="..." width="25%" />
+<p class="caption">Figure 1: ...</p>
+</div>
+
+
+```r
+knitr::include_graphics('A4_QL_Tc_45.png')
 ```
+
+<div class="figure" style="text-align: center">
+<img src="A4_QL_Tc_45.png" alt="..." width="25%" />
+<p class="caption">Figure 2: ...</p>
+</div>
+
+
+```r
+knitr::include_graphics('A4_QL_Tc_55.png')
+```
+
+<div class="figure" style="text-align: center">
+<img src="A4_QL_Tc_55.png" alt="..." width="25%" />
+<p class="caption">Figure 3: ...</p>
+</div>
+
 
 ## Desempenho de compressores scroll
 
@@ -379,12 +509,6 @@ Para compressores scroll:
 
 
 ```python
-import matplotlib.pyplot as plt
-from CoolProp.CoolProp import PropsSI
-import numpy as np
-
-plt.rc('font', size=12)
-
 fluid = 'R134a'
 Treturn = 20
 
@@ -420,11 +544,11 @@ for Tc in T_cond:
   m_dot_ideal = Vd_dot/v_in
   eta_v = m_dot_actual/m_dot_ideal
   
-  ax.plot(T_evap,eta_v*100,'-',color=colors[i],label="Ideal, Tcond = %.2f ºC" %(Tc))
+  ax.plot(T_evap,eta_v*100,'-',color=colors[i],label="Tcond = %.2f ºC" %(Tc))
   i = i+1
   
-ax.set_xlabel("Evaporating temperature [ºC]")
-ax.set_ylabel("Volumetric efficiency [%]")
+ax.set_xlabel("Temperatura de evaporação [ºC]")
+ax.set_ylabel("Eficiência volumétrica [%]")
 ax.set_ylim(50,110)
 ```
 
@@ -438,19 +562,14 @@ ax.grid()
 plt.show()
 ```
 
-<img src="/disciplinas/ref0001/aula4ref0001_files/figure-html/unnamed-chunk-9-11.png" width="672" />
+<img src="/disciplinas/ref0001/aula4ref0001_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+
 Essa é a grande vantagem dos compressores scroll: sua alta eficiência volumétrica. Porém, atente-se ao custo desses compressores.
 
 ## Desempenho de compressores parafuso
 
 
 ```python
-import matplotlib.pyplot as plt
-from CoolProp.CoolProp import PropsSI
-import numpy as np
-
-plt.rc('font', size=12)
-
 fluid = 'R134a'
 
 Vd_dot = 46 # m3/h
@@ -478,11 +597,11 @@ for Tc in T_cond:
   m_dot_ideal = Vd_dot/v_in
   eta_v = m_dot_actual/m_dot_ideal
   
-  ax.plot(T_evap,eta_v*100,'-',color=colors[i],label="Ideal, Tcond = %.2f ºC" %(Tc))
+  ax.plot(T_evap,eta_v*100,'-',color=colors[i],label="Tcond = %.2f ºC" %(Tc))
   i = i+1
   
-ax.set_xlabel("Evaporating temperature [ºC]")
-ax.set_ylabel("Volumetric efficiency [%]")
+ax.set_xlabel("Temperatura de evaporação [ºC]")
+ax.set_ylabel("Eficiência volumétrica [%]")
 ax.set_ylim(50,110)
 ```
 
@@ -496,5 +615,5 @@ ax.grid()
 plt.show()
 ```
 
-<img src="/disciplinas/ref0001/aula4ref0001_files/figure-html/unnamed-chunk-10-13.png" width="672" />
+<img src="/disciplinas/ref0001/aula4ref0001_files/figure-html/unnamed-chunk-16-3.png" width="672" />
 O rendimento volumétrico dos compressores parafuso não tão alto como os scroll, mas mais alto que os compressores alternativos. Além disso, o ponto de operação influencia bastante; como você pode reduzir os dados?

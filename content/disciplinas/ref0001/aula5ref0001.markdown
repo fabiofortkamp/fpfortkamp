@@ -1,0 +1,286 @@
+---
+date: "2022-05-10"
+title: Aula 7 - Análise de Segunda Lei dos Sistemas de Refrigeração
+type: book
+weight: 60
+---
+
+## Potência mínima de um sistema de refrigeração
+
+Em termos de requisitos, um sistema de refrigeração é caracterizado da seguinte forma: um sistema de refrigeração deve manter um ambiente a uma temperatura baixa `\(T_{\mathrm{L}}\)` enquanto o ambiente ao redor está a `\(T_{\mathrm{H}}\)`. O ambiente frio está isolado do quente, mas não perfeitamente, de maneira que calor tende a ir na direção do quente para o frio, até que as temperaturas se estabilizem; se o ambiente quente for muito maior que o frio (em termos da sua capacidade térmica), o ambiente frio vai receber calor até ficar a `\(T_{\mathrm{H}}\)`. Isso é uma consequência do Princício do Aumento da Entropia, que por sua vez é uma consequência da Segunda Lei da Termodinâmica
+
+Para evitar isso, inserimos um sistema de refrigeração que drena a capacidade `\(\dot{Q}_{\mathrm{L}}\)` que mantem o ambiente frio a `\(T_{\mathrm{L}}\)`. Esse sistema, para satisfazer a Segunda Lei da Termodinâmica, vai drenar uma potência `\(\dot{W}_{\mathrm{comp}}\)`. E para satisfazer a Primeira Lei da Termodinâmica, o sistema rejeita `\(\dot{Q}_{\mathrm{H}}\)` para a fonte quente.
+
+Repararam como eu fiquei citando a Primeira e a Segunda Lei da Termodinâmica toda hora? São elas que determinam como o sistema vai funcionar. Porém, existe uma diferença: enquanto a Primeira Lei é uma equação e nos permite calcular métricas, a Segunda Lei é uma inequação e ela impõe limites. 
+
+Lembram da Desigualdade de Clausius?
+
+$$
+\oint\frac{\delta \dot{Q}}{T} \le 0
+$$
+
+Todo ciclo termodinâmico de um sistema fechado (isto é, sem reposição de fluido) deve satisfazer isso. Por que **deve**? Porque não há evidência experimental em contrário; nunca se conseguiu construir um ciclo que consiga desobedecer isso.
+
+A força da desigualdade é medida pela *taxa de geração de entropia*, que por convenção é positiva:
+
+$$
+\dot{S}_\mathrm{ger} = -\oint\frac{\dot{\delta Q}}{T} \ge 0
+$$
+
+Onde a taxa de transferência de calor é positiva quando entra no ciclo. Logo, as duas equações que regem o sistema são:
+
+$$
+\dot{Q} _{\mathrm{L}} + \dot{W} _{\mathrm{comp}} - \dot{Q} _{\mathrm{H}} = 0
+$$
+
+$$
+\dot{S} _\mathrm{ger} = \frac{-\dot{Q} _{\mathrm{L}}}{T _{\mathrm{L}}} + \frac{\dot{Q} _{\mathrm{H}}}{T _{\mathrm{H}}} \ge0
+$$
+
+Multiplicando a segunda Lei por `\(T_{\mathrm{H}}\)`
+
+$$
+T _{\mathrm{H}}\dot{S} _\mathrm{ger} = \frac{-\dot{Q} _{\mathrm{L}}T _{\mathrm{H}}}{T _{\mathrm{L}}} + \dot{Q} _{\mathrm{H}} \ge0
+$$
+
+O calor rejeitado é geralmente a grandeza que menos interessa para nós, porque nós precisamos de uma capacidade e temos que pagar uma potência. Assim, vou expressar essa taxa como função da geração de entropia e substituir na primeira lei:
+
+$$
+\dot{Q} _{\mathrm{L}} + \dot{W} _{\mathrm{comp}} - \left(T _{\mathrm{H}}\dot{S} _\mathrm{ger} - \frac{-\dot{Q} _{\mathrm{L}}T _{\mathrm{H}}}{T _{\mathrm{L}}} \right) = 0
+$$
+
+vamos expressar a potência:
+
+$$
+\dot{W} _{\mathrm{comp}} =  T _{\mathrm{H}}\dot{S} _\mathrm{ger}+ \dot{Q} _{\mathrm{L}} \left(  \frac{T _{\mathrm{H}}}{T _{\mathrm{L}}} -1\right)
+$$
+
+observe que os dois termos do lado direito são positivos. O segundo termo é o trabalho mínimo de um ciclo, que vai acontecer quando?
+
+Quando ciclo for totalmente reversível, isto é, sem geração de entropia no ciclo. 
+
+$$
+\dot{W} _{\mathrm{comp,rev}} =  \dot{Q} _{\mathrm{L}} \left(  \frac{T _{\mathrm{H}}}{T _{\mathrm{L}}} -1\right)
+$$
+
+Observe que esse termo é função direta dos requisitos de projeto.
+
+O primeiro termo na equação da potência real é a penalidade que temos que pagar, o excesso de potência que vêm das irreversibilidades, e é chamado de *potência perdida* ou *taxa de destruição de exergia*
+
+$$
+\dot{W} _{\mathrm{perd}} =  T _{\mathrm{H}}\dot{S} _\mathrm{ger}
+$$
+
+Outra maneira termodinâmica de avaliar tudo isto: a potência mínima (reversível), que também é chamada de *transferência de exergia associada à capacidade de refrigeração*, é a potência que seria obtida entre uma máquina térmica de Carnot entre as fontes.
+
+Estão seguindo até aqui?
+
+A relação entre a potência mínima do ciclo e a potência real, que contabiliza as irreversibilidades, é chamada de *eficiência de segunda lei* ou *eficiência exergética:*
+
+$$
+\eta _{\mathrm{II}} = \frac{\dot{W} _{\mathrm{comp,rev}}}{\dot{W} _{\mathrm{comp}}}
+$$
+
+Ex. 11.31 Çengel 7a ed: Bananas devem ser resfriadas de 28 ˚C a 12 ˚C a uma taxa de 1140 kg/h (calor específico 3,35 kJ/(kg K)) em um refrigerador que opera no ciclo de refrigeração por compressão de vapor. A potência fornecida ao refrigerador é de 8,6 kW. Determine (a) a taxa de calor absorvido das bananas e kJ/h e o COP; (b) a potência mínima associada a esse sistema; (c) a eficiência de segunda lei e a destruição de exergia para o ciclo.
+
+
+```python
+T_H = 28 + 273
+T_L = 12 + 273
+mdot = 1140 # kg/h
+cp = 3.35 # kJ/(kg K)
+Wdot_comp = 8.6 #kW
+
+# Primeira Lei aplicada nas bananas
+
+Qdot_L = mdot * cp * (T_H - T_L) #kJ/h
+print("Calor absorvido das bananas = %.2f kJ/h" %(Qdot_L,))
+```
+
+```
+## Calor absorvido das bananas = 61104.00 kJ/h
+```
+
+```python
+COP = Qdot_L*(1/3600) / Wdot_comp
+print("COP = %.2f" %(COP,))
+```
+
+```
+## COP = 1.97
+```
+
+```python
+Wdot_rev = Qdot_L * (T_H/T_L - 1) * 1/3600 # kW
+print("Potência mínima = %.2f kW" %(Wdot_rev,))
+```
+
+```
+## Potência mínima = 0.95 kW
+```
+
+```python
+eta_II = Wdot_rev / Wdot_comp
+print("Eficiência de Segunda Lei = %.2f %%" %(100*eta_II))
+```
+
+```
+## Eficiência de Segunda Lei = 11.08 %
+```
+
+Observe que nenhuma informação sobre o ciclo foi necessária. Além disso, na situação realmente ideal, as bananas entram na temperatura quente e saem na temperatura fria, sem nenhuma resistência térmica envolvida.
+
+## Cálculo da geração de entropia e da potência perdida
+
+A potência perdida é proporcional à taxa de geração de entropia, logo a geração de entropia é a moeda pela qual avaliamos o quão bom é um componente e quanto ele está contribuindo para as irreversibilidades totals.
+
+Geração de Entropia em um processo aberto entre dois estados A e B:
+
+$$
+\dot{S} _{\mathrm{ger}} = \dot{m}(s _B-s _A)-\frac{\dot{Q}}{T _f}
+$$
+
+onde cuidado deve ser tomado ao avaliar a temperatura na fronteira na qual calor está sendo transferido. De maneira geral, é interessante considerar a temperatura da fronteira de cada trocador de calor como a temperatura da fonte; nesse caso, a geração de entropia vai compreender todas as resistências térmicas (convecção interna, contato, incrustração, condução nos tubos, convecção externa), bem como geração interna pelo atrito viscoso.
+
+Repare o balanço: se o processo for totalmente reversível, todo o aumento de entropia é explicado pela transferência de calor; se há um desbalanço, então quer dizer que houve geração de entropia.
+
+Também repare que a transferência de trabalho não contribui para a geração de entropia! Essa é a diferença entre calor e trabalho.
+
+Podemos analisar para cada componente.
+
+Ex. 11.35 Çengel 7a ed: Um refrigerador opera no ciclo de refrigeração por compressão de vapor ideal que utiliza R-134a como fluido de trabalho. A fonte fria está a 5 ˚C e a quente a 25 ˚C, e a capacidade é de 500 W.
+
+Calcule a geração de entropia em cada componente e a potência perdida para dois casos:
+
+1. Trocadores de calor idealizados
+2. Trocadores de calor imperfeitos, de maneira que evapora a -10 ˚C e condensa-se a 57,9 ˚C.
+
+
+```python
+from CoolProp.CoolProp import PropsSI
+
+fluid = "R134a"
+
+T_L = 5 + 273
+T_H = 25 + 273
+Qdot_L = 500
+
+T_evap_set = -10 + 273
+T_cond_set = 57.9 + 273
+
+for T_evap in [T_L,T_evap_set]:
+  if T_evap == T_evap_set:
+    T_cond = T_cond_set
+    print("Trocadores imperfeitos")
+    
+  else:
+    T_cond = T_H
+    print("Trocadores ideais")
+  
+  h1 = PropsSI("H","T",T_evap,"Q",1,fluid)
+  s1 = PropsSI("S","T",T_evap,"Q",1,fluid)
+  
+  P2 = PropsSI("P","T",T_cond,"Q",1,fluid)
+  s2 = s1
+  h2 = PropsSI("H","P",P2,"S",s2,fluid)
+  
+  h3 = PropsSI("H","T",T_cond,"Q",0,fluid)
+  s3 = PropsSI("S","T",T_cond,"Q",0,fluid)
+  
+  h4 = h3
+  P_evap = PropsSI("P","T",T_evap,"Q",1,fluid)
+  s4 = PropsSI("S","H",h4,"P",P_evap,fluid)
+  
+  q_L = h1 - h4
+  mdot = Qdot_L/q_L
+  q_H = h2 - h3
+  Qdot_H = mdot*q_H
+  Wdot_comp = mdot*(h2-h1)
+  print("Potência de compressão = %.2f W" %(Wdot_comp))
+  
+  Sdot_ger_comp = mdot*(s2-s1)
+  print("Geração de entropia no compressor = %.2g W/K" %(Sdot_ger_comp,))
+  Sdot_ger_cond = mdot*(s3 - s2) + Qdot_H/T_H
+  print("Geração de entropia no condensador = %.2g W/K" %(Sdot_ger_cond,))
+  Sdot_ger_DE = mdot*(s4 - s3)
+  print("Geração de entropia no DE = %.2g W/K" %(Sdot_ger_DE,))
+  Sdot_ger_evap = mdot*(s1 - s4) - Qdot_L/T_L
+  print("Geração de entropia no evaporador = %.2g W/K" %(Sdot_ger_evap,))
+  print()
+    
+```
+
+```
+## Trocadores ideais
+## Potência de compressão = 39.87 W
+## Geração de entropia no compressor = 0 W/K
+## Geração de entropia no condensador = 0.0001 W/K
+## Geração de entropia no DE = 0.013 W/K
+## Geração de entropia no evaporador = 9.5e-15 W/K
+## 
+## Trocadores imperfeitos
+## Potência de compressão = 199.62 W
+## Geração de entropia no compressor = 0 W/K
+## Geração de entropia no condensador = 0.23 W/K
+## Geração de entropia no DE = 0.21 W/K
+## Geração de entropia no evaporador = 0.1 W/K
+```
+
+Observem como os trocadores imperfeitos contribuem para a potência, e nesse caso em específico, é o condensador o maior vilão. Repare também que "mexer nos trocadores" afeta também o desempenho do dispositivo de expansão!
+
+Porém, falar nos valores de "geração de entropia" gera dúvidas quanto a sua interpretação. Por isso, podemos transformar esses valores em "potência perdida" ou "taxa de destruição da exergia":
+
+
+```python
+Wdot_dest_comp = Sdot_ger_comp*T_H
+print("Destruição de exergia no compressor = %.2f W" %(Wdot_dest_comp,))
+```
+
+```
+## Destruição de exergia no compressor = 0.00 W
+```
+
+```python
+Wdot_dest_cond = Sdot_ger_cond*T_H
+print("Destruição de exergia no condensador = %.2f W" %(Wdot_dest_cond,))
+```
+
+```
+## Destruição de exergia no condensador = 70.03 W
+```
+
+```python
+Wdot_dest_DE = Sdot_ger_DE*T_H
+print("Destruição de exergia no DE = %.2f W" %(Wdot_dest_DE,))
+```
+
+```
+## Destruição de exergia no DE = 63.05 W
+```
+
+```python
+Wdot_dest_evap = Sdot_ger_evap*T_H
+print("Destruição de exergia no evaporador = %.2f W" %(Wdot_dest_evap,))
+```
+
+```
+## Destruição de exergia no evaporador = 30.57 W
+```
+
+```python
+print()
+```
+
+Para entender esses valores: a potência destruída no condensador, por exemplo, poderia ser recuperada se o calor rejeitado neste componente alimentasse uma máquina térmica de Carnot:
+
+
+```python
+Wdot_rec_cond = Qdot_H*(1-T_H/T_cond)
+print(Wdot_rec_cond)
+```
+
+```
+## 69.56060780172915
+```
+
+Para pensar: por que esse calor rejeitado no condensador não pode ser aproveitado para algo útil? Quais os limitantes?
