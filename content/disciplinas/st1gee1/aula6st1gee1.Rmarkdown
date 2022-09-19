@@ -29,10 +29,9 @@ mdot_v = 100
 Vdot_v = mdot_v / rho1
 
 
-H = 1/g*(P2/rho2 - P1/rho1) + (u2-u1)/g
+H = 1/g*(P2/rho2 - P1/rho1)
 print("Capacity = %.2f m3/h" %(Vdot_v*3600,))
 print("Head = %.2f m" %(H,))
-print((u2-u1)/g)
 ```
 Se você olhar o catálogo, vai ver que sim.
 
