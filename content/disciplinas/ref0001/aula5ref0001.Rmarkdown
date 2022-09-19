@@ -1,6 +1,6 @@
 ---
 date: "2022-05-10"
-title: Aula 7 - Análise de Segunda Lei dos Sistemas de Refrigeração
+title: Aula 5 - Análise de Segunda Lei dos Sistemas de Refrigeração
 type: book
 weight: 60
 ---
