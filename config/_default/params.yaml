@@ -15,8 +15,8 @@ font_size: L
 site_type: Person
 local_business_type: ''
 org_name: ''
-description: ''
-twitter: ''
+description: 'Blog about Python and Mechanical Engineering'
+twitter: 'fpfortkamp'
 
 # Contact (edit or remove options as required)
 
@@ -25,7 +25,7 @@ contact_links:
   - icon: twitter
     icon_pack: fab
     name: DM Me
-    link: 'https://twitter.com/fabiofortkamp'
+    link: 'https://twitter.com/fpfortkamp'
 
 # Site header
 
@@ -120,7 +120,7 @@ map:
   api_key: ''
   zoom: 15
 marketing:
-  google_analytics: ''
+  google_analytics: 'G-EBJYCTGHZY'
   google_tag_manager: ''
   google_site_verification: ''
   baidu_site_verification: ''

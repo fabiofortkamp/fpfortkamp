@@ -1,5 +1,5 @@
 ---
-bio: I'm a Professor of Mechanical Engineering in the fields of Heat Transfer, Refrigeration and Heat Engines, focused on bringing current developments to the classroom. On my research, I focus on interdisciplinary topics such as Mixture Thermodynamics and Foam Formation in Oil-Refrigerant Mixtures and Caloric Refrigeration Systems.
+bio: I'm a Research Engineer in the fields of Heat Transfer, Thermodynamics and Refrigeration.
 education:
   courses:
   - course: Doctorate (Dr. Eng.) in Mechanical Engineering
@@ -14,13 +14,15 @@ education:
 email: "fpfortkamp@gmail.com"
 highlight_name: true
 interests:
-- Magnetocaloric refrigeration
+- Magnetocaloric Refrigeration
 - Machine Learning
 - Mixture Thermodynamics
+- Multiphysics Problems
+- Multiphase Heat Transfer
 organizations:
-- name: State University of Santa Catarina
-  url: https://www.udesc.br/international
-role: Adjunct Professor, Mechanical Engineering Department
+- name: Polo - Research Laboratories for Emerging Technologies in Cooling and Thermophysics
+  url: https://www.polo.ufsc.br/en/
+role: Research Engineer
 social:
 - icon: envelope
   icon_pack: fas
@@ -29,7 +31,7 @@ social:
     header: true
   icon: twitter
   icon_pack: fab
-  link: https://twitter.com/fabiofortkamp
+  link: https://twitter.com/fpfortkamp
   label: Follow me on Twitter
 - icon: graduation-cap
   icon_pack: fas
@@ -45,4 +47,4 @@ superuser: true
 title: Fábio P. Fortkamp
 ---
 
-Fábio P. Fortkamp is Adjunct Professor of the Mechanical Engineering Department at Santa Catarina State University, teaching courses on Heat Transfer, Heat Engines, and Refrigeration Systems. His research focuses on Caloric Cooling Technologies and the use of Machine Learning in the Design of Thermal Systems.
+Fábio P. Fortkamp is a Research Engineer, interested in using the power of Python, R and Machine Learning to solve problems in the fields of Thermal Sciences (Heat Transfer, Thermodynamics, Fluid Flow).
