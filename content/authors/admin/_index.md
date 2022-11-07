@@ -47,4 +47,4 @@ superuser: true
 title: Fábio P. Fortkamp
 ---
 
-Fábio P. Fortkamp is a Research Engineer, interested in using the power of Python, R and Machine Learning to solve problems in the fields of Thermal Sciences (Heat Transfer, Thermodynamics, Fluid Flow).
+Hi there. I'm Dr. Fábio P. Fortkamp, and in this blog I write about solving real Mechanical Engineering problems with Python, R, and other cool computational tools and apps.
