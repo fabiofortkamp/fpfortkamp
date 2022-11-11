@@ -17,7 +17,6 @@ image:
   focal_point: ''
   preview_only: no
 projects: []
-draft: true
 ---
 
 One of my disappointments back when I was teaching is that I never taught a Thermodynamics class. I heard it is a terrible subject to teach, with high failing rates, but I'd like to have that experience nevertheless. 
@@ -160,7 +159,7 @@ print(df)
 ## 7        Methane        9.886582    0.003377
 ```
 
-Frankly, this result surprises me. Mind you that CoolProp is not just using Ideal Gas relations (otherwise the compressibility and expandability of the gases would be equal - prove it!), but is actually using experimental `\(p-v-T\)` data. It just so happens that there is not a wide variation between gases.
+Frankly, this result, with this low variation between gases, surprises me. Mind you that CoolProp is not just using Ideal Gas relations (otherwise the compressibility and expandability of the gases would be equal - prove it!), but is actually using experimental `\(p-v-T\)` data. It just so happens that there is not a wide variation between gases.
 
 ## Final remarks
 
