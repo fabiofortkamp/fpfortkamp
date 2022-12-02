@@ -18,7 +18,7 @@ image:
   focal_point: ''
   preview_only: no
 projects: []
-status: draft
+draft: true
 ---
 
 I know what you are going to say: I'm weird, and apparently it makes no sense to

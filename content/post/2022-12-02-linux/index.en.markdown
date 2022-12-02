@@ -21,7 +21,7 @@ image:
   focal_point: ''
   preview_only: no
 projects: []
-status: draft
+draft: true
 ---
 
 ## A little bit of backstory
