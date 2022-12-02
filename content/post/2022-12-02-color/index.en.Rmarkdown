@@ -1,0 +1,68 @@
+---
+title: Why and how to use different colors in VS Code for different projects
+author: Fábio P. Fortkamp
+date: '2022-12-02'
+slug: color
+categories:
+  - Articles
+tags:
+  - vs code
+  - color
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2022-12-02T13:58:44-03:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+status: draft
+---
+
+I know what you are going to say: I'm weird, and apparently it makes no sense to
+spend time on things like this. But here it is: a post about setting different
+color schemes for [VS Code](https://code.visualstudio.com/), my main editor.
+
+## Why setting different colors is good for productivity
+
+First, let us say right away: if you spend some any significant time in a
+program, making it look more pleasant, so that you'll *want* to spend more time
+with it is super productive. Plus, hacking things is fun, and fun is always a 
+good way to spend time.
+
+But there is also a *contextual* component. CGP Grey illustrates how it is
+good to compartimentalize your life, to train your brain to associate. 
+
+{{< youtube snAhsXyO3Ck >}}
+
+In this case, when I see a particular color scheme, I will immediately
+(hopefully) start to think about the project associated with those colors. Also,
+as I work with different projects alternating them within a given day (sometimes
+using different programming languages), assigning a different color scheme to 
+each project help me differentiate between them.
+
+## How to set and sync color schemes in VS Code
+
+Now to the details: you can open a particular folder in VS Code, which it calls
+a *workspace* (workspaces can actually combine different folders).
+
+When you configure the editor's [settings](https://code.visualstudio.com/docs/getstarted/settings), VS Code saves
+a JSON file with your customizations (see the aforelinked docs page).
+
+![Screenshot of VS Code in the Solarized Light color scheme](images/Code_PGvr0Covqz.png)
+
+![Screenshot of VS Code in the Solarized Dark color scheme](images/Code_qYRrZ4Z2eM.png)
+
+## My color schemes
+
+I'll illustrate with three projects:
+
+
+
+![Screenshot of VS Code in a gray-like color scheme](images/Code_ZErK6i88nf.png)
+
+![Screenshot of VS Code in a blue-purple color scheme](images/Code_AKPuxJ5Q4K.png)
+
+
