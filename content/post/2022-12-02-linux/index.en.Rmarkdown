@@ -97,7 +97,7 @@ but basic tools like `make` aren't included. Then you start using [VS Code]
 well with either Cygwin or Git Bash.
 
 So I decided to try out the [Windows Subsystem for Linux]
-(https://learn.microsoft.com/en-us/windows/wsl/install),
+(https://learn.microsoft.com/en-us/windows/wsl/) (WSL),
 which allows me to use Windows apps but with the Linux command line and tools.
 
 I should have just learned [Powershell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.3&WT.mc_id=-blog-scottha&viewFallbackFrom=powershell-7.1), but here we are.
@@ -106,3 +106,44 @@ By the way: if you getting more serious into programming tasks but using Windows
 you should check out [Scott Hanselman's blog](https://www.hanselman.com/blog/taking-your-powershell-prompt-to-the-next-level-with-windows-terminal-and-oh-my-posh-3).
 
 ## How to configure it
+
+### Installation
+
+So what is WSL? Basically, it's a different interface with your Windows PC. 
+
+After [installing it](https://learn.microsoft.com/en-us/windows/wsl/install),
+what you get is a virtual machine that is running a version of Linux. I went
+with the default options: I'm running [Ubuntu](https://releases.ubuntu.com/22.04/)
+-- maybe you can see that I even used the official wallpaper from the 
+current (22.04) Long-Term-Support (LTS) distribution, *Jammy Jellyfish*. By the
+way: I'm running the [Windows Terminal Preview](https://www.microsoft.com/p/windows-terminal-preview/9n8g5rfz9xk3#activetab=pivot:overviewtab),
+a recent terminal app. If you install WSL and this app, a *profile* will be
+created, and you can select it when opening a new tab:
+
+![Screenshot of Windows Terminal menu of opening new profiles](images/WindowsTerminal_ovsk3ERpZU.png)
+
+[I've set up Windows Terminal](https://learn.microsoft.com/en-us/windows/terminal/install)
+so that the Ubuntu profile is the default one, and also set it to open 
+automatically at startup:
+
+![Screenshot of Windows Terminal settings](images/WindowsTerminal_X8MCs4sDVo.png)
+
+And with [this script](https://github.com/fabiofortkamp/secondlaw/blob/master/bin/wterminal.ahk)
+(for[AutoHotkey](https://www.autohotkey.com)),
+which is also in my [Startup folder](https://support.microsoft.com/en-us/windows/add-an-app-to-run-automatically-at-startup-in-windows-10-150da165-dcd9-7230-517b-cf3c295d89dd), I set up the keystroke Ctrl-Shit-Alt-I to toggle
+opening and hiding the terminal.
+
+### Getting around the command line
+
+- link to book
+- zsh profile
+
+### Accessing Windows programs
+
+### Python versions
+
+- links
+
+## What does not work so far
+
+- Julia. This is a virtual machine, and memory may become a problem.
