@@ -1,0 +1,52 @@
+---
+title: I'm a Python developer - and this is why I'm learning Julia and R
+author: Fábio P. Fortkamp
+date: '2022-12-13'
+slug: julia
+categories:
+  - Articles
+tags:
+  - python
+  - julia
+  - R
+  - programming
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2022-12-13T08:54:51-03:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+draft: true
+---
+
+There's no surprise that [I'm big on Python](http://fpfortkamp.com/tag/python/), but there is something that I can't get out of my mind:
+
+LINK INSTAGRAM POST ABOUT JULIA AND R
+
+Here's a philosophical question: should I focus on getting better and better at Python development, or should I actually devote time to learn other languages such as Julia, R and maybe others? Which path will make me better at my job?
+
+## Should engineers should be (programming-wise) polyglots?
+
+I don't think there's an easy answer to that. 
+
+My wife jokes that I talk too much about two heroes of mine: [Cal Newport](http://calnewport.com) and [Austin Kleon](http://austinkleon.com). In fact, my own style of working is an intersection of the two, which seem conflicting at first. The Newport approach should tell me to have "laser focus" on one skill, to be [So Good They Can't Ignore Me](LINK) and be the best Python developer/Mechanical Engineer in the planet. The Kleon approach would be to [Steal Like an Artist]() from all my influences and build *my own work* from them.
+
+I do think it's possible to combine these two modes. I am not as focused as Cal Newport and can drop projects and ideas serially as he claims to do -- my brain simply refuses. I like to explore ideas, and techniques, and programming languages too much to do that. However - while I'm exploring, I *can* indeed focus and dive deep into what I'm learning, and not just try to be superficial.
+
+So yes, I think developers and engineers should build their programming languages toolbox, and avoid the "I can only do that in Python" mentality. You can't learn every programming language in the world, but having a few in your pocket might make you solve problems (you are an engineer, right?) in a quasi-optimal way.
+
+## What Julia can teach a Python developer
+
+[Julia is built to be fast](link TED talk creator of Julia). In my experience, as someone who is not a computer scientist by training, and who work with people with a similar background but who still code all day, engineers tend to "hack" a Python script to do some sort of simulation or data processing, realize it takes forever to run, and then do nothing about it.
+
+Quite frankly, I'm learning Julia because my co-workers work in Julia and I don't want to be a bottleneck, everytime having to translate everything into Python back and forth. And in my initial explorations, I'm finding that the Julia language emphasizes vectorization, and making the code as generic as possible. Plus it is a semi-return to compiled languages (I actually learned to program in C, which sounds absurd today).
+
+## What R can teach a Python developer
+
+CREATE INSTAGRAM PICTURE OF R BOOKS
+
+Compared to Python, R puts the focus of the programmer on the data sets. Of course in the Python world there's [Pandas](), but there more I study R the more I think about data themselves: where do they come from? Here's a CSV file with pressure and temperature measurements as a function of time: are the data well organized? Does every row contain valid (time, pressure, temperature) values? How can I compute averages? If I have one file for each experimental test, how can I agreggate the averages, maximum, minimum etc values in a different "summary" file.
