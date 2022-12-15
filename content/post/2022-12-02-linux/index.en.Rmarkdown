@@ -21,7 +21,6 @@ image:
   focal_point: ''
   preview_only: no
 projects: []
-draft: true
 ---
 
 ## A little bit of backstory
@@ -33,10 +32,10 @@ In the academic year of 2009-2010, I went to the
 
 This was life-changing in several ways. It was the first time I left my family
 home (since I went to university in my home town), and it was in a different country! I met a lot of people, made several friends,
-got the privilege of traveling around Europe being only 21, and grew up as a 
+had the privilege of traveling around Europe being only 21, and grew up as a 
 person.
 
-Of course, academically I learned a lot. But I had a small problem: I was too
+Of course, academically, I also learned a lot. But I had a small problem: I was too
 far advanced in my Mechanical Engineering curriculum here in Brazil, and I had
 few options of courses to take in Portugal. This became even harder in the second semester, which
 led me to the decision of taking Computer Engineering courses to achieve the
@@ -50,7 +49,7 @@ I am today.
 
 When I returned to Brazil, I was ruined. All I could think of was programming, 
 and *serious* programming, not the sub par classes I had to take in the first
-years of college. I still had to take some classes to finish my degree, and I filled the hours with courses in numerical heat transfer,
+years of college. Back in my home university, I took courses in numerical heat transfer,
 numerical structural analysis, computer-aided manufacturing. I began developing
 [User-Defined Functions in Fluent](https://www.learncax.com/knowledge-base/blog/by-category/cfd/writing-a-user-defined-function-udf-in-ansys-fluent) in the C programming language (good times).
 
@@ -76,13 +75,13 @@ heat transfer and fluid flow processes -- am I an Engineer or a Developer?
 My main function in my current job is developing (proprietary) Python software. This
 is the most complex code I've ever worked with, and I have to deal with 
 collaborating with other people with [Git](https://git-scm.com/), 
-keeping track of Python versions (and Python packages versions). I'm also
+keeping track of Python versions (and Python packages versions), debugging, testing. I'm also
 writing reports in [Quarto](https://quarto.org), and beginning to study some 
-[Julia](https://julialang.org/) (more on this in a later post). These are
+[Julia](https://julialang.org/) (more on this in a later post). These are all related to Mechanical Engineering, and involve
 serious programming tasks, and this requires serious programming tools. 
 
 I'm not saying that you can't do serious development in Windows -- I've done that
-my whole career. But I *was trained* to be a programmer in Linux, while taking all those Computer Engineering classes. My assignments were to work with
+my whole career. But I *was trained* to be a programmer in Linux, while taking all those Computer Engineering classes in Portugal. My assignments were to work with
 a terminal app (like the one you see above), type commands in it and then
 write code in a text editor. After learning Linux at U. Porto, I couldn't go
 back to the Command Prompt in Windows. In later years, I tried out 
@@ -91,14 +90,14 @@ but these were more hacks than anything else and problems always
 appeared. For instance, you can indeed have a great terminal experience 
 (I even wrote 
 [my own configuration scripts for using terminals in Windows](https://github.com/fabiofortkamp/secondlaw)), 
-but basic tools like `make` aren't included. I love to work with [VS Code](https://code.visualstudio.com/), and it doesn't integrate
+but basic tools like `make` aren't included. I love working with [VS Code](https://code.visualstudio.com/), and it doesn't integrate
 well with either Cygwin or Git Bash.
 
 So I decided to try out the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/) (WSL),
 which allows me to use Windows apps but with the Linux command line and tools. I should have just learned [Powershell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.3&WT.mc_id=-blog-scottha&viewFallbackFrom=powershell-7.1), but here we are.
 
 By the way: if you getting more serious into programming tasks in Windows,
-you should check out [Scott Hanselman's blog](https://www.hanselman.com/blog/taking-your-powershell-prompt-to-the-next-level-with-windows-terminal-and-oh-my-posh-3).
+you should check out [Scott Hanselman's blog](https://www.hanselman.com/blog/taking-your-powershell-prompt-to-the-next-level-with-windows-terminal-and-oh-my-posh-3). He writes a lot about Windows apps and tools --- while also recommending WSL.
 
 ## How to configure it
 
@@ -134,16 +133,24 @@ With WSL, you don't get a full Linux distribution, which its own graphical user 
 
 When I was learning Linux, [The Linux Command Line by William Shots](https://linuxcommand.org/tlcl.php) was an essential reference - and it's free! I highly recommend it as a first step.
 
-I've taken one step further from the book above, which uses the bash shell, and set zsh as my default system. [Here's my current configuration](https://github.com/fabiofortkamp/dotfiles), which uses [oh-my-zsh](https://ohmyz.sh/).
+I've taken one step further from the book above, which uses the bash shell, and set zsh as my default system. [Here's my current configuration](https://github.com/fabiofortkamp/dotfiles), which uses [oh-my-zsh](https://ohmyz.sh/). Being able to do these sorts of customizations is the main point of using Linux on Windows.
 
 ### Accessing Windows programs
 
-The beauty of WSL is that it can be thought of as just an interface. For instance, as I said above, I use VS Code, and I downloaded it and installed it as a regular Windows program, and it is in my `PATH` [environment variable](https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/) set *in Windows*. But in WSL, if I type `code`, it opens the Windows VS Code app -- it knows there to look at! If I navigate to a certain folder in the WSL shell ([and you navigate the Linux virtual machine directories, as well as the native Windows folder](https://learn.microsoft.com/en-us/windows/wsl/filesystems))
+The beauty of WSL is that it can be thought of as just an interface. For instance, as I said above, I use VS Code, and I downloaded it and installed it as a regular Windows program, and it is in my `PATH` [environment variable](https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/) set *in Windows*. But in WSL, if I type `code`, it opens the Windows VS Code app -- it knows there to look at! In the WSL shell, ([you navigate the Linux virtual machine directories, as well as the native Windows folder](https://learn.microsoft.com/en-us/windows/wsl/filesystems)).
 
-### Python versions
+## But again, what does it have to do with Engineering?
 
-- links
+It all comes back to being more efficient at using Windows for software development. Right now I'm working on a paper that involves running multiple Python scripts and rendering markdown and LaTeX documents. The process of easily generating the final manuscript is completely automated (ask me how), and I can use the full power of "the command line" to interweave various commands and tasks.
+
+So yes: I'm a Mechanical Engineer, and Linux, Python, Julia, the terminal etc are tools to do engineering research, and an engineer has to know his tools.
 
 ## What does not work so far
 
-- Julia. This is a virtual machine, and memory may become a problem.
+There are some hiccups. This is a virtual machine, so it has limited memory. Compiling some Julia libraries proved impossible, so for now I'm not using WSL for that (like I said, more on this later). I would *really* like to fix that. 
+
+It was also not trivial to install different Python versions for my different projects, but [this guide](https://computingforgeeks.com/how-to-install-python-on-ubuntu-linux-system/) was very helpful.
+
+Only two drawbacks? Yes, I am very happy with this experience. Surprisingly, my 3-year old son also is, because when he comes to my home office I'm usually researching Linux things, and he loves seeing [Tux](https://en.wikipedia.org/wiki/Tux_(mascot)) in my computer screen. 
+
+I began this post with a picture of my 21-year old self, and finished talking about my first-born, while talking about Linux in the middle. I think that's all for today.
