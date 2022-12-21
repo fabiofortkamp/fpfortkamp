@@ -1,7 +1,7 @@
 ---
 title: Why and how to use different colors in VS Code for different projects
 author: Fábio P. Fortkamp
-date: '2022-12-02'
+date: '2022-12-21'
 slug: color
 categories:
   - Articles
@@ -11,7 +11,7 @@ tags:
 subtitle: ''
 summary: ''
 authors: []
-lastmod: '2022-12-02T13:58:44-03:00'
+lastmod: '2022-12-21T15:10:44-03:00'
 featured: no
 image:
   caption: ''
