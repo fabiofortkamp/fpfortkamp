@@ -1,0 +1,40 @@
+---
+title: "About"
+image: profile.jpg
+about:
+  template: solana
+  links:
+    - icon: twitter
+      text: Twitter/X
+      href: https://x.com/fpfortkamp
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com/in/fpfortkamp
+    - icon: github
+      text: Github
+      href: https://github.com/fabiofortkamp
+    - icon: journals
+      href: https://scholar.google.com/citations?user=M_OBjUsAAAAJ&hl=en
+      text: My publications
+---
+
+Hi there. I'm Dr. Fábio P. Fortkamp, I scientific software developer from southern Brazil.and in this blog I write about solving real Mechanical Engineering problems with Python, R, and other cool computational tools and apps.
+
+## Education:
+
+Doctorate (Dr. Eng.) in Mechanical Engineering
+Federal University of Santa Catarina, 2019
+
+Master's (M. Eng.) in Mechanical Engineering
+Federal University of Santa Catarina, 2014
+
+Bachelor in Mechanical Engineering
+Federal University of Santa Catarina, 2012
+
+## Research and professional interests
+
+- Magnetocaloric Refrigeration
+- Machine Learning
+- Mixture Thermodynamics
+- Multiphysics Problems
+- Multiphase Heat Transfer

@@ -1,0 +1,139 @@
+---
+title: Computing the work of a mixture of gases - Exercises 13-94 and 13-95 from Çengel's Thermodynamics
+  book
+author: Fábio P. Fortkamp
+date: '2022-03-15'
+slug: isothermic
+categories:
+  - Exercise from Çengel's Thermodynamics
+tags:
+  - mixture thermodynamics
+  - thermodynamics
+weight: 10
+---
+
+In the [previous post](https://fpfortkamp.com/post/mixture/), we saw how to calculate the speed of sound of a mixture of ideal gases, the main assumption is that we can add the individual specific heats of the components, weighted by the mass fractions.
+
+For mixtures of ideal gases, this is true for all mass-specific properties, including the gas constant $R$. Hence, basic First-Law analyses can be performed quite easily.
+
+## An example of isothermic work
+
+The specific work required to compress an ideal gas in a closed system \[1\] isothermally at $T$ from pressure $P_1$ to $P_2$ is \[1\]:
+
+$$
+w_{\mathrm{comp}} = R T \ln \frac{P_2}{P_1}
+$$
+
+This is also valid for a mixture of ideal gases, provided the mixture gas constant is used:
+
+$$
+R = \frac{R_u}{M_{\mathrm{m}}}
+$$
+
+where $R_u = 8.31447\,\mathrm{kJ/kg K}$ is the *universal* gas constant and the mixture molar mass is:
+
+$$
+M_{\mathrm{m}} = \sum_{i=1}^k y_i M_i
+$$
+
+summing over $k$ components, and there $y_i$ and $M_i$ are the individual molar fractions and molar mass of component $i$, respectively.
+
+Consider exercise 13-94 from \[1\]: the mixture contains 85% of nitrogen gas, and the remainder is carbon dioxide. The temperature is held at 300 K and the pressure is risen from 100 kPa to 500 kPa. What is the compression work?
+
+The following implementation is in R. We first define a function to compute the desired value based on the initial content of nitrogen:
+
+```{r}
+work.N2.CO2 <- function(yN2) {
+  MN2 <- 28.013
+  MCO2 <- 44.01
+  Ru <-  8.13447
+  T <- 300
+  P1 <- 100
+  P2 <- 500
+  
+  Mm <- yN2*MN2 + (1-yN2)*MCO2
+  R = Ru/Mm
+  
+  wcomp <- R*T*log(P2/P1)
+  wcomp
+}
+```
+
+Let's check with the individual given value:
+
+```{r}
+print(work.N2.CO2(0.85))
+```
+
+Notice that this value is in kJ/kg.
+
+Now, let's see how this varies with nitrogen content:
+
+```{r}
+curve(work.N2.CO2,from=0,to=1)
+```
+
+The more nitrogen we have, the larger the work. Why is that? Nitrogen is lighter (compare the molar masses), so with more nitrogen the mixture molar mass decreases, but that increases the gas constant and hence the specific work. The overall volume variations increase with a lighter gas, increasing the required work to increase the pressure.
+
+## An example of isentropic work
+
+Now we examine Exercise 13-95 from \[1\], where are given directly the mixture molar mass of 32 kg/kmol and a specific heat ratio of 1.35; as we've discussed, these are obtained from weighted sums. The initial state is 100 kPa and 293 K, the final pressure 1000 kPa, and the process occurs at constant entropy. What is the work?
+
+The compression work of an ideal gas in an isentropic process is:
+
+$$
+w_{\mathrm{comp}} = \frac{R T_1}{k-1} \left[\left(\frac{P_2}{P_1}\right)^{{\frac{k-1}{k}}}-1\right]
+$$ Can we use this expression of a single ideal gas for a mixture of ideal gases? Again yes, provide we use the mixture properties, which are already given. Notice that the mixture gas constant is not given but can be calculated similarly as above. Hence:
+
+```{r}
+k <-  1.35
+Mm <- 32
+Ru <-  8.13447
+R <- Ru/Mm 
+
+P1 <- 100
+P2 <- 1000
+T1 <- 293
+
+# some intermediate parameters to facilitate writing
+Pi = P2/P1
+gamma = ((k-1)/k)
+Y = Pi^gamma - 1
+
+wcomp <- (R*T1)/(k-1) * Y
+print(wcomp) # in kJ/kg
+```
+
+To compare, we can also compute the work by temperature variations. An isentropic process follows $$
+\frac{T_2}{T_1} = \left(\frac{P_2}{P_1}\right)^{\frac{k-1}{k}}
+$$
+
+and, in an adiabatic closed-system process:
+
+$$
+w_{\mathrm{comp}} = c_v(T_2-T_1)
+$$
+
+where $c_v = \frac{R}{k-1}$.
+
+```{r}
+k <-  1.35
+Mm <- 32
+Ru <-  8.13447
+R <- Ru/Mm 
+
+P1 <- 100
+P2 <- 1000
+T1 <- 293
+
+T2 <- T1*(P2/P1)^((k-1)/k)
+cv <- R/(k-1)
+wcomp <- cv*(T2-T1)
+print(wcomp)
+```
+
+And the values match.
+
+## References
+
+\[1\]: Çengel, Y. A., & Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013. In Portuguese.

@@ -1,0 +1,19 @@
+project:
+  type: website
+
+website:
+  title: "FPFortkamp.com"
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/fabiofortkamp
+      - icon: twitter
+        href: https://x.com/fpfortkamp
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+
+editor: visual
+
