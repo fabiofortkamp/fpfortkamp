@@ -1,26 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Fábio P. Fortkamp’s website",
-    "section": "",
-    "text": "Computing the work of a mixture of gases - Exercises 13-94 and 13-95 from Çengel's Thermodynamics book\n\n\n \n\n\nExercise from Çengel's Thermodynamics\n\n\n \n\n\n\n\n\n`Mar 15, 2022`{=html}\nFábio P. Fortkamp\n\n\n\n\n\n\n\n\n\n\n\n\nWhat is this site\n\n\n\n\n\n\nNotes\n\n\n\n\n\n\n\n\n\nFeb 27, 2022\n\n\nFábio P. Fortkamp\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome To My Blog",
-    "section": "",
-    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
-  },
-  {
-    "objectID": "posts/post-with-code/index.html",
-    "href": "posts/post-with-code/index.html",
-    "title": "Post With Code",
-    "section": "",
-    "text": "This is a post with executable code.\n\n1 + 1\n\n[1] 2"
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
@@ -40,13 +19,6 @@
     "title": "About",
     "section": "Research and professional interests",
     "text": "Research and professional interests\n\nMagnetocaloric Refrigeration\nMachine Learning\nMixture Thermodynamics\nMultiphysics Problems\nMultiphase Heat Transfer"
-  },
-  {
-    "objectID": "posts/2022-02-27-what-is-this-site/index.html",
-    "href": "posts/2022-02-27-what-is-this-site/index.html",
-    "title": "What is this site",
-    "section": "",
-    "text": "Hi there. I’m Fábio Fortkamp, a Professor of Mechanical Engineering from Brazil. This is my academic website, where I post explorations in Thermal Engineering, R, Python, and Mechanical Engineering in general.\nThis site is my attempt to more properly show my work. As I study, prepare for lectures, and develop my research, I will try to post my discoveries here. In particular, at least in this stage, I will focus on solving problems on Thermodynamics, Heat Transfer, Heat Engines, Refrigeration Systems using computational tools. Python and R are the main tools I use; my mission is to make the next generation of Engineers more apt to solve real-life problems with data science and programming concepts. More exploration, and less memorization.\nThanks in advance for reading."
   },
   {
     "objectID": "posts/2022-03-14-isothermic/index.html",
@@ -75,5 +47,75 @@
     "title": "Computing the work of a mixture of gases - Exercises 13-94 and 13-95 from Çengel’s Thermodynamics book",
     "section": "References",
     "text": "References\n[1]: Çengel, Y. A., & Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013. In Portuguese."
+  },
+  {
+    "objectID": "posts/2022-02-27-what-is-this-site/index.html",
+    "href": "posts/2022-02-27-what-is-this-site/index.html",
+    "title": "What is this site",
+    "section": "",
+    "text": "Hi there. I’m Fábio Fortkamp, a Professor of Mechanical Engineering from Brazil. This is my academic website, where I post explorations in Thermal Engineering, R, Python, and Mechanical Engineering in general.\nThis site is my attempt to more properly show my work. As I study, prepare for lectures, and develop my research, I will try to post my discoveries here. In particular, at least in this stage, I will focus on solving problems on Thermodynamics, Heat Transfer, Heat Engines, Refrigeration Systems using computational tools. Python and R are the main tools I use; my mission is to make the next generation of Engineers more apt to solve real-life problems with data science and programming concepts. More exploration, and less memorization.\nThanks in advance for reading."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Fábio P. Fortkamp’s website",
+    "section": "",
+    "text": "Why and how to use different colors in VS Code for different projects\n\n\n\n\n\n\nArticles\n\n\n\n\n\n\n\n\n\nDec 21, 2022\n\n\nFábio P. Fortkamp\n\n\n\n\n\n\n\n\n\n\n\n\nI’m a Python developer - and this is why I’m learning Julia\n\n\n\n\n\n\nArticles\n\n\n\n\n\n\n\n\n\nDec 13, 2022\n\n\nFábio P. Fortkamp\n\n\n\n\n\n\n\n\n\n\n\n\nWhy a mechanical engineer uses Linux - in Windows\n\n\n\n\n\n\nArticles\n\n\n\n\n\n\n\n\n\nDec 2, 2022\n\n\nFábio P. Fortkamp\n\n\n\n\n\n\n\n\n\n\n\n\nCompressibility and Expandability: what are they and how to calculate\n\n\n\n\n\n\nArticles\n\n\n\n\n\n\n\n\n\nNov 10, 2022\n\n\nFábio P. Fortkamp\n\n\n\n\n\n\n\n\n\n\n\n\nStages of studying: 1 - Inspectional Reading\n\n\n\n\n\n\nArticles\n\n\n\n\n\n\n\n\n\nNov 9, 2022\n\n\nFábio P. Fortkamp\n\n\n\n\n\n\n\n\n\n\n\n\n3 things missing from the Mechanical Engineering curriculum\n\n\n\n\n\n\nLists\n\n\n\n\n\n\n\n\n\nNov 8, 2022\n\n\nFábio P. Fortkamp\n\n\n\n\n\n\n\n\n\n\n\n\nIncluding superheat in the compressor regression\n\n\n\n\n\n\nArticles\n\n\n\n\n\n\n\n\n\nApr 20, 2022\n\n\nFábio P. Fortkamp\n\n\n\n\n\n\n\n\n\n\n\n\nExploring and regressing data from a compressor datasheet with Python\n\n\n\n\n\n\nArticles\n\n\n\n\n\n\n\n\n\nApr 19, 2022\n\n\nFábio P. Fortkamp\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFirst Law Analysis of a Mixture of Non-Ideal Gases - Exercise 13-99 from Çengel's Thermodynamics book (7th ed)\n\n\n \n\n\nExercise from Çengel's Thermodynamics\n\n\n \n\n\n\n\n\n`Mar 18, 2022`{=html}\nFábio P. Fortkamp\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCalculting equilibrium composition of a mixture of gases - Exercise 16-89 from Çengel's Thermodynamics book (7th ed)\n\n\n \n\n\nExercise from Çengel's Thermodynamics\n\n\n \n\n\n\n\n\n`Mar 17, 2022`{=html}\nFábio P. Fortkamp\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFirst Law Analysis of a Mixture of Ideal Gases - Exercise 13-97 from Çengel's Thermodynamics book (7th ed)\n\n\n \n\n\nExercise from Çengel's Thermodynamics\n\n\n \n\n\n\n\n\n`Mar 15, 2022`{=html}\nFábio P. Fortkamp\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nComputing the work of a mixture of gases - Exercises 13-94 and 13-95 from Çengel's Thermodynamics book\n\n\n \n\n\nExercise from Çengel's Thermodynamics\n\n\n \n\n\n\n\n\n`Mar 15, 2022`{=html}\nFábio P. Fortkamp\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSpeed of sound of a mixture of gases - Exercise 13-92 from Çengel's Thermodynamics book (7th ed)\n\n\n \n\n\nExercise from Çengel's Thermodynamics\n\n\n \n\n\n\n\n\n`Mar 14, 2022`{=html}\nFábio P. Fortkamp\n\n\n\n\n\n\n\n\n\n\n\n\nWhat is this site\n\n\n\n\n\n\nNotes\n\n\n\n\n\n\n\n\n\nFeb 27, 2022\n\n\nFábio P. Fortkamp\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "post/mixture/index.html",
+    "href": "post/mixture/index.html",
+    "title": "Speed of sound of a mixture of gases - Exercise 13-92 from Çengel’s Thermodynamics book (7th ed)",
+    "section": "",
+    "text": "Why do we need a separate mixture thermodynamics subject? Because, when two fluids are mixed, the individual properties do not necessarily add up to the total system, due to interaction effects.\nAs usual in Thermodynamics, we need a reference model, and the ideal model for mixtures is an ideal gas mixture, where certain properties are simply the weighted sum of the properties of the components."
+  },
+  {
+    "objectID": "post/mixture/index.html#calculating-the-speed-of-sound-of-a-mixture-of-ideal-gases",
+    "href": "post/mixture/index.html#calculating-the-speed-of-sound-of-a-mixture-of-ideal-gases",
+    "title": "Speed of sound of a mixture of gases - Exercise 13-92 from Çengel’s Thermodynamics book (7th ed)",
+    "section": "Calculating the speed of sound of a mixture of ideal gases",
+    "text": "Calculating the speed of sound of a mixture of ideal gases\nAs an example, let’s us solve Exercise 13-92 from [1]: a mixture of carbon dioxide and nitrogen flows through a convergent nozzle, and it exits at 500 K and a speed of 360 m/s, which is stated as the speed of sound of the mixture in that condition. What is the mass fraction of carbon dioxide in this mixture?\nFirst, some context. Carbon dioxide and nitrogen are common combustion products: gases that are formed when hydrocarbons burn with air. Other compounds are formed, such as water vapor, sulfur oxides and excess oxygen, but depending on the fuel composition and air context, carbon dioxide and nitrogen dominate the gases, and we approximate the combustion gas as a mixture of just these two gases. Convergent nozzles are commonly employed in airplane jet turbines to accelerate the fluid (the combustion gases) and generate thrust.\nLet \\(x_{\\mathrm{CO_2}}\\) be the mass fraction of carbon dioxide in the mixture, and hence \\(x_{\\mathrm{N_2}} = 1 - x_{\\mathrm{CO_2}}\\).\nWe’ll assume both components are ideal gases in the problem’s conditions, and a mixture of ideal gases is itself an ideal gas. The speed of sound for these fluids is [1]:\n\\[\nc^2 = k R T\n\\]\nwhere \\(k\\) is the ratio of isobaric to isovolumetric specific heats, and \\(R\\) is the difference between then:\n\\[\nkR = \\frac{c_p}{c_v}\\left(c_p - c_v\\right)\n\\]\nNow, the specific heats is a property that is additive:\n\\[\nc_p = x_{\\mathrm{CO_2}}c_{p,\\mathrm{CO_2}} (T) + \\left(1-x_{\\mathrm{CO_2}}\\right)c_{p,\\mathrm{N_2}} (T)\n\\]\n\\[\nc_v = x_{\\mathrm{CO_2}}c_{v,\\mathrm{CO_2}} (T) + \\left(1-x_{\\mathrm{CO_2}}\\right)c_{v,\\mathrm{N_2}} (T)\n\\] where, since the temperature is fixed, the individual values of specific heats can be read from a table.\nIf the given speed is the speed of sound, then \\(V^2 = c^2  = kRT\\), and with some rearranging the following function will achieve a zero:\n\\[\nf(x_{\\mathrm{CO_2}}) = \\frac{V^2}{c_p T} - \\frac{c_p-c_v}{c_v}\n\\]"
+  },
+  {
+    "objectID": "post/mixture/index.html#implementation",
+    "href": "post/mixture/index.html#implementation",
+    "title": "Speed of sound of a mixture of gases - Exercise 13-92 from Çengel’s Thermodynamics book (7th ed)",
+    "section": "Implementation",
+    "text": "Implementation\nThe following R code should defines the values, including some read from specific heat tables:\n\nT &lt;- 500\nV &lt;- 360\n# Values @ 500 K\nc_p_CO2 &lt;- 1.014e3\nc_v_CO2 &lt;- 0.825e3\nc_p_N2 &lt;- 1.056e3\nc_v_N2 &lt;- 0.759e3\n\nNow, we define the function to be zeroed:\n\nf &lt;- function(x) {\n  c_p &lt;-  x*c_p_CO2 + (1-x)*c_p_N2\n  c_v &lt;-  x*c_v_CO2 + (1-x)*c_v_N2\n  \n  V^2/(c_p*T) - (c_p - c_v)/c_v\n}\n\nA good first check is to see how this function behaves:\n\ncurve(f,from=0,to=1)\n\n\n\n\n\n\n\n\nThere is indeed a zero! Let’s find it; the following built-in function finds a zero in the given interval:\n\nx_CO2 &lt;- uniroot(f,c(0,1))\nprint(x_CO2)\n\n$root\n[1] 0.8359597\n\n$f.root\n[1] -1.041024e-06\n\n$iter\n[1] 3\n\n$init.it\n[1] NA\n\n$estim.prec\n[1] 6.103516e-05\n\n\nwhich gives the answer that a mixture of 83,6% of carbon dioxide and (100-83,6)% at 500 K will have a speed of sound of 360 m/s.\nYou see that basic assumption was adding up the specific heats, which is not valid always. For instance, in steam power plants, you have compressed steam flowing in the system; if you have air that infiltrate the pipes, you’ll have a mixture of steam and air, and at the typical high pressures of boilers the specific heat of this mixture will not be the sum of individual specific heats, weighted by the mass fractions. A more appropriate mixture rule will be required. The ideal gases model for combustion gases, tough, is widely used.\n[1]: Çengel, Y. A., & Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013. In Portuguese"
+  },
+  {
+    "objectID": "post/isothermic/index.html",
+    "href": "post/isothermic/index.html",
+    "title": "Computing the work of a mixture of gases - Exercises 13-94 and 13-95 from Çengel’s Thermodynamics book",
+    "section": "",
+    "text": "In the previous post, we saw how to calculate the speed of sound of a mixture of ideal gases, the main assumption is that we can add the individual specific heats of the components, weighted by the mass fractions.\nFor mixtures of ideal gases, this is true for all mass-specific properties, including the gas constant \\(R\\). Hence, basic First-Law analyses can be performed quite easily."
+  },
+  {
+    "objectID": "post/isothermic/index.html#an-example-of-isothermic-work",
+    "href": "post/isothermic/index.html#an-example-of-isothermic-work",
+    "title": "Computing the work of a mixture of gases - Exercises 13-94 and 13-95 from Çengel’s Thermodynamics book",
+    "section": "An example of isothermic work",
+    "text": "An example of isothermic work\nThe specific work required to compress an ideal gas in a closed system [1] isothermally at \\(T\\) from pressure \\(P_1\\) to \\(P_2\\) is [1]:\n\\[\nw_{\\mathrm{comp}} = R T \\ln \\frac{P_2}{P_1}\n\\]\nThis is also valid for a mixture of ideal gases, provided the mixture gas constant is used:\n\\[\nR = \\frac{R_u}{M_{\\mathrm{m}}}\n\\]\nwhere \\(R_u = 8.31447\\,\\mathrm{kJ/kg K}\\) is the universal gas constant and the mixture molar mass is:\n\\[\nM_{\\mathrm{m}} = \\sum_{i=1}^k y_i M_i\n\\]\nsumming over \\(k\\) components, and there \\(y_i\\) and \\(M_i\\) are the individual molar fractions and molar mass of component \\(i\\), respectively.\nConsider exercise 13-94 from [1]: the mixture contains 85% of nitrogen gas, and the remainder is carbon dioxide. The temperature is held at 300 K and the pressure is risen from 100 kPa to 500 kPa. What is the compression work?\nThe following implementation is in R. We first define a function to compute the desired value based on the initial content of nitrogen:\n\nwork.N2.CO2 &lt;- function(yN2) {\n  MN2 &lt;- 28.013\n  MCO2 &lt;- 44.01\n  Ru &lt;-  8.13447\n  T &lt;- 300\n  P1 &lt;- 100\n  P2 &lt;- 500\n  \n  Mm &lt;- yN2*MN2 + (1-yN2)*MCO2\n  R = Ru/Mm\n  \n  wcomp &lt;- R*T*log(P2/P1)\n  wcomp\n}\n\nLet’s check with the individual given value:\n\nprint(work.N2.CO2(0.85))\n\n[1] 129.1433\n\n\nNotice that this value is in kJ/kg.\nNow, let’s see how this varies with nitrogen content:\n\ncurve(work.N2.CO2,from=0,to=1)\n\n\n\n\n\n\n\n\nThe more nitrogen we have, the larger the work. Why is that? Nitrogen is lighter (compare the molar masses), so with more nitrogen the mixture molar mass decreases, but that increases the gas constant and hence the specific work. The overall volume variations increase with a lighter gas, increasing the required work to increase the pressure."
+  },
+  {
+    "objectID": "post/isothermic/index.html#an-example-of-isentropic-work",
+    "href": "post/isothermic/index.html#an-example-of-isentropic-work",
+    "title": "Computing the work of a mixture of gases - Exercises 13-94 and 13-95 from Çengel’s Thermodynamics book",
+    "section": "An example of isentropic work",
+    "text": "An example of isentropic work\nNow we examine Exercise 13-95 from [1], where are given directly the mixture molar mass of 32 kg/kmol and a specific heat ratio of 1.35; as we’ve discussed, these are obtained from weighted sums. The initial state is 100 kPa and 293 K, the final pressure 1000 kPa, and the process occurs at constant entropy. What is the work?\nThe compression work of an ideal gas in an isentropic process is:\n\\[\nw_{\\mathrm{comp}} = \\frac{R T_1}{k-1} \\left[\\left(\\frac{P_2}{P_1}\\right)^{{\\frac{k-1}{k}}}-1\\right]\n\\] Can we use this expression of a single ideal gas for a mixture of ideal gases? Again yes, provide we use the mixture properties, which are already given. Notice that the mixture gas constant is not given but can be calculated similarly as above. Hence:\n\nk &lt;-  1.35\nMm &lt;- 32\nRu &lt;-  8.13447\nR &lt;- Ru/Mm \n\nP1 &lt;- 100\nP2 &lt;- 1000\nT1 &lt;- 293\n\n# some intermediate parameters to facilitate writing\nPi = P2/P1\ngamma = ((k-1)/k)\nY = Pi^gamma - 1\n\nwcomp &lt;- (R*T1)/(k-1) * Y\nprint(wcomp) # in kJ/kg\n\n[1] 173.7753\n\n\nTo compare, we can also compute the work by temperature variations. An isentropic process follows \\[\n\\frac{T_2}{T_1} = \\left(\\frac{P_2}{P_1}\\right)^{\\frac{k-1}{k}}\n\\]\nand, in an adiabatic closed-system process:\n\\[\nw_{\\mathrm{comp}} = c_v(T_2-T_1)\n\\]\nwhere \\(c_v = \\frac{R}{k-1}\\).\n\nk &lt;-  1.35\nMm &lt;- 32\nRu &lt;-  8.13447\nR &lt;- Ru/Mm \n\nP1 &lt;- 100\nP2 &lt;- 1000\nT1 &lt;- 293\n\nT2 &lt;- T1*(P2/P1)^((k-1)/k)\ncv &lt;- R/(k-1)\nwcomp &lt;- cv*(T2-T1)\nprint(wcomp)\n\n[1] 173.7753\n\n\nAnd the values match."
+  },
+  {
+    "objectID": "post/isothermic/index.html#references",
+    "href": "post/isothermic/index.html#references",
+    "title": "Computing the work of a mixture of gases - Exercises 13-94 and 13-95 from Çengel’s Thermodynamics book",
+    "section": "References",
+    "text": "References\n[1]: Çengel, Y. A., & Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013. In Portuguese."
+  },
+  {
+    "objectID": "post/whats/index.html",
+    "href": "post/whats/index.html",
+    "title": "What is this site",
+    "section": "",
+    "text": "Hi there. I’m Fábio Fortkamp, a Professor of Mechanical Engineering from Brazil. This is my academic website, where I post explorations in Thermal Engineering, R, Python, and Mechanical Engineering in general.\nThis site is my attempt to more properly show my work. As I study, prepare for lectures, and develop my research, I will try to post my discoveries here. In particular, at least in this stage, I will focus on solving problems on Thermodynamics, Heat Transfer, Heat Engines, Refrigeration Systems using computational tools. Python and R are the main tools I use; my mission is to make the next generation of Engineers more apt to solve real-life problems with data science and programming concepts. More exploration, and less memorization.\nThanks in advance for reading."
   }
 ]

@@ -1,0 +1,154 @@
+---
+title: First Law Analysis of a Mixture of Non-Ideal Gases - Exercise 13-99 from Çengel's
+  Thermodynamics book (7th ed)
+author: Fábio P. Fortkamp
+date: '2022-03-18'
+slug: real
+categories:
+  - Exercise from Çengel's Thermodynamics
+tags:
+  - mixture thermodynamics
+  - thermodynamics
+---
+
+In a [previous post](https://fpfortkamp.com/post/first/), we performed a First-Law Analysis, calculating work and heat transfer, of a mixture of ideal gases. 
+
+Now we have a more realistic situation, taken from Exercise 13-99 from [1]: a mixture of 4 kg of $\mathrm{He}$ and  8 kg of $\mathrm{O_2}$ is kept in a rigid tank initially at 170 K and 7 MPa and pressure. The tank is then heated up to 220 K. What is the final pressure and the heat transfer during this process, assuming that helium is an ideal gas but oxygen is not?
+
+We have two things in consideration here: first, as the oxygen is not itself is an ideal gas, its molecules will interact with each other in a way that the ideal gas model (which assumes molecules completely ignorant of the presence of other molecules, with no attraction or repulsion forces mainly) cannot predict; but second, how will the molecules of *different gases* interact. In other words: will the molecules of oxygen suffer forces from helium molecules as well?
+
+I'll take the middle way here and use *ideal gas mixture rules* for *non-ideal gases*. The mixture is approximately a mixture of ideal gases, with little interaction between different components, but the individual behavior of the components will follow different rules.
+
+Independent of the equation of state, we can start by calculating the composition of the mixture in different bases. From the given mass values, the mass fraction of helium is $x_{\mathrm{He}} = \frac{1}{3}$ and of oxygen is $x_{\mathrm{O_2}} = \frac{2}{3}$. The total mass is $m = 12\,\mathrm{kg}$. Each of the $n$ components has its molar mass $M_i$, and the mixture molar mass can be calculated as:
+
+$$
+M_{\mathrm{m}} = \frac{1}{\sum_{i=1}^n \frac{x_i}{M_i}}
+$$
+
+The mixture gas constant is:
+
+$$
+R_{\mathrm{m}} = \frac{R_{\mathrm{u}}}{M_{\mathrm{m}}}
+$$
+
+where $R_{\mathrm{u}}$ is the universal gas constant. Then the molar fraction of each component is:
+
+$$
+y_i = x_i \frac{M_{\mathrm{m}}}{M_i}
+$$
+
+With this composition, how do we sum up individual properties? Since what we have is temperature and pressure, we can use *Amagat's rule* and add the volumes - but, since we are dealing with non-ideal gases, we should use a non-dimensional volume in the form of the compressibility factor:
+
+$$
+Z = \frac{P \mathcal{V}}{m R T}
+$$
+
+The mixture rule is then
+
+$$
+Z_{\mathrm{m}} = \sum_{i=1}^n y_i Z_i
+$$
+
+where, since it's an ideal gas, $Z_{\mathrm{He}} = 1$, and $Z_{\mathrm{O_2}}$ can be calculated from its equation of state. Here, we can use the *mixture* values of pressure and temperature, instead of partial values, as a way of already accounting for interaction forces and making the model more realistic [1].
+
+At the initial state (1), then, this will give the initial mixture volume - which is preserved during the heating process. Now, if we calculate the new (at final state 2) compressibility factor of oxygen with the mixture *volume* instead of the pressure, there will probably a larger error, but we''ll use that anyway
+
+I'll use Python and the [CoolProp](http://www.coolprop.org) library for calculating the fluid properties.
+
+```{r setup, include=FALSE}
+library(reticulate)
+```
+
+```{python}
+from CoolProp.CoolProp import PropsSI
+from scipy.constants import R as Ru
+import numpy as np
+
+# convention: index 0 is helium, index 1 is oxygen
+
+components = ['He','O2']
+molar_masses = np.array([PropsSI('MOLARMASS',c) for c in components])
+
+x = np.array([1/3,2/3])
+m = 12
+
+Mm = 1 / np.sum(x/molar_masses)
+
+Rm = Ru/Mm
+
+y = x/molar_masses * Mm
+
+T1 = 170
+P1 = 7e6
+
+Z1 = np.array([1,PropsSI("Z","T",T1,"P",P1,components[1])])
+Zm1 = np.dot(y,Z1)
+
+Vm = Zm1 * m*Rm * T1/P1
+
+T2 = 220
+
+
+# notice that CoolProp work with density, not specific volumes
+# and we always use the mixture properties for the individual components
+# and only then apply mixture rule
+density = m/Vm
+
+Z2 = np.array([1,PropsSI("Z","T",T2,"D",density,components[1])])
+Zm = np.dot(y,Z2)
+
+P2 = Zm * m*Rm * T2/Vm
+
+print("New pressure = %.2f MPa" %(P2*1e-6,))
+```
+
+Now, to calculate heat transfer, we need to apply the First Law of Thermodynamics. Since we have a closed system with no volume variation and overall no indication of shaft work, the First Law reads:
+
+$$
+Q = U_2 - U_1
+$$
+
+where $U$ is the total internal energy. Assuming there is no chemical reactions, the internal energy can be broken down into two separate systems, for each component. For helium (an ideal gas), we assume constant specific heats and use the fact that the internal energy of ideal gases depend only on temperatures. For the non-ideal oxygen gas, we use the *residual enthalpy* $\Delta h^*$, which is how much the enthalpy of the gas deviated from an ideal gas model. Keep in mind that:
+
+$$
+u = h - Pv = h - ZRT
+$$
+
+Hence, to calculate the internal energy variation for oxygen, we need to account for three terms:
+
+1. the ideal gas enthalpy variation
+2. the residual enthalpy variation for states 2 and 1
+3. the difference between enthalpy and internal energy.
+
+Calculating everything:
+
+```{python}
+
+Tmean = (T1 + T2)/2
+
+# notice that CoolProp does not have an ideal gas constant-volume specific heat
+# and that we have to provide a second argument, even if it only requires temperature
+R_He = Ru / molar_masses[0]
+cvHe = PropsSI("Cp0mass","T",Tmean,"P",P2,components[0]) - R_He
+
+du_He = cvHe*(T2 - T1)
+
+# now, to use the residual properties, we have to use molar properties
+
+cpmolarO2 = PropsSI("Cp0molar","T",Tmean,"P",P2,components[1])
+dh_ig_O2 = cpmolarO2*(T2-T1)
+
+dresidual_1 = PropsSI("HMOLAR_RESIDUAL","T",T1,"P",P1,components[1])
+dresidual_2 = PropsSI("HMOLAR_RESIDUAL","T",T2,"P",P2,components[1])
+dhu = Ru*(Z2[1]*T2 - Z1[1]*T1)
+
+du_O2 = 1/(molar_masses[1]) * (dh_ig_O2 + dresidual_2 - dresidual_1 - dhu)
+
+Q = m*(x[0]*du_He + x[1]*du_O2)
+print("Heat transfer = %.2f kJ" %(Q*1e-3))
+```
+
+
+## References 
+
+[1]: Çengel, Y. A., & Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013.

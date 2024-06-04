@@ -2,8 +2,20 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/2022-03-14-isothermic/index.html",
-      "/posts/2022-02-27-what-is-this-site/index.html"
+      "/post/color/index.html",
+      "/post/julia/index.html",
+      "/post/linux/index.html",
+      "/post/compressibility/index.html",
+      "/post/inspectional/index.html",
+      "/post/missing/index.html",
+      "/post/superheat/index.html",
+      "/post/compressor/index.html",
+      "/post/real/index.html",
+      "/post/equilibrium/index.html",
+      "/post/first/index.html",
+      "/post/isothermic/index.html",
+      "/post/mixture/index.html",
+      "/post/whats/index.html"
     ]
   }
 ]
