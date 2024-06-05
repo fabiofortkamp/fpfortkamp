@@ -2,6 +2,11 @@
   {
     "listing": "/index.html",
     "items": [
+      "/post/starship/index.html",
+      "/post/interpreters/index.html",
+      "/post/go/index.html",
+      "/post/pyright/index.html",
+      "/post/monkey/index.html",
       "/post/color/index.html",
       "/post/julia/index.html",
       "/post/linux/index.html",

@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2024-04-05">
 
-<title>FPFortkamp.com - About</title>
+<title>FPFortkamp.com - Software Development Book Review: Writing Interpreters in Go</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,21 +24,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -67,17 +69,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">FPFortkamp.com</span>
     </a>
   </div>
@@ -88,13 +90,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./about.html" aria-current="page"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./portfolio.html"> 
-<span class="menu-text">My Portfolio of Programming Projects</span></a>
-  </li>  
+  <li class="dropdown-header">
+ <span class="menu-text">portfolio.qmd</span></li>
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/fabiofortkamp"> <i class="bi bi-github" role="img">
 </i> 
@@ -113,65 +113,72 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Software Development Book Review: Writing Interpreters in Go</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">book-recommendations</div>
+                <div class="quarto-category">learning-interpreters-and-compilers</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 5, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<div class="quarto-about-solana column-body content">
-  <div class="about-entity">
-    <div class="entity-contents">
-      <header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">About</h1>
-</div>
-<div class="quarto-title-meta">
-  </div>
-</header> <div class="about-links">
-  <a href="https://x.com/fpfortkamp" class="about-link" rel="" target="">
-    <i class="bi bi-twitter"></i>
-     <span class="about-link-text">Twitter/X</span>
-  </a>
-  <a href="https://linkedin.com/in/fpfortkamp" class="about-link" rel="" target="">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text">LinkedIn</span>
-  </a>
-  <a href="https://github.com/fabiofortkamp" class="about-link" rel="" target="">
-    <i class="bi bi-github"></i>
-     <span class="about-link-text">Github</span>
-  </a>
-  <a href="https://scholar.google.com/citations?user=M_OBjUsAAAAJ&amp;hl=en" class="about-link" rel="" target="">
-    <i class="bi bi-journals"></i>
-     <span class="about-link-text">My publications</span>
-  </a>
-</div>
-      <div class="about-contents"><main class="content" id="quarto-document-content">
-<p>Hi there. I’m Dr.&nbsp;Fábio P. Fortkamp, I scientific software developer from southern Brazil.and in this blog I write about solving real Mechanical Engineering problems with Python, R, and other cool computational tools and apps.</p>
-<section id="education" class="level2">
-<h2 data-anchor-id="education">Education:</h2>
-<p>Doctorate (Dr.&nbsp;Eng.) in Mechanical Engineering Federal University of Santa Catarina, 2019</p>
-<p>Master’s (M. Eng.) in Mechanical Engineering Federal University of Santa Catarina, 2014</p>
-<p>Bachelor in Mechanical Engineering Federal University of Santa Catarina, 2012</p>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p><a href="https://obsessedwithprogramming.com/monkey/">A couple of weeks ago</a>, I mentioned <em><a href="https://interpreterbook.com/">Writing Interpreters in Go</a></em>, a book that teaches you to write an interpreters for the Monkey programming language. If you write software for a living, you should study this book. <strong>This is a <em>software development book</em> more than an <em>interpreters book</em> that has much to teach.</strong></p>
+<section id="an-overview-of-the-book" class="level2">
+<h2 class="anchored" data-anchor-id="an-overview-of-the-book">An overview of the book</h2>
+<p><em>Writing Interpreters in Go</em> is incredibly well written. The structure is sound, with medium-sized chapters, each one of them focusing on one major task of an interpreter:</p>
+<ol type="1">
+<li><p><em>Lexing</em>, reading a program as a string and making sense of each character to produce <em>tokens.</em> For instance: “if the current character, than all numbers up to the next whitespace is an integer”;</p></li>
+<li><p><em>Parsing</em>, where you combine tokens into an abstract syntax tree (the famous AST)</p></li>
+<li><p><em>Evaluating</em>, where you use the host language (in this case, Go) to convert a “Infix Plus operation a+b” from the AST into an actual instruction <code>a+b</code>.</p></li>
+</ol>
+<p>There are also chapters on extending the language from the initial implementation and on defining macros (this is really advanced stuff).</p>
 </section>
-<section id="research-and-professional-interests" class="level2">
-<h2 data-anchor-id="research-and-professional-interests">Research and professional interests</h2>
-<ul>
-<li>Magnetocaloric Refrigeration</li>
-<li>Machine Learning</li>
-<li>Mixture Thermodynamics</li>
-<li>Multiphysics Problems</li>
-<li>Multiphase Heat Transfer</li>
-</ul>
+<section id="differences-between-programming-books-and-software-development-books" class="level2">
+<h2 class="anchored" data-anchor-id="differences-between-programming-books-and-software-development-books">Differences between programming books and software development books</h2>
+<p>I’m at a stage in my carrer that I do not need to <em>programming books</em>, I need <em>software development books.</em> I consider the Go syntax actually quite simple, and appraise the author Thorsten Ball for not wasting time on that. He focuses on the much important issues of program organization, like creating separate modules for each major task. He create modules for the business logic, goes one level up to define a loop that reads input and applies that logic (<a href="https://obsessedwithprogramming.com/studying-go/">parametrizing the I/O</a>), and then create a <code>main</code> module to present this loop to the screen.</p>
+<p>I also like how he defines tests very carefully, and is not afraid of testing edge cases. Is it just me, or that are too many testing tutorials with <code>assert 1 + 1 == 2</code>?</p>
+</section>
+<section id="key-takeaways-from-the-book" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways-from-the-book">Key takeaways from the book</h2>
+<ol type="1">
+<li><p>When thinking about a concept, start by creating small data structures, like structs, enums or classes. Codify in the program what’s on your head;</p></li>
+<li><p>Write tests to define what you want from those data structures, and use the same inputs as the user. If your program takes a filename as an input, then the test should get the filename as an input. This tells you how hard is to actually use your program;</p></li>
+<li><p>Don’t be afraid of going to the old-fashioned literature of papers and books. The major algorithm from <em>Writing Interpreters in Go</em>, a modern book about a modern language, comes from a paper from the 70s.</p></li>
+</ol>
+<p>Have you read this book? What do you think?</p>
 
 
 </section>
-</main></div>
-    </div>
-    <img src="profile.jpg" class="about-image
-  rounded " style="width: 15em;">
-  </div>
-</div>
- <!-- /main -->
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -192,6 +199,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
   const isCodeAnnotation = (el) => {
     for (const clz of el.classList) {
       if (clz.startsWith('code-annotation-')) {                     

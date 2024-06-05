@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2024-03-19">
 
-<title>FPFortkamp.com - About</title>
+<title>FPFortkamp.com - How to make Neovim Python LSP aware of your Hatch environments</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,21 +24,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -67,17 +69,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">FPFortkamp.com</span>
     </a>
   </div>
@@ -88,11 +90,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./about.html" aria-current="page"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./portfolio.html"> 
+    <a class="nav-link" href="../../portfolio.html"> 
 <span class="menu-text">My Portfolio of Programming Projects</span></a>
   </li>  
   <li class="nav-item compact">
@@ -113,65 +115,97 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">How to make Neovim Python LSP aware of your Hatch environments</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">articles</div>
+                <div class="quarto-category">configuring-neovim-for-maximum-productivity</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 19, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<div class="quarto-about-solana column-body content">
-  <div class="about-entity">
-    <div class="entity-contents">
-      <header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">About</h1>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="the-problem" class="level2">
+<h2 class="anchored" data-anchor-id="the-problem">The problem</h2>
+<p>If you are a nerd like me, you probably have joined the <a href="https://neovim.io/">Neovim</a> cult and have spent more hours configuring it than you care to admit.</p>
+<p>Then you might also have spent <a href="https://alpopkes.com/posts/python/packaging_tools/">digging around Python project managers</a> and settled on using <a href="https://hatch.pypa.io/latest/">Hatch</a> for one of your projects. In principle, this means you do not have to manually create environments. <a href="https://hatch.pypa.io/latest/environment/#dependencies">You define dependencies in <code>pyproject.toml</code></a> and, when executing <a href="https://hatch.pypa.io/latest/config/environment/overview/#scripts">Hatch scripts</a>, the <code>hatch</code> program will create environments, install dependencies and execute the commands (like running tests, linting, formatting etc) <em>inside</em> those environments.</p>
+<p>But now, when you write Python code on Neovim, using the standard <a href="https://github.com/microsoft/pyright">pyright</a> as the language server (I use the <a href="https://github.com/AstroNvim/astrocommunity/tree/main/lua/astrocommunity/pack/python-ruff">Python-ruff pack</a> from the <a href="https://astronvim.com/">AstroNvim</a> communtity), if you use the same packages you define in the dependencies section (and which are not installed in your global Python environment), pright will complain that it cannot find packages:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Screenshot-2024-03-18-at-18.06.08-1024x178.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot of a neovim session showing error messages</figcaption>
+</figure>
 </div>
-<div class="quarto-title-meta">
-  </div>
-</header> <div class="about-links">
-  <a href="https://x.com/fpfortkamp" class="about-link" rel="" target="">
-    <i class="bi bi-twitter"></i>
-     <span class="about-link-text">Twitter/X</span>
-  </a>
-  <a href="https://linkedin.com/in/fpfortkamp" class="about-link" rel="" target="">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text">LinkedIn</span>
-  </a>
-  <a href="https://github.com/fabiofortkamp" class="about-link" rel="" target="">
-    <i class="bi bi-github"></i>
-     <span class="about-link-text">Github</span>
-  </a>
-  <a href="https://scholar.google.com/citations?user=M_OBjUsAAAAJ&amp;hl=en" class="about-link" rel="" target="">
-    <i class="bi bi-journals"></i>
-     <span class="about-link-text">My publications</span>
-  </a>
-</div>
-      <div class="about-contents"><main class="content" id="quarto-document-content">
-<p>Hi there. I’m Dr.&nbsp;Fábio P. Fortkamp, I scientific software developer from southern Brazil.and in this blog I write about solving real Mechanical Engineering problems with Python, R, and other cool computational tools and apps.</p>
-<section id="education" class="level2">
-<h2 data-anchor-id="education">Education:</h2>
-<p>Doctorate (Dr.&nbsp;Eng.) in Mechanical Engineering Federal University of Santa Catarina, 2019</p>
-<p>Master’s (M. Eng.) in Mechanical Engineering Federal University of Santa Catarina, 2014</p>
-<p>Bachelor in Mechanical Engineering Federal University of Santa Catarina, 2012</p>
+<p>How can it not find packages when you declared everything in the <code>pyproject.toml</code> file, and everything is supposed to be downloaded and installed automatically?</p>
 </section>
-<section id="research-and-professional-interests" class="level2">
-<h2 data-anchor-id="research-and-professional-interests">Research and professional interests</h2>
-<ul>
-<li>Magnetocaloric Refrigeration</li>
-<li>Machine Learning</li>
-<li>Mixture Thermodynamics</li>
-<li>Multiphysics Problems</li>
-<li>Multiphase Heat Transfer</li>
-</ul>
+<section id="the-solution" class="level2">
+<h2 class="anchored" data-anchor-id="the-solution">The solution</h2>
+<p><strong>You need to tell pyright where to find environments in which the packages are installed</strong>; then, pyright will recognized installed Python packages as something you can import from. In other words: pyright needs to be aware of your Hatch environments.</p>
+<p>It might help to first configure hatch itself to use a directory for the virtual environments that are easy to find. <strong>I like to use a <code>.hatch</code> subfolder in my project root folder</strong> (don’t forget to exclude it from source control). You can change the global hatch configuration to always use that location when using the <code>hatch</code> command with this shell commands:</p>
+<p>ShellSession</p>
+<pre><code>hatch env prune # delete previously created environments
+hatch config set dirs.env.virtual ".hatch" # modify configuration</code></pre>
+<p>Now, when you run a hatch command, it will create environments under <code>.hatch</code>.</p>
+<p>Now you have to configure pyright in your <code>pyproject.toml</code> file. Suppose you define a <code>dev</code> environment in which to run various checks like this:</p>
+<p>TOML</p>
+<pre><code># pyproject.toml
+
+[tool.hatch.envs.dev]
+python = "3.11"
+
+dependencies = ["mypy&gt;=1.0.0", "pytest", "ruff"]
+
+[tool.hatch.envs.dev.scripts]
+check = [
+  "pytest -xvv --ff",
+  "ruff format .",
+  "ruff check .",
+]</code></pre>
+<p>This way, you can also create a environment, install your package and run all tests with:</p>
+<p>ShellSession</p>
+<pre><code>hatch run dev:check</code></pre>
+<p>Now, include the following configuration:</p>
+<p>TOML</p>
+<pre><code># pyproject.toml
+
+[tool.pyright]
+executionEnvironments = [{ root = "src" }]
+venvPath = ".hatch"
+venv = "dev"</code></pre>
+<p>Restart your neovim, and you will see that the messages above disappear: pyright will get all package information from <code>&lt;your project folder&gt;/.hatch/dev/</code>. As a bonus, you can import pytest in the test files to add fixtures and other goodies.</p>
+<p>I hope this is helpful! Let me know if you want to learn more about Hatch or Neovim.</p>
 
 
 </section>
-</main></div>
-    </div>
-    <img src="profile.jpg" class="about-image
-  rounded " style="width: 15em;">
-  </div>
-</div>
- <!-- /main -->
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -192,6 +226,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
   const isCodeAnnotation = (el) => {
     for (const clz of el.classList) {
       if (clz.startsWith('code-annotation-')) {                     

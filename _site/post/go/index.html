@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2024-04-04">
 
-<title>FPFortkamp.com - About</title>
+<title>FPFortkamp.com - Studying Go to get better at Python: reader and writer interfaces</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,21 +24,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -67,17 +69,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">FPFortkamp.com</span>
     </a>
   </div>
@@ -88,13 +90,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./about.html" aria-current="page"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./portfolio.html"> 
-<span class="menu-text">My Portfolio of Programming Projects</span></a>
-  </li>  
+  <li class="dropdown-header">
+ <span class="menu-text">portfolio.qmd</span></li>
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/fabiofortkamp"> <i class="bi bi-github" role="img">
 </i> 
@@ -113,65 +113,167 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Studying Go to get better at Python: reader and writer interfaces</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">blog</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 4, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<div class="quarto-about-solana column-body content">
-  <div class="about-entity">
-    <div class="entity-contents">
-      <header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">About</h1>
-</div>
-<div class="quarto-title-meta">
-  </div>
-</header> <div class="about-links">
-  <a href="https://x.com/fpfortkamp" class="about-link" rel="" target="">
-    <i class="bi bi-twitter"></i>
-     <span class="about-link-text">Twitter/X</span>
-  </a>
-  <a href="https://linkedin.com/in/fpfortkamp" class="about-link" rel="" target="">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text">LinkedIn</span>
-  </a>
-  <a href="https://github.com/fabiofortkamp" class="about-link" rel="" target="">
-    <i class="bi bi-github"></i>
-     <span class="about-link-text">Github</span>
-  </a>
-  <a href="https://scholar.google.com/citations?user=M_OBjUsAAAAJ&amp;hl=en" class="about-link" rel="" target="">
-    <i class="bi bi-journals"></i>
-     <span class="about-link-text">My publications</span>
-  </a>
-</div>
-      <div class="about-contents"><main class="content" id="quarto-document-content">
-<p>Hi there. I’m Dr.&nbsp;Fábio P. Fortkamp, I scientific software developer from southern Brazil.and in this blog I write about solving real Mechanical Engineering problems with Python, R, and other cool computational tools and apps.</p>
-<section id="education" class="level2">
-<h2 data-anchor-id="education">Education:</h2>
-<p>Doctorate (Dr.&nbsp;Eng.) in Mechanical Engineering Federal University of Santa Catarina, 2019</p>
-<p>Master’s (M. Eng.) in Mechanical Engineering Federal University of Santa Catarina, 2014</p>
-<p>Bachelor in Mechanical Engineering Federal University of Santa Catarina, 2012</p>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>In my day job, I mainly write Python code, but I dedicate a good amount of time to <a href="https://obsessedwithprogramming.com/monkey/">studying the Go programming language.</a> Here’s one good example that shows why it’s so useful.</p>
+<section id="the-importance-of-thinking-about-io" class="level2">
+<h2 class="anchored" data-anchor-id="the-importance-of-thinking-about-io">The importance of thinking about IO</h2>
+<p>The kind of programs I write are command line applications that take some specification file in and produce an output file with simulation results; both input and output files are JSON files. I develop these programs for our clients, but I also use them for our own analysis and research. That means that I’m always writing more and more scripts and that analyze the input and output data our main software consumes. The question: how can I add flexibility to this? How can I choose to save the output JSON object to a file, or to the terminal for some quick checking, or to some in-memory object for testing?</p>
+<p><strong>I’ve never seen this type of discussion in Python literature - in fact, before studying Go books, I rarely though of that problem, and had my programs always read from and write to disk files.</strong> This is simple, but make testing more cumbersone (I have to always create and delete temporary files) and inefficient.</p>
 </section>
-<section id="research-and-professional-interests" class="level2">
-<h2 data-anchor-id="research-and-professional-interests">Research and professional interests</h2>
-<ul>
-<li>Magnetocaloric Refrigeration</li>
-<li>Machine Learning</li>
-<li>Mixture Thermodynamics</li>
-<li>Multiphysics Problems</li>
-<li>Multiphase Heat Transfer</li>
-</ul>
+<section id="studying-go-reader-and-writer-interfaces" class="level2">
+<h2 class="anchored" data-anchor-id="studying-go-reader-and-writer-interfaces">Studying Go: reader and writer interfaces</h2>
+<p>But Go books are full of examples that use <a href="https://go.dev/tour/methods/21">Reader</a> and <a href="https://yourbasic.org/golang/io-writer-interface-explained/">Writer</a> interfaces. Here’s some sample (and incomplete) code from one of the example programs of the excelent <em><a href="https://pragprog.com/titles/rggo/powerful-command-line-applications-in-go/">Powerful Command Line Applications with Go</a></em>: a function that takes a filename, open that filename for processing, saves the processed data to a temporary file, and writes the path of that file to a <em>Writer</em> interface <code>out</code>:</p>
+<p>Go</p>
+<pre><code>//main.go
+
+func run(filename string, out io.Writer) error {
+  // Read all the data from the input file and check for errors 
+  input, err := ioutil.ReadFile(filename)
+  if err != nil {
+    return err 
+  }
+  
+  // create a temporary file to store processed data
+  temp, err := ioutil.TempFile("", "mdp*.html") 
+  if err != nil {
+    return err 
+  }
+  
+  // do some processing with input and save to temp
+  // ...
+  
+  // close the file
+  if err := temp.Close(); err != nil { 
+    return err
+  }
+  
+  // save the results filename to this out interface for checking
+  // e.g. checking that it contains the right data
+  outName := temp.Name()
+  fmt.Fprintln(out, outName)
+  
+  // ... return some status
+}
+  </code></pre>
+<p>The details are not important, which is why I skipped many lines. What’s important is this: in a test file, I can create a buffer in which to write the filename:</p>
+<p>Go</p>
+<pre><code>//main_test.go
+
+func TestRun(t *testing.T) { 
+  var mockStdOut bytes.Buffer
+  if err := run(inputFile, &amp;mockStdOut); err != nil { 
+  t.Fatal(err)
+  }
+  
+  // mockStdOut contains the resultsfilename, 
+  // which we then store in avariable
+  resultFile := strings.TrimSpace(mockStdOut.String())
+  
+  // and now read that file
+  result, err := ioutil.ReadFile(resultFile)
+  
+  // do some checks with results
+  }</code></pre>
+<p>And, in the actual application, I can just use the system stdout:</p>
+<p>Go</p>
+<pre><code>// main.go
+
+// definition of the function run(...) as above
+
+func main() {
+  // Parse flags
+  filename := flag.String("file", "", "File to process") 
+  flag.Parse()
+  // If user did not provide input file, show usage
+  if *filename == "" { flag.Usage() os.Exit(1)
+  }
+  if err := run(*filename, os.Stdout); err != nil { 
+    fmt.Fprintln(os.Stderr, err)
+    os.Exit(1)
+  } 
+}</code></pre>
+<p>Did you see what happened? The same function can be passed an internal buffer for testing (no writing files required), or the actual terminal in the final application.</p>
+</section>
+<section id="parametrizing-io-in-python" class="level2">
+<h2 class="anchored" data-anchor-id="parametrizing-io-in-python">Parametrizing IO in Python</h2>
+<p>How can I reproduce this technique in Python? Here is some sample module that is similar to the example above:</p>
+<p>Python</p>
+<pre><code>"""main.py - the best simulator ever written."""
+
+from typing import TextIO
+import sys
+
+def run(out: TextIO) -&gt; None:
+    out.write("I just did some awesome simulation!\n")
+
+if __name__ == "__main__":
+    run(sys.stdout)</code></pre>
+<p>If you run, you get the expected result:</p>
+<p>ShellSession</p>
+<pre><code>python main.py
+# I just did some awesome simulation!</code></pre>
+<p>But for testing, we can use a <a href="https://docs.python.org/3/library/io.html#io.StringIO">StringIO</a> object, which acts like the buffer we saw earlier:</p>
+<p>Python</p>
+<pre><code>"""test_main.py - Check that we are indeed awesome"""
+
+import main
+import io
+
+def test_main():
+    mock = io.StringIO()
+
+    main.run(mock)
+
+    message = mock.getvalue()
+
+    assert message == "I just did some awesome simulation!\n"</code></pre>
+<p>When running this case with <a href="https://docs.pytest.org/en/stable/contents.html">pytest</a> (<code>pytest test_main.py</code>, provided why files are in the same directory), the test passes. We did not have to read from stdout, nor save anything to a file, both of which require more code to be written.</p>
+</section>
+<section id="studying-go-is-not-a-waste-of-time-even-if-you-do-not-write-go" class="level2">
+<h2 class="anchored" data-anchor-id="studying-go-is-not-a-waste-of-time-even-if-you-do-not-write-go">Studying Go is not a waste of time even if you do not write Go</h2>
+<p>What does this mean in practice? <strong>It means you stop writing <code>print()</code> statements all over the place, and think about what is being read and written.</strong> This forces me to think of the software at a higher level.</p>
+<p>I think there’s a gap in Python literature: too much focus on new syntax constructions (which are very nice), too focus on Jupyter notebooks, and too little focus in software development: testing, structuring code, making it easier to extend. Both <a href="https://pragprog.com/titles/rggo/powerful-command-line-applications-in-go/">Writing Powerful Command-Line Applications in Go</a> and <a href="https://interpreterbook.com/">Writing Interpreters in Go</a> focus on that: writing useful programs, without nitty-picking syntax details.</p>
+<p>Why my obsession with Go in particular? It’s just that the literature is full of good books, and it’s a modern language with a clean syntax, powerful and easy to learn in incremental steps. Slowly but surely, I’m beginning to write more and more Go programs almost as more powerful shell scripts, because it’s so pleasant to do that. I highly recommend addying this language to your repertoire.</p>
 
 
 </section>
-</main></div>
-    </div>
-    <img src="profile.jpg" class="about-image
-  rounded " style="width: 15em;">
-  </div>
-</div>
- <!-- /main -->
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -192,6 +294,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
   const isCodeAnnotation = (el) => {
     for (const clz of el.classList) {
       if (clz.startsWith('code-annotation-')) {                     
