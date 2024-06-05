@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Fábio P. Fortkamp">
-<meta name="dcterms.date" content="2022-03-14">
+<meta name="dcterms.date" content="2022-03-18">
 
-<title>FPFortkamp.com - Speed of sound of a mixture of gases - Exercise 13-92 from Çengel’s Thermodynamics book (7th ed)</title>
+<title>FPFortkamp.com - First Law Analysis of a Mixture of Non-Ideal Gases - Exercise 13-99 from Çengel’s Thermodynamics book (7th ed)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -178,7 +178,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Speed of sound of a mixture of gases - Exercise 13-92 from Çengel’s Thermodynamics book (7th ed)</h1>
+      <h1 class="title">First Law Analysis of a Mixture of Non-Ideal Gases - Exercise 13-99 from Çengel’s Thermodynamics book (7th ed)</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">Exercise from Çengel’s Thermodynamics</div>
               </div>
@@ -198,7 +198,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 14, 2022</p>
+        <p class="date">March 18, 2022</p>
       </div>
     </div>
     
@@ -217,89 +217,123 @@ window.Quarto = {
 
 
 
-<p>Why do we need a separate <em>mixture</em> thermodynamics subject? Because, when two fluids are mixed, the individual properties do not necessarily add up to the total system, due to <em>interaction</em> effects.</p>
-<p>As usual in Thermodynamics, we need a reference model, and the ideal model for mixtures is an <em>ideal gas mixture</em>, where certain properties are simply the weighted sum of the properties of the components.</p>
-<section id="calculating-the-speed-of-sound-of-a-mixture-of-ideal-gases" class="level2">
-<h2 class="anchored" data-anchor-id="calculating-the-speed-of-sound-of-a-mixture-of-ideal-gases">Calculating the speed of sound of a mixture of ideal gases</h2>
-<p>As an example, let’s us solve Exercise 13-92 from [1]: a mixture of carbon dioxide and nitrogen flows through a convergent nozzle, and it exits at 500 K and a speed of 360 m/s, which is stated as the speed of sound of the mixture in that condition. What is the mass fraction of carbon dioxide in this mixture?</p>
-<p>First, some context. Carbon dioxide and nitrogen are common <em>combustion products</em>: gases that are formed when hydrocarbons burn with air. Other compounds are formed, such as water vapor, sulfur oxides and excess oxygen, but depending on the fuel composition and air context, carbon dioxide and nitrogen dominate the gases, and we approximate the combustion gas as a mixture of just these two gases. Convergent nozzles are commonly employed in airplane jet turbines to accelerate the fluid (the combustion gases) and generate thrust.</p>
-<p>Let <span class="math inline">\(x_{\mathrm{CO_2}}\)</span> be the mass fraction of carbon dioxide in the mixture, and hence <span class="math inline">\(x_{\mathrm{N_2}} = 1 - x_{\mathrm{CO_2}}\)</span>.</p>
-<p>We’ll assume both components are ideal gases in the problem’s conditions, and a mixture of ideal gases is itself an ideal gas. The speed of sound for these fluids is [1]:</p>
+<p>In a <a href="https://fpfortkamp.com/post/first/">previous post</a>, we performed a First-Law Analysis, calculating work and heat transfer, of a mixture of ideal gases.</p>
+<p>Now we have a more realistic situation, taken from Exercise 13-99 from [1]: a mixture of 4 kg of <span class="math inline">\(\mathrm{He}\)</span> and 8 kg of <span class="math inline">\(\mathrm{O_2}\)</span> is kept in a rigid tank initially at 170 K and 7 MPa and pressure. The tank is then heated up to 220 K. What is the final pressure and the heat transfer during this process, assuming that helium is an ideal gas but oxygen is not?</p>
+<p>We have two things in consideration here: first, as the oxygen is not itself is an ideal gas, its molecules will interact with each other in a way that the ideal gas model (which assumes molecules completely ignorant of the presence of other molecules, with no attraction or repulsion forces mainly) cannot predict; but second, how will the molecules of <em>different gases</em> interact. In other words: will the molecules of oxygen suffer forces from helium molecules as well?</p>
+<p>I’ll take the middle way here and use <em>ideal gas mixture rules</em> for <em>non-ideal gases</em>. The mixture is approximately a mixture of ideal gases, with little interaction between different components, but the individual behavior of the components will follow different rules.</p>
+<p>Independent of the equation of state, we can start by calculating the composition of the mixture in different bases. From the given mass values, the mass fraction of helium is <span class="math inline">\(x_{\mathrm{He}} = \frac{1}{3}\)</span> and of oxygen is <span class="math inline">\(x_{\mathrm{O_2}} = \frac{2}{3}\)</span>. The total mass is <span class="math inline">\(m = 12\,\mathrm{kg}\)</span>. Each of the <span class="math inline">\(n\)</span> components has its molar mass <span class="math inline">\(M_i\)</span>, and the mixture molar mass can be calculated as:</p>
 <p><span class="math display">\[
-c^2 = k R T
+M_{\mathrm{m}} = \frac{1}{\sum_{i=1}^n \frac{x_i}{M_i}}
 \]</span></p>
-<p>where <span class="math inline">\(k\)</span> is the ratio of isobaric to isovolumetric specific heats, and <span class="math inline">\(R\)</span> is the difference between then:</p>
+<p>The mixture gas constant is:</p>
 <p><span class="math display">\[
-kR = \frac{c_p}{c_v}\left(c_p - c_v\right)
+R_{\mathrm{m}} = \frac{R_{\mathrm{u}}}{M_{\mathrm{m}}}
 \]</span></p>
-<p>Now, the specific heats is a property that is additive:</p>
+<p>where <span class="math inline">\(R_{\mathrm{u}}\)</span> is the universal gas constant. Then the molar fraction of each component is:</p>
 <p><span class="math display">\[
-c_p = x_{\mathrm{CO_2}}c_{p,\mathrm{CO_2}} (T) + \left(1-x_{\mathrm{CO_2}}\right)c_{p,\mathrm{N_2}} (T)
+y_i = x_i \frac{M_{\mathrm{m}}}{M_i}
 \]</span></p>
+<p>With this composition, how do we sum up individual properties? Since what we have is temperature and pressure, we can use <em>Amagat’s rule</em> and add the volumes - but, since we are dealing with non-ideal gases, we should use a non-dimensional volume in the form of the compressibility factor:</p>
 <p><span class="math display">\[
-c_v = x_{\mathrm{CO_2}}c_{v,\mathrm{CO_2}} (T) + \left(1-x_{\mathrm{CO_2}}\right)c_{v,\mathrm{N_2}} (T)
-\]</span> where, since the temperature is fixed, the individual values of specific heats can be read from a table.</p>
-<p>If the given speed is the speed of sound, then <span class="math inline">\(V^2 = c^2  = kRT\)</span>, and with some rearranging the following function will achieve a zero:</p>
-<p><span class="math display">\[
-f(x_{\mathrm{CO_2}}) = \frac{V^2}{c_p T} - \frac{c_p-c_v}{c_v}
+Z = \frac{P \mathcal{V}}{m R T}
 \]</span></p>
-</section>
-<section id="implementation" class="level2">
-<h2 class="anchored" data-anchor-id="implementation">Implementation</h2>
-<p>The following R code should defines the values, including some read from specific heat tables:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> <span class="dv">360</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Values @ 500 K</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>c_p_CO2 <span class="ot">&lt;-</span> <span class="fl">1.014e3</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>c_v_CO2 <span class="ot">&lt;-</span> <span class="fl">0.825e3</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>c_p_N2 <span class="ot">&lt;-</span> <span class="fl">1.056e3</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>c_v_N2 <span class="ot">&lt;-</span> <span class="fl">0.759e3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now, we define the function to be zeroed:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  c_p <span class="ot">&lt;-</span>  x<span class="sc">*</span>c_p_CO2 <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>x)<span class="sc">*</span>c_p_N2</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  c_v <span class="ot">&lt;-</span>  x<span class="sc">*</span>c_v_CO2 <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>x)<span class="sc">*</span>c_v_N2</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  V<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(c_p<span class="sc">*</span>T) <span class="sc">-</span> (c_p <span class="sc">-</span> c_v)<span class="sc">/</span>c_v</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>A good first check is to see how this function behaves:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(f,<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>There is indeed a zero! Let’s find it; the following built-in function finds a zero in the given interval:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x_CO2 <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(f,<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x_CO2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The mixture rule is then</p>
+<p><span class="math display">\[
+Z_{\mathrm{m}} = \sum_{i=1}^n y_i Z_i
+\]</span></p>
+<p>where, since it’s an ideal gas, <span class="math inline">\(Z_{\mathrm{He}} = 1\)</span>, and <span class="math inline">\(Z_{\mathrm{O_2}}\)</span> can be calculated from its equation of state. Here, we can use the <em>mixture</em> values of pressure and temperature, instead of partial values, as a way of already accounting for interaction forces and making the model more realistic [1].</p>
+<p>At the initial state (1), then, this will give the initial mixture volume - which is preserved during the heating process. Now, if we calculate the new (at final state 2) compressibility factor of oxygen with the mixture <em>volume</em> instead of the pressure, there will probably a larger error, but we’’ll use that anyway</p>
+<p>I’ll use Python and the <a href="http://www.coolprop.org">CoolProp</a> library for calculating the fluid properties</p>
+<div id="3ee3d9dc" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> CoolProp.CoolProp <span class="im">import</span> PropsSI</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.constants <span class="im">import</span> R <span class="im">as</span> Ru</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># convention: index 0 is helium, index 1 is oxygen</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>components <span class="op">=</span> [<span class="st">'He'</span>,<span class="st">'O2'</span>]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>molar_masses <span class="op">=</span> np.array([PropsSI(<span class="st">'MOLARMASS'</span>,c) <span class="cf">for</span> c <span class="kw">in</span> components])</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>,<span class="dv">2</span><span class="op">/</span><span class="dv">3</span>])</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>Mm <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> np.<span class="bu">sum</span>(x<span class="op">/</span>molar_masses)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Rm <span class="op">=</span> Ru<span class="op">/</span>Mm</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x<span class="op">/</span>molar_masses <span class="op">*</span> Mm</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>T1 <span class="op">=</span> <span class="dv">170</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>P1 <span class="op">=</span> <span class="fl">7e6</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>Z1 <span class="op">=</span> np.array([<span class="dv">1</span>,PropsSI(<span class="st">"Z"</span>,<span class="st">"T"</span>,T1,<span class="st">"P"</span>,P1,components[<span class="dv">1</span>])])</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>Zm1 <span class="op">=</span> np.dot(y,Z1)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>Vm <span class="op">=</span> Zm1 <span class="op">*</span> m<span class="op">*</span>Rm <span class="op">*</span> T1<span class="op">/</span>P1</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>T2 <span class="op">=</span> <span class="dv">220</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># notice that CoolProp work with density, not specific volumes</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># and we always use the mixture properties for the individual components</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># and only then apply mixture rule</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>density <span class="op">=</span> m<span class="op">/</span>Vm</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>Z2 <span class="op">=</span> np.array([<span class="dv">1</span>,PropsSI(<span class="st">"Z"</span>,<span class="st">"T"</span>,T2,<span class="st">"D"</span>,density,components[<span class="dv">1</span>])])</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>Zm <span class="op">=</span> np.dot(y,Z2)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>P2 <span class="op">=</span> Zm <span class="op">*</span> m<span class="op">*</span>Rm <span class="op">*</span> T2<span class="op">/</span>Vm</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"New pressure = </span><span class="sc">%.2f</span><span class="st"> MPa"</span> <span class="op">%</span>(P2<span class="op">*</span><span class="fl">1e-6</span>,))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>$root
-[1] 0.8359597
-
-$f.root
-[1] -1.041024e-06
-
-$iter
-[1] 3
-
-$init.it
-[1] NA
-
-$estim.prec
-[1] 6.103516e-05</code></pre>
+<pre><code>New pressure = 9.90 MPa</code></pre>
 </div>
 </div>
-<p>which gives the answer that a mixture of 83,6% of carbon dioxide and (100-83,6)% at 500 K will have a speed of sound of 360 m/s.</p>
-<p>You see that basic assumption was adding up the specific heats, which is not valid always. For instance, in steam power plants, you have compressed steam flowing in the system; if you have air that infiltrate the pipes, you’ll have a mixture of steam and air, and at the typical high pressures of boilers the specific heat of this mixture <em>will not be</em> the sum of individual specific heats, weighted by the mass fractions. A more appropriate mixture rule will be required. The ideal gases model for combustion gases, tough, is widely used.</p>
-<p>[1]: Çengel, Y. A., &amp; Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013. In Portuguese</p>
+<p>Now, to calculate heat transfer, we need to apply the First Law of Thermodynamics. Since we have a closed system with no volume variation and overall no indication of shaft work, the First Law reads:</p>
+<p><span class="math display">\[
+Q = U_2 - U_1
+\]</span></p>
+<p>where <span class="math inline">\(U\)</span> is the total internal energy. Assuming there is no chemical reactions, the internal energy can be broken down into two separate systems, for each component. For helium (an ideal gas), we assume constant specific heats and use the fact that the internal energy of ideal gases depend only on temperatures. For the non-ideal oxygen gas, we use the <em>residual enthalpy</em> <span class="math inline">\(\Delta h^*\)</span>, which is how much the enthalpy of the gas deviated from an ideal gas model. Keep in mind that:</p>
+<p><span class="math display">\[
+u = h - Pv = h - ZRT
+\]</span></p>
+<p>Hence, to calculate the internal energy variation for oxygen, we need to account for three terms:</p>
+<ol type="1">
+<li>the ideal gas enthalpy variation</li>
+<li>the residual enthalpy variation for states 2 and 1</li>
+<li>the difference between enthalpy and internal energy.</li>
+</ol>
+<p>Calculating everything:</p>
+<div id="86c292fe" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Tmean <span class="op">=</span> (T1 <span class="op">+</span> T2)<span class="op">/</span><span class="dv">2</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># notice that CoolProp does not have an ideal gas constant-volume specific heat</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># and that we have to provide a second argument, even if it only requires temperature</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>R_He <span class="op">=</span> Ru <span class="op">/</span> molar_masses[<span class="dv">0</span>]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>cvHe <span class="op">=</span> PropsSI(<span class="st">"Cp0mass"</span>,<span class="st">"T"</span>,Tmean,<span class="st">"P"</span>,P2,components[<span class="dv">0</span>]) <span class="op">-</span> R_He</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>du_He <span class="op">=</span> cvHe<span class="op">*</span>(T2 <span class="op">-</span> T1)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># now, to use the residual properties, we have to use molar properties</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>cpmolarO2 <span class="op">=</span> PropsSI(<span class="st">"Cp0molar"</span>,<span class="st">"T"</span>,Tmean,<span class="st">"P"</span>,P2,components[<span class="dv">1</span>])</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>dh_ig_O2 <span class="op">=</span> cpmolarO2<span class="op">*</span>(T2<span class="op">-</span>T1)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>dresidual_1 <span class="op">=</span> PropsSI(<span class="st">"HMOLAR_RESIDUAL"</span>,<span class="st">"T"</span>,T1,<span class="st">"P"</span>,P1,components[<span class="dv">1</span>])</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>dresidual_2 <span class="op">=</span> PropsSI(<span class="st">"HMOLAR_RESIDUAL"</span>,<span class="st">"T"</span>,T2,<span class="st">"P"</span>,P2,components[<span class="dv">1</span>])</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>dhu <span class="op">=</span> Ru<span class="op">*</span>(Z2[<span class="dv">1</span>]<span class="op">*</span>T2 <span class="op">-</span> Z1[<span class="dv">1</span>]<span class="op">*</span>T1)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>du_O2 <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(molar_masses[<span class="dv">1</span>]) <span class="op">*</span> (dh_ig_O2 <span class="op">+</span> dresidual_2 <span class="op">-</span> dresidual_1 <span class="op">-</span> dhu)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> m<span class="op">*</span>(x[<span class="dv">0</span>]<span class="op">*</span>du_He <span class="op">+</span> x[<span class="dv">1</span>]<span class="op">*</span>du_O2)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Heat transfer = </span><span class="sc">%.2f</span><span class="st"> kJ"</span> <span class="op">%</span>(Q<span class="op">*</span><span class="fl">1e-3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Heat transfer = 972.99 kJ</code></pre>
+</div>
+</div>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<p>[1]: Çengel, Y. A., &amp; Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013.</p>
 
 
 </section>

@@ -53,11 +53,7 @@ where, since it's an ideal gas, $Z_{\mathrm{He}} = 1$, and $Z_{\mathrm{O_2}}$ ca
 
 At the initial state (1), then, this will give the initial mixture volume - which is preserved during the heating process. Now, if we calculate the new (at final state 2) compressibility factor of oxygen with the mixture *volume* instead of the pressure, there will probably a larger error, but we''ll use that anyway
 
-I'll use Python and the [CoolProp](http://www.coolprop.org) library for calculating the fluid properties.
-
-```{r setup, include=FALSE}
-library(reticulate)
-```
+I'll use Python and the [CoolProp](http://www.coolprop.org) library for calculating the fluid properties
 
 ```{python}
 from CoolProp.CoolProp import PropsSI

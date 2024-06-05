@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Fábio P. Fortkamp">
-<meta name="dcterms.date" content="2022-03-14">
+<meta name="dcterms.date" content="2022-11-09">
 
-<title>FPFortkamp.com - Speed of sound of a mixture of gases - Exercise 13-92 from Çengel’s Thermodynamics book (7th ed)</title>
+<title>FPFortkamp.com - Stages of studying: 1 - Inspectional Reading</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,40 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -103,35 +69,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -178,9 +115,9 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Speed of sound of a mixture of gases - Exercise 13-92 from Çengel’s Thermodynamics book (7th ed)</h1>
+      <h1 class="title">Stages of studying: 1 - Inspectional Reading</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">Exercise from Çengel’s Thermodynamics</div>
+                <div class="quarto-category">Articles</div>
               </div>
                   </div>
   </div>
@@ -198,7 +135,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 14, 2022</p>
+        <p class="date">November 9, 2022</p>
       </div>
     </div>
     
@@ -217,89 +154,122 @@ window.Quarto = {
 
 
 
-<p>Why do we need a separate <em>mixture</em> thermodynamics subject? Because, when two fluids are mixed, the individual properties do not necessarily add up to the total system, due to <em>interaction</em> effects.</p>
-<p>As usual in Thermodynamics, we need a reference model, and the ideal model for mixtures is an <em>ideal gas mixture</em>, where certain properties are simply the weighted sum of the properties of the components.</p>
-<section id="calculating-the-speed-of-sound-of-a-mixture-of-ideal-gases" class="level2">
-<h2 class="anchored" data-anchor-id="calculating-the-speed-of-sound-of-a-mixture-of-ideal-gases">Calculating the speed of sound of a mixture of ideal gases</h2>
-<p>As an example, let’s us solve Exercise 13-92 from [1]: a mixture of carbon dioxide and nitrogen flows through a convergent nozzle, and it exits at 500 K and a speed of 360 m/s, which is stated as the speed of sound of the mixture in that condition. What is the mass fraction of carbon dioxide in this mixture?</p>
-<p>First, some context. Carbon dioxide and nitrogen are common <em>combustion products</em>: gases that are formed when hydrocarbons burn with air. Other compounds are formed, such as water vapor, sulfur oxides and excess oxygen, but depending on the fuel composition and air context, carbon dioxide and nitrogen dominate the gases, and we approximate the combustion gas as a mixture of just these two gases. Convergent nozzles are commonly employed in airplane jet turbines to accelerate the fluid (the combustion gases) and generate thrust.</p>
-<p>Let <span class="math inline">\(x_{\mathrm{CO_2}}\)</span> be the mass fraction of carbon dioxide in the mixture, and hence <span class="math inline">\(x_{\mathrm{N_2}} = 1 - x_{\mathrm{CO_2}}\)</span>.</p>
-<p>We’ll assume both components are ideal gases in the problem’s conditions, and a mixture of ideal gases is itself an ideal gas. The speed of sound for these fluids is [1]:</p>
-<p><span class="math display">\[
-c^2 = k R T
-\]</span></p>
-<p>where <span class="math inline">\(k\)</span> is the ratio of isobaric to isovolumetric specific heats, and <span class="math inline">\(R\)</span> is the difference between then:</p>
-<p><span class="math display">\[
-kR = \frac{c_p}{c_v}\left(c_p - c_v\right)
-\]</span></p>
-<p>Now, the specific heats is a property that is additive:</p>
-<p><span class="math display">\[
-c_p = x_{\mathrm{CO_2}}c_{p,\mathrm{CO_2}} (T) + \left(1-x_{\mathrm{CO_2}}\right)c_{p,\mathrm{N_2}} (T)
-\]</span></p>
-<p><span class="math display">\[
-c_v = x_{\mathrm{CO_2}}c_{v,\mathrm{CO_2}} (T) + \left(1-x_{\mathrm{CO_2}}\right)c_{v,\mathrm{N_2}} (T)
-\]</span> where, since the temperature is fixed, the individual values of specific heats can be read from a table.</p>
-<p>If the given speed is the speed of sound, then <span class="math inline">\(V^2 = c^2  = kRT\)</span>, and with some rearranging the following function will achieve a zero:</p>
-<p><span class="math display">\[
-f(x_{\mathrm{CO_2}}) = \frac{V^2}{c_p T} - \frac{c_p-c_v}{c_v}
-\]</span></p>
+<p>Adler and Van Doren’s <a href="https://www.amazon.com/How-Read-Book-Classic-Intelligent/dp/0671212095/ref=sr_1_1?crid=2XDSWOZNAA8A1&amp;keywords=adler+van+doren&amp;qid=1668002554&amp;sprefix=adler+van+dore%2Caps%2C222&amp;sr=8-1">How to Read a Book</a> is one of the my favorite books. Although the authors talk about “normal” books (fiction, non-fiction, poetry), I think most of its teachings apply to textbooks and other materials to <em>study</em> in an academic sense.</p>
+<p>This is the first in a series of posts detailing how I study hard materials and try to extract the most knowledge from them.</p>
+<section id="studying-in-stages" class="level2">
+<h2 class="anchored" data-anchor-id="studying-in-stages">Studying in stages</h2>
+<p>The basic premise of the book, and something that I apply to almost everything I read, is that reading or studying should be done <em>in stages</em>. I felt quite at home when Adler and van Doren talk about the classic error of trying to read a difficult book, stumping into the first hard concept, and then being stuck for hours in the same chapter - without even understanding what the book is about. Depending on the book level, <em>you will not</em> understand it in the first reading.</p>
+<p>Hence, when you have anything to read in front of you, the first step is to do an <em>Inspectional Reading</em> - a high-level form of reading, aiming for general concepts and the overall structure of the book or document, without wasting time on details.</p>
 </section>
-<section id="implementation" class="level2">
-<h2 class="anchored" data-anchor-id="implementation">Implementation</h2>
-<p>The following R code should defines the values, including some read from specific heat tables:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> <span class="dv">360</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Values @ 500 K</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>c_p_CO2 <span class="ot">&lt;-</span> <span class="fl">1.014e3</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>c_v_CO2 <span class="ot">&lt;-</span> <span class="fl">0.825e3</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>c_p_N2 <span class="ot">&lt;-</span> <span class="fl">1.056e3</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>c_v_N2 <span class="ot">&lt;-</span> <span class="fl">0.759e3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now, we define the function to be zeroed:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  c_p <span class="ot">&lt;-</span>  x<span class="sc">*</span>c_p_CO2 <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>x)<span class="sc">*</span>c_p_N2</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  c_v <span class="ot">&lt;-</span>  x<span class="sc">*</span>c_v_CO2 <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>x)<span class="sc">*</span>c_v_N2</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  V<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(c_p<span class="sc">*</span>T) <span class="sc">-</span> (c_p <span class="sc">-</span> c_v)<span class="sc">/</span>c_v</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>A good first check is to see how this function behaves:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(f,<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
+<section id="what-to-look-when-inspectional-reading" class="level2">
+<h2 class="anchored" data-anchor-id="what-to-look-when-inspectional-reading">What to look when inspectional reading</h2>
+<p>The authors of <em>How to Read a Book</em> make it clear: inspectional reading is active and demand you take notes. Lately I’ve been a fan of taking notes in paper notebooks:</p>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="images/IMG_6209.jpg" class="img-fluid figure-img"></p>
+<figcaption>Photo of a notebook with notes titles “Inspectional Reading”</figcaption>
 </figure>
 </div>
+<p>Notice above what I noted: the overall structure of a Heat Transfer book I was studying, the main themes threated, some comments on the notation used, the main equations that grabbed my attention, and then some tasks to delve deeper.</p>
+<p>When I was reading the material above, did I encounter some concepts that I did not understand? Of course! But I did not let it stop me of skimming through the whole book. I was actually looking for some details about differential equations, and I have to say I do not understand them yet – but I do know that this book has some answers, and I know where to look. I need another deep work session to do an <em>analytical reading</em> - subject of another post.</p>
+</section>
+<section id="time-constraints" class="level2">
+<h2 class="anchored" data-anchor-id="time-constraints">Time constraints</h2>
+<p>It is <em>fundamental</em> that an inspectional reading is time bounded - an hour, at most. The purpose of this stage is to get answers quickly and not waste time</p>
+<p>Here is another example when I was studying some old class notes:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/IMG_6206.jpg" class="img-fluid figure-img"></p>
+<figcaption>Photo of notebook with notes</figcaption>
+</figure>
+</div>
+<p>I was examining these class notes because my father made me take all of my old college notebooks from his home, and while studying the Heat Transfer book I remember of a Linear Systems class that I took in college.</p>
+<blockquote class="instagram-media blockquote" data-instgrm-captioned="" data-instgrm-permalink="https://www.instagram.com/reel/CkvaKdNJeML/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+<div style="padding:16px;">
+<a href="https://www.instagram.com/reel/CkvaKdNJeML/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
+<div style=" display: flex; flex-direction: row; align-items: center;">
+<div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;">
+
+</div>
+<div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;">
+<div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;">
+
+</div>
+<div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;">
+
 </div>
 </div>
-<p>There is indeed a zero! Let’s find it; the following built-in function finds a zero in the given interval:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x_CO2 <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(f,<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x_CO2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$root
-[1] 0.8359597
+</div>
+<div style="padding: 19% 0;">
 
-$f.root
-[1] -1.041024e-06
-
-$iter
-[1] 3
-
-$init.it
-[1] NA
-
-$estim.prec
-[1] 6.103516e-05</code></pre>
+</div>
+<div style="display:block; height:50px; margin:0 auto 12px; width:50px;">
+<svg width="50px" height="50px" viewbox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xlink="https://www.w3.org/1999/xlink">
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g>
+</svg>
+</div>
+<div style="padding-top: 8px;">
+<div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">
+View this post on Instagram
 </div>
 </div>
-<p>which gives the answer that a mixture of 83,6% of carbon dioxide and (100-83,6)% at 500 K will have a speed of sound of 360 m/s.</p>
-<p>You see that basic assumption was adding up the specific heats, which is not valid always. For instance, in steam power plants, you have compressed steam flowing in the system; if you have air that infiltrate the pipes, you’ll have a mixture of steam and air, and at the typical high pressures of boilers the specific heat of this mixture <em>will not be</em> the sum of individual specific heats, weighted by the mass fractions. A more appropriate mixture rule will be required. The ideal gases model for combustion gases, tough, is widely used.</p>
-<p>[1]: Çengel, Y. A., &amp; Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013. In Portuguese</p>
+<div style="padding: 12.5% 0;">
+
+</div>
+<div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;">
+<div>
+<div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);">
+
+</div>
+<div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;">
+
+</div>
+<div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);">
+
+</div>
+</div>
+<div style="margin-left: 8px;">
+<div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;">
+
+</div>
+<div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)">
+
+</div>
+</div>
+<div style="margin-left: auto;">
+<div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);">
+
+</div>
+<div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);">
+
+</div>
+<div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);">
+
+</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;">
+<div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;">
+
+</div>
+<div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;">
+
+</div>
+</div>
+</a>
+<p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;">
+<a href="https://www.instagram.com/reel/CkvaKdNJeML/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by Fábio P. Fortkamp, Dr.&nbsp;Eng. | Mechanical Engineer (<span class="citation" data-cites="fpfortkamp">@fpfortkamp</span>)</a>
+</p>
+</div>
+</blockquote>
+<script async="" src="//www.instagram.com/embed.js"></script>
+<p>I thought studying these notes might be useful for my projects - but as I completed my Inspectional Reading, I realized this material was not right (for now). I did not have to read two chapters in detail, which would take much more time, to reach that conclusion.</p>
+</section>
+<section id="the-other-stages" class="level2">
+<h2 class="anchored" data-anchor-id="the-other-stages">The other stages</h2>
+<p>Studying is deeply important to me as a researcher, and I treat it seriously. I can only advance in my carrer if I have impactful ideas.</p>
+{{&lt; tweet 1589653650598924289 &gt;}}
+<p>Stay tuned for more posts of my study techniques and tips…</p>
 
 
 </section>

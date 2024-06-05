@@ -20,11 +20,6 @@ where $A = 111.111\,\mathrm{kPa}$ and $K = 888.89\,\mathrm{kPa/m^3}$. During the
 
 For that, in contrast with the [previous](https://fpfortkamp.com/post/mixture/) [posts](https://fpfortkamp.com/post/isothermic/), now we'll use Python and the [`pyromat`](http://pyromat.org) package, which I've just discovered today. 
 
-```{r setup, include=FALSE}
-library(reticulate)
-use_condaenv(condaenv="coolprop",conda= "/Users/fabiofortkamp/anaconda3/condabin/conda")
-```
-
 With the added heat, the system will expand and perform work, which can be calculated using only mechanics:
 
 $$
@@ -85,7 +80,9 @@ The constant-volume specific heat for ideal gases is a function of temperature o
 
 The `pyromat` library has function to create ideal gas "objects" and then access constants and functions as illustrated below:
 
-```{python}
+```{python }
+#| output: false
+
 import pyromat as pm
 N2 = pm.get("ig.N2") # ig = ideal gas model
 CO2 = pm.get("ig.CO2")
