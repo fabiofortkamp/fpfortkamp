@@ -26,7 +26,7 @@ But there is also a *contextual* component. CGP Grey illustrates how it is
 good to compartimentalize your life, to train your brain to associate certain 
 environments with a desire to focus on certain things:
 
-{{< youtube snAhsXyO3Ck >}}
+{{< video https://www.youtube.com/embed/snAhsXyO3Ck >}}
 
 In this case, when I see a particular color scheme, I will immediately start to
 think about the project associated with those colors. Also,

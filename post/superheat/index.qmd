@@ -20,7 +20,7 @@ We are always learning. After studying more about compressor datasheets, I reali
 
 The main problem is that, in every calculation, I took the inlet state as saturated vapor in the given evaporating temperature, when in reality the [datasheet](https://products.embraco.com/commtrol/api/pdf/compressor/datasheet/7187?&condensing_temperature=54.4&evaporating_temperature=-23.3&units=w&units_temp=metric-system&filters%5Bbare%5D=513701421&filters%5Brefrigerant%5D%5B%5D=R-600a&filters%5Bstandard%5D=ASHRAE&filters%5Bfrequency%5D=60)  specifies that the vapor always enters at 32.2 ºC.
 
-{{< figure src="datasheet.png" >}}
+![Datasheet](/_media/datasheet.png)
 
 So let's start again. We will read the dataset with [pandas](https://pandas.pydata.org/?msclkid=29caa245bff611ec80ba73d4aced3042):
 

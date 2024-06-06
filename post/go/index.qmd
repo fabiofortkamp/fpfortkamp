@@ -1,0 +1,156 @@
+---
+title: "Studying Go to get better at Python: reader and writer interfaces"
+date: "2024-04-04"
+categories: 
+  - "blog"
+tags: 
+  - "books"
+  - "go"
+  - "python"
+coverImage: "IMG_8030-scaled-e1712222847620.jpg"
+---
+
+In my day job, I mainly write Python code, but I dedicate a good amount of time to [studying the Go programming language.](https://obsessedwithprogramming.com/monkey/) Here's one good example that shows why it's so useful.
+
+## The importance of thinking about IO
+
+The kind of programs I write are command line applications that take some specification file in and produce an output file with simulation results; both input and output files are JSON files. I develop these programs for our clients, but I also use them for our own analysis and research. That means that I'm always writing more and more scripts and that analyze the input and output data our main software consumes. The question: how can I add flexibility to this? How can I choose to save the output JSON object to a file, or to the terminal for some quick checking, or to some in-memory object for testing?
+
+**I've never seen this type of discussion in Python literature - in fact, before studying Go books, I rarely though of that problem, and had my programs always read from and write to disk files.** This is simple, but make testing more cumbersone (I have to always create and delete temporary files) and inefficient.
+
+## Studying Go: reader and writer interfaces
+
+But Go books are full of examples that use [Reader](https://go.dev/tour/methods/21) and [Writer](https://yourbasic.org/golang/io-writer-interface-explained/) interfaces. Here's some sample (and incomplete) code from one of the example programs of the excelent _[Powerful Command Line Applications with Go](https://pragprog.com/titles/rggo/powerful-command-line-applications-in-go/)_: a function that takes a filename, open that filename for processing, saves the processed data to a temporary file, and writes the path of that file to a _Writer_ interface `out`:
+
+
+```go
+//main.go
+
+func run(filename string, out io.Writer) error {
+  // Read all the data from the input file and check for errors 
+  input, err := ioutil.ReadFile(filename)
+  if err != nil {
+    return err 
+  }
+  
+  // create a temporary file to store processed data
+  temp, err := ioutil.TempFile("", "mdp*.html") 
+  if err != nil {
+    return err 
+  }
+  
+  // do some processing with input and save to temp
+  // ...
+  
+  // close the file
+  if err := temp.Close(); err != nil { 
+    return err
+  }
+  
+  // save the results filename to this out interface for checking
+  // e.g. checking that it contains the right data
+  outName := temp.Name()
+  fmt.Fprintln(out, outName)
+  
+  // ... return some status
+}
+  
+```
+
+The details are not important, which is why I skipped many lines. What's important is this: in a test file, I can create a buffer in which to write the filename:
+
+```go
+//main_test.go
+
+func TestRun(t *testing.T) { 
+  var mockStdOut bytes.Buffer
+  if err := run(inputFile, &mockStdOut); err != nil { 
+  t.Fatal(err)
+  }
+  
+  // mockStdOut contains the resultsfilename, 
+  // which we then store in avariable
+  resultFile := strings.TrimSpace(mockStdOut.String())
+  
+  // and now read that file
+  result, err := ioutil.ReadFile(resultFile)
+  
+  // do some checks with results
+  }
+```
+
+And, in the actual application, I can just use the system stdout:
+
+```go
+// main.go
+
+// definition of the function run(...) as above
+
+func main() {
+  // Parse flags
+  filename := flag.String("file", "", "File to process") 
+  flag.Parse()
+  // If user did not provide input file, show usage
+  if *filename == "" { flag.Usage() os.Exit(1)
+  }
+  if err := run(*filename, os.Stdout); err != nil { 
+    fmt.Fprintln(os.Stderr, err)
+    os.Exit(1)
+  } 
+}
+```
+
+Did you see what happened? The same function can be passed an internal buffer for testing (no writing files required), or the actual terminal in the final application.
+
+## Parametrizing IO in Python
+
+How can I reproduce this technique in Python? Here is some sample module that is similar to the example above:
+
+
+```python
+"""main.py - the best simulator ever written."""
+
+from typing import TextIO
+import sys
+
+def run(out: TextIO) -> None:
+    out.write("I just did some awesome simulation!\n")
+
+if __name__ == "__main__":
+    run(sys.stdout)
+```
+
+If you run, you get the expected result:
+
+```bash
+python main.py
+# I just did some awesome simulation!
+```
+
+But for testing, we can use a [StringIO](https://docs.python.org/3/library/io.html#io.StringIO) object, which acts like the buffer we saw earlier:
+
+```python
+"""test_main.py - Check that we are indeed awesome"""
+
+import main
+import io
+
+def test_main():
+    mock = io.StringIO()
+
+    main.run(mock)
+
+    message = mock.getvalue()
+
+    assert message == "I just did some awesome simulation!\n"
+```
+
+When running this case with [pytest](https://docs.pytest.org/en/stable/contents.html) (`pytest test_main.py`, provided why files are in the same directory), the test passes. We did not have to read from stdout, nor save anything to a file, both of which require more code to be written.
+
+## Studying Go is not a waste of time even if you do not write Go
+
+What does this mean in practice? **It means you stop writing `print()` statements all over the place, and think about what is being read and written.** This forces me to think of the software at a higher level.
+
+I think there's a gap in Python literature: too much focus on new syntax constructions (which are very nice), too focus on Jupyter notebooks, and too little focus in software development: testing, structuring code, making it easier to extend. Both [Writing Powerful Command-Line Applications in Go](https://pragprog.com/titles/rggo/powerful-command-line-applications-in-go/) and [Writing Interpreters in Go](https://interpreterbook.com/) focus on that: writing useful programs, without nitty-picking syntax details.
+
+Why my obsession with Go in particular? It's just that the literature is full of good books, and it's a modern language with a clean syntax, powerful and easy to learn in incremental steps. Slowly but surely, I'm beginning to write more and more Go programs almost as more powerful shell scripts, because it's so pleasant to do that. I highly recommend addying this language to your repertoire.

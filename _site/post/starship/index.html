@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.547">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -158,9 +192,8 @@ ul.task-list li input[type="checkbox"] {
 <p>By day, I write mostly Python code, and the tricky thing that people forget is that there is no Python - there are Pythons. Each new Python 3.X version introduces several new features and might break some APIs from other 3.X versions. If I write code for Python 3.12, colleagues of mine that not so tech-savy and have only Python 3.10 in their machines would not be able to use my tools.</p>
 <p>A similar problem occur for package versions: different clients use different versions of my company’s products, so when debugging I need to be sure of running the correct version.</p>
 <p>Enter Starship. When prototyping an application this morning, this is the prompt I got:</p>
-<p>ShellSession</p>
-<pre><code>~/newapp on  main [?] is 📦 v0.1.0 via 🐍 v3.11.8 took 4s
-➜</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/newapp</span> on  main <span class="pp">[</span><span class="st">?</span><span class="pp">]</span> is 📦 v0.1.0 via 🐍 v3.11.8 took 4s</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">➜</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This tells me immediately that:</p>
 <ol type="1">
 <li><p>I’m on the <code>newapp</code> root directory</p></li>
@@ -172,8 +205,7 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 <p>Everything substantial that I would do, like activating an environment or bumping up the package version, would reflect immediately in the prompt.</p>
 <p>When I switch projects to <a href="https://obsessedwithprogramming.com/studying-go/">use Go</a> for a new CLI tool that I’m building, now I see this:</p>
-<p>ShellSession</p>
-<pre><code>~/awesome-go-cli on  main via 🐹 v1.21.6</code></pre>
+<pre class="shell"><code>~/awesome-go-cli on  main via 🐹 v1.21.6</code></pre>
 <p>and now my brain notices the new animal and knows that I need to think statically-typed.</p>
 </section>
 <section id="productivity-for-developers-easy-to-setup-powerful-results" class="level2">
@@ -183,30 +215,28 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Install Starship with the official <a href="https://starship.rs/guide/">guide</a></p></li>
 <li><p>Create your configuration in <code>~/.config/starship.toml</code>. Everything you saw above is built-in: there is the entirety of my configuration with comments:</p></li>
 </ol>
-<p>TOML</p>
-<pre><code>
-# Replace the '❯' symbol in the prompt with '➜'
-[character] # The name of the module we are configuring is 'character'
-# The 'success_symbol' segment is being set to '➜' with the color 'bold green'
-success_symbol = '[➜](bold green)'
-error_symbol = '[➜](bold red)'
-
-
-[c]
-symbol = " "
-
-[directory]
-# the default is to truncate the full path in the prompt
-# this increases the number of subdirectories before truncation happens
-read_only = " 󰌾"
-truncation_length = 6
-truncation_symbol = "..."
-truncate_to_repo = false
-
-
-[docker_context]
-# I rarely use Docker but when I do, I find the Docker additions distracting
-disabled = true</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace the '❯' symbol in the prompt with '➜'</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">[character]</span> <span class="co"># The name of the module we are configuring is 'character'</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># The 'success_symbol' segment is being set to '➜' with the color 'bold green'</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="dt">success_symbol</span> <span class="op">=</span> <span class="st">'</span><span class="vs">[➜](bold green)</span><span class="st">'</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="dt">error_symbol</span> <span class="op">=</span> <span class="st">'</span><span class="vs">[➜](bold red)</span><span class="st">'</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">[c]</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="dt">symbol</span> <span class="op">=</span> <span class="st">" "</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">[directory]</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># the default is to truncate the full path in the prompt</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># this increases the number of subdirectories before truncation happens</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="dt">read_only</span> <span class="op">=</span> <span class="st">" 󰌾"</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="dt">truncation_length</span> <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="dt">truncation_symbol</span> <span class="op">=</span> <span class="st">"..."</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="dt">truncate_to_repo</span> <span class="op">=</span> <span class="cn">false</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="kw">[docker_context]</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># I rarely use Docker but when I do, I find the Docker additions distracting</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="dt">disabled</span> <span class="op">=</span> <span class="cn">true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The TOML file is based on <a href="https://starship.rs/config/">modules</a> that you customize individually. Notice I did not have to change nor the Python nor the Go modules.</p>
 <p>Do you use any shell prompt like this? Leave suggestions for similar productivity tools in the comments!</p>
 

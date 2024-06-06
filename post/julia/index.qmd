@@ -27,7 +27,7 @@ So yes, I think developers and engineers should build their programming language
 
 This way, you focus on getting increasingly better as a *developer in general*, and not as a *Python developer*:
 
-{{< youtube pEfrdAtAmqk >}}
+{{< video https://www.youtube.com/embed/pEfrdAtAmqk >}}
 
 My main point is this: the more languages you learn, the more you learn about programming in general.
 
@@ -35,7 +35,7 @@ My main point is this: the more languages you learn, the more you learn about pr
 
 Julia is built to be fast: 
 
-{{< youtube qGW0GT1rCvs >}}
+{{< video https://www.youtube.com/embed/qGW0GT1rCvs >}}
 
 In my experience, as someone who is not a computer scientist by training, and who work with people with a similar background but who still code all day, engineers tend to "hack" a Python script to do some sort of simulation or data processing, realize it takes forever to run, and then do nothing about it.
 

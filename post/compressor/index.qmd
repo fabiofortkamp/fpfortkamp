@@ -21,15 +21,15 @@ When selecting a compressor for a refrigeration system, the engineer usually has
 
 [Here is one example of a compressor datasheet](https://products.embraco.com/commtrol/api/pdf/compressor/datasheet/7187?&condensing_temperature=54.4&evaporating_temperature=-23.3&units=w&units_temp=metric-system&filters%5Bbare%5D=513701421&filters%5Brefrigerant%5D%5B%5D=R-600a&filters%5Bstandard%5D=ASHRAE&filters%5Bfrequency%5D=60) that we will explore in this post. The main data is presented in tables of various metrics as a function of evaporating temperature, and we have one table for each condensing temperature like this:
 
-{{< figure src="datasheet.png" >}}
+![Compressor datasheet](/_media/datasheet.png)
 
 This must be converted to a text format. After a [recomendation from Dr. Drang](https://leancrew.com/all-this/2021/07/trains-and-tables/?msclkid=2560a0cdbff511ec83dccfa21dafa949?), I often use [Tabula](https://tabula.technology/): this app allows you to upload PDFs and extract a text table from it:
 
-{{< figure src="tabula.png" >}}
+![Tabula](/_media/tabula.png)
 
 The result can be downloaded as a CSV and cleaned up; it is also useful to explicitly include the condensing temperature as a column, in the case we want to generalize the results of this post to other temperatures:
 
-{{< figure src="csv.png" >}}
+![CSV screesnshot](/_media/csv.png)
 
 This can be parsed with [pandas](https://pandas.pydata.org/?msclkid=29caa245bff611ec80ba73d4aced3042):
 
