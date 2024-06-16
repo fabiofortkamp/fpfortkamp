@@ -171,6 +171,11 @@ window.Quarto = {
 </i> 
 <span class="menu-text"></span></a>
   </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
@@ -248,7 +253,7 @@ Z_{\mathrm{m}} = \sum_{i=1}^n y_i Z_i
 <p>where, since it’s an ideal gas, <span class="math inline">\(Z_{\mathrm{He}} = 1\)</span>, and <span class="math inline">\(Z_{\mathrm{O_2}}\)</span> can be calculated from its equation of state. Here, we can use the <em>mixture</em> values of pressure and temperature, instead of partial values, as a way of already accounting for interaction forces and making the model more realistic [1].</p>
 <p>At the initial state (1), then, this will give the initial mixture volume - which is preserved during the heating process. Now, if we calculate the new (at final state 2) compressibility factor of oxygen with the mixture <em>volume</em> instead of the pressure, there will probably a larger error, but we’’ll use that anyway</p>
 <p>I’ll use Python and the <a href="http://www.coolprop.org">CoolProp</a> library for calculating the fluid properties</p>
-<div id="a590cccf" class="cell" data-execution_count="1">
+<div id="959a6278" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> CoolProp.CoolProp <span class="im">import</span> PropsSI</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.constants <span class="im">import</span> R <span class="im">as</span> Ru</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -308,7 +313,7 @@ u = h - Pv = h - ZRT
 <li>the difference between enthalpy and internal energy.</li>
 </ol>
 <p>Calculating everything:</p>
-<div id="d5319a89" class="cell" data-execution_count="2">
+<div id="00313bc2" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Tmean <span class="op">=</span> (T1 <span class="op">+</span> T2)<span class="op">/</span><span class="dv">2</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># notice that CoolProp does not have an ideal gas constant-volume specific heat</span></span>

@@ -3,6 +3,8 @@ project:
 
 website:
   title: "FPFortkamp.com"
+  site-url: https://fpfortkamp.com
+  description: "Fábio P. Fortkamp's professional website"
   navbar:
     right:
       - about.qmd
@@ -11,6 +13,8 @@ website:
         href: https://github.com/fabiofortkamp
       - icon: twitter
         href: https://x.com/fpfortkamp
+      - icon: rss
+        href: index.xml
 format:
   html:
     theme: litera

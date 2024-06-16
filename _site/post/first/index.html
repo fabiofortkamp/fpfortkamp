@@ -171,6 +171,11 @@ window.Quarto = {
 </i> 
 <span class="menu-text"></span></a>
   </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
@@ -231,7 +236,7 @@ P = A + K \mathcal{V}
 W = \int_{\mathcal{V}_1}^{\mathcal{V}_2} P \mathrm{d}\mathcal{V}
 \]</span></p>
 <p>Where the initial volume can be obtained from the given pressure variation, and the final volume is double that:</p>
-<div id="1eeffa26" class="cell" data-execution_count="1">
+<div id="1e78d819" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="fl">111.111</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="fl">888.89</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -248,7 +253,7 @@ W = \int_{\mathcal{V}_1}^{\mathcal{V}_2} P \mathrm{d}\mathcal{V}
 W = A * (\mathcal{V}_2 - \mathcal{V}_1) + \frac{K}{2}\left(\mathcal{V}_2^2 - \mathcal{V}_1^2\right)
 \]</span></p>
 <p>and calculating it:</p>
-<div id="68e8faed" class="cell" data-execution_count="2">
+<div id="d97a2ca3" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>W <span class="op">=</span> A<span class="op">*</span>(V2<span class="op">-</span>V1) <span class="op">+</span> K<span class="op">/</span><span class="dv">2</span><span class="op">*</span>(V2<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> V1<span class="op">**</span><span class="dv">2</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"W = </span><span class="sc">%.2f</span><span class="st"> kJ"</span> <span class="op">%</span>(W,))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -273,7 +278,7 @@ T_2 = \frac{P_2 V_2}{m R}
 <p>where <span class="math inline">\(P_2\)</span> can be obtained from the pressure-volume equation.</p>
 <p>The constant-volume specific heat for ideal gases is a function of temperature only, and for better accuracy can be calculated at the average temperature. The mixture specific heat is computed similarly to the gas constant above.</p>
 <p>The <code>pyromat</code> library has function to create ideal gas “objects” and then access constants and functions as illustrated below:</p>
-<div id="b277b7d8" class="cell" data-execution_count="3">
+<div id="d76437b4" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyromat <span class="im">as</span> pm</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>N2 <span class="op">=</span> pm.get(<span class="st">"ig.N2"</span>) <span class="co"># ig = ideal gas model</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>CO2 <span class="op">=</span> pm.get(<span class="st">"ig.CO2"</span>)</span>
