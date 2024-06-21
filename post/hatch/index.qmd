@@ -1,0 +1,13 @@
+---
+title: How I use Hatch to manage my Python projects
+author: Fábio P. Fortkamp
+date: '2024/06/21'
+categories:
+  - Articles
+tags:
+  - python
+  - hatch
+  - terminal
+draft: true
+---
+
