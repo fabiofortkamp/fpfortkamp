@@ -1,0 +1,18 @@
+---
+title: IDE or Neovim - why not both?
+author: Fábio P. Fortkamp
+date: '2024/06/21'
+categories:
+  - Articles
+tags:
+  - pycharm
+  - neovim
+  - python
+  - IDE
+  - editing
+draft: true
+---
+
+It's not a secret that I love [Neovim](/post/pyright/). Using a terminal-based, powerful
+editor allows me to write new code very fast, allowing myself to get into a state of
+flow and transfering my ideas to the code.

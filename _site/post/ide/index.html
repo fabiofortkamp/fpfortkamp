@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Fábio P. Fortkamp">
-<meta name="dcterms.date" content="2022-12-02">
+<meta name="dcterms.date" content="2024-06-21">
 
-<title>FPFortkamp.com - Why a mechanical engineer uses Linux - in Windows</title>
+<title>FPFortkamp.com - IDE or Neovim - why not both?</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -124,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Why a mechanical engineer uses Linux - in Windows</h1>
+      <h1 class="title">IDE or Neovim - why not both?</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">Articles</div>
               </div>
@@ -144,7 +144,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">December 2, 2022</p>
+        <p class="date">June 21, 2024</p>
       </div>
     </div>
     
@@ -163,86 +163,9 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="a-little-bit-of-backstory" class="level2">
-<h2 class="anchored" data-anchor-id="a-little-bit-of-backstory">A little bit of backstory</h2>
-<p>In the academic year of 2009-2010, I went to the <a href="https://www.up.pt/portal/en/">University of Porto</a> to spend a semester abroad:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/IMG_3859.jpg" class="img-fluid figure-img"></p>
-<figcaption>Picture of me in a bridge in Porto, Portugal</figcaption>
-</figure>
-</div>
-<p>This was life-changing in several ways. It was the first time I left my family home (since I went to university in my home town), and it was in a different country! I met a lot of people, made several friends, had the privilege of traveling around Europe being only 21, and grew up as a person.</p>
-<p>Of course, academically, I also learned a lot. But I had a small problem: I was too far advanced in my Mechanical Engineering curriculum here in Brazil, and I had few options of courses to take in Portugal. This became even harder in the second semester, which led me to the decision of taking Computer Engineering courses to achieve the required number of hours in the classroom.</p>
-<p>And then I, a Mechanical Engineer student, took classes on Computer Graphics, Operating Systems, Databases. This experience <em>made me</em> the Mechanical Engineer I am today.</p>
-</section>
-<section id="what-is-my-job-title-anyway" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-my-job-title-anyway">What is my job title anyway?</h2>
-<p>When I returned to Brazil, I was ruined. All I could think of was programming, and <em>serious</em> programming, not the sub par classes I had to take in the first years of college. Back in my home university, I took courses in numerical heat transfer, numerical structural analysis, computer-aided manufacturing. I began developing <a href="https://www.learncax.com/knowledge-base/blog/by-category/cfd/writing-a-user-defined-function-udf-in-ansys-fluent">User-Defined Functions in Fluent</a> in the C programming language (good times).</p>
-<p>Before graduating, I took an internship position at <a href="https://www.kit.edu/english/index.php">KIT</a>. I worked in a project that involved the refrigeration industry, but… as a developer, I guess? I spent all days in the VBA (Visual Basic for Applications) editor, implementing models for compressors, valves, heat exchangers, fluid properties – and all inside Excel, so that engineers and managers could do their thing without having to open Matlab, or Python, and any code editor.</p>
-<p>Quick: was I a Mechanical Engineer, or a Software Developer?</p>
-</section>
-<section id="where-does-linux-goes-into-this-post" class="level2">
-<h2 class="anchored" data-anchor-id="where-does-linux-goes-into-this-post">Where does Linux goes into this post?</h2>
-<p>I reminded of all this because, currently, this is what I get to see in front of me almost every day:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/WindowsTerminal_9WqvMbOfEl.png" class="img-fluid figure-img"></p>
-<figcaption>Screenshot of the Windows Terminal app showing a Linux session</figcaption>
-</figure>
-</div>
-<p>I again face the question from above: I spend my days implementing models for heat transfer and fluid flow processes – am I an Engineer or a Developer?</p>
-<p>My main function in my current job is developing (proprietary) Python software. This is the most complex code I’ve ever worked with, and I have to deal with collaborating with other people with <a href="https://git-scm.com/">Git</a>, keeping track of Python versions (and Python packages versions), debugging, testing. I’m also writing reports in <a href="https://quarto.org">Quarto</a>, and beginning to study some <a href="https://julialang.org/">Julia</a> (more on this in a later post). These are all related to Mechanical Engineering, and involve serious programming tasks, and this requires serious programming tools.</p>
-<p>I’m not saying that you can’t do serious development in Windows – I’ve done that my whole career. But I <em>was trained</em> to be a programmer in Linux, while taking all those Computer Engineering classes in Portugal. My assignments were to work with a terminal app (like the one you see above), type commands in it and then write code in a text editor. After learning Linux at U. Porto, I couldn’t go back to the Command Prompt in Windows. In later years, I tried out <a href="http://www.cygwin.com/">Cygwin</a> and <a href="https://gitforwindows.org/">Git Bash</a>, but these were more hacks than anything else and problems always appeared. For instance, you can indeed have a great terminal experience (I even wrote <a href="https://github.com/fabiofortkamp/secondlaw">my own configuration scripts for using terminals in Windows</a>), but basic tools like <code>make</code> aren’t included. I love working with <a href="https://code.visualstudio.com/">VS Code</a>, and it doesn’t integrate well with either Cygwin or Git Bash.</p>
-<p>So I decided to try out the <a href="https://learn.microsoft.com/en-us/windows/wsl/">Windows Subsystem for Linux</a> (WSL), which allows me to use Windows apps but with the Linux command line and tools. I should have just learned <a href="https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.3&amp;WT.mc_id=-blog-scottha&amp;viewFallbackFrom=powershell-7.1">Powershell</a>, but here we are.</p>
-<p>By the way: if you getting more serious into programming tasks in Windows, you should check out <a href="https://www.hanselman.com/blog/taking-your-powershell-prompt-to-the-next-level-with-windows-terminal-and-oh-my-posh-3">Scott Hanselman’s blog</a>. He writes a lot about Windows apps and tools — while also recommending WSL.</p>
-</section>
-<section id="how-to-configure-it" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-configure-it">How to configure it</h2>
-<section id="installation" class="level3">
-<h3 class="anchored" data-anchor-id="installation">Installation</h3>
-<p>So what is WSL? Basically, it’s a different interface with your Windows PC.</p>
-<p>After <a href="https://learn.microsoft.com/en-us/windows/wsl/install">installing it</a>, what you get is a virtual machine that is running a version of Linux. I went with the default options: I’m running <a href="https://releases.ubuntu.com/22.04/">Ubuntu</a> – maybe you can see that I even used the official wallpaper from the current (22.04) Long-Term-Support (LTS) distribution, <em>Jammy Jellyfish</em>. By the way: I’m running the <a href="https://www.microsoft.com/p/windows-terminal-preview/9n8g5rfz9xk3#activetab=pivot:overviewtab">Windows Terminal Preview</a>, a very modern terminal app. If you install WSL and this app, a <em>profile</em> will be created, and you can select it when opening a new tab:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/WindowsTerminal_ovsk3ERpZU.png" class="img-fluid figure-img"></p>
-<figcaption>Screenshot of Windows Terminal menu of opening new profiles</figcaption>
-</figure>
-</div>
-<p><a href="https://learn.microsoft.com/en-us/windows/terminal/install">I’ve set up Windows Terminal</a> so that the Ubuntu profile is the default one, and also set it to open automatically at startup:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/WindowsTerminal_X8MCs4sDVo.png" class="img-fluid figure-img"></p>
-<figcaption>Screenshot of Windows Terminal settings</figcaption>
-</figure>
-</div>
-<p>And with <a href="https://github.com/fabiofortkamp/secondlaw/blob/master/bin/wterminal.ahk">this script</a> (for <a href="https://www.autohotkey.com">AutoHotkey</a>), which is also in my <a href="https://support.microsoft.com/en-us/windows/add-an-app-to-run-automatically-at-startup-in-windows-10-150da165-dcd9-7230-517b-cf3c295d89dd">Startup folder</a>, I set up the keystroke Ctrl-Shit-Alt-I to toggle opening and hiding the terminal.</p>
-</section>
-<section id="getting-around-the-command-line" class="level3">
-<h3 class="anchored" data-anchor-id="getting-around-the-command-line">Getting around the command line</h3>
-<p>With WSL, you don’t get a full Linux distribution, which its own graphical user interface – you only have the command line, so it’s essential to use it well.</p>
-<p>When I was learning Linux, <a href="https://linuxcommand.org/tlcl.php">The Linux Command Line by William Shots</a> was an essential reference - and it’s free! I highly recommend it as a first step.</p>
-<p>I’ve taken one step further from the book above, which uses the bash shell, and set zsh as my default system. <a href="https://github.com/fabiofortkamp/dotfiles">Here’s my current configuration</a>, which uses <a href="https://ohmyz.sh/">oh-my-zsh</a>. Being able to do these sorts of customizations is the main point of using Linux on Windows.</p>
-</section>
-<section id="accessing-windows-programs" class="level3">
-<h3 class="anchored" data-anchor-id="accessing-windows-programs">Accessing Windows programs</h3>
-<p>The beauty of WSL is that it can be thought of as just an interface. For instance, as I said above, I use VS Code, and I downloaded it and installed it as a regular Windows program, and it is in my <code>PATH</code> <a href="https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/">environment variable</a> set <em>in Windows</em>. But in WSL, if I type <code>code</code>, it opens the Windows VS Code app – it knows there to look at! In the WSL shell, (<a href="https://learn.microsoft.com/en-us/windows/wsl/filesystems">you navigate the Linux virtual machine directories, as well as the native Windows folder</a>).</p>
-</section>
-</section>
-<section id="but-again-what-does-it-have-to-do-with-engineering" class="level2">
-<h2 class="anchored" data-anchor-id="but-again-what-does-it-have-to-do-with-engineering">But again, what does it have to do with Engineering?</h2>
-<p>It all comes back to being more efficient at using Windows for software development. Right now I’m working on a paper that involves running multiple Python scripts and rendering markdown and LaTeX documents. The process of easily generating the final manuscript is completely automated (ask me how), and I can use the full power of “the command line” to interweave various commands and tasks.</p>
-<p>So yes: I’m a Mechanical Engineer, and Linux, Python, Julia, the terminal etc are tools to do engineering research, and an engineer has to know his tools.</p>
-</section>
-<section id="what-does-not-work-so-far" class="level2">
-<h2 class="anchored" data-anchor-id="what-does-not-work-so-far">What does not work so far</h2>
-<p>There are some hiccups. This is a virtual machine, so it has limited memory. Compiling some Julia libraries proved impossible, so for now I’m not using WSL for that (like I said, more on this later). I would <em>really</em> like to fix that.</p>
-<p>It was also not trivial to install different Python versions for my different projects, but <a href="https://computingforgeeks.com/how-to-install-python-on-ubuntu-linux-system/">this guide</a> was very helpful.</p>
-<p>Only two drawbacks? Yes, I am very happy with this experience. Surprisingly, my 3-year old son also is, because when he comes to my home office I’m usually researching Linux things, and he loves seeing <a href="https://en.wikipedia.org/wiki/Tux_(mascot)">Tux</a> in my computer screen.</p>
-<p>I began this post with a picture of my 21-year old self, and finished talking about my first-born, while talking about Linux in the middle. I think that’s all for today.</p>
+<p>It’s not a secret that I love <a href="../../post/pyright/">Neovim</a>. Using a terminal-based, powerful editor allows me to write new code very fast, allowing myself to get into a state of flow and transfering my ideas to the code.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
