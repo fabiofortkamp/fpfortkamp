@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/post/ide/index.html",
       "/post/starship/index.html",
       "/post/interpreters/index.html",
       "/post/go/index.html",

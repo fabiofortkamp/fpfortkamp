@@ -247,7 +247,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="calculating-expansivity-and-compressibility-with-coolprop">Calculating expansivity and compressibility with CoolProp</h2>
 <p>Beware that the coefficients above have many names, depending on the source you are using. To calculate them using the CoolProp library in Python, for instance, I had to look up the <a href="http://www.coolprop.org/coolprop/HighLevelAPI.html#parameter-table">available functions</a>.</p>
 <p>Notice that, as derivatives of <span class="math inline">\(p-v-T\)</span> relations, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are properties of state, depending on two other properties to be calculated. For instance, the expansivity of air at atmospheric pressure and ambient temperature is:</p>
-<div id="fb4e6bab" class="cell" data-execution_count="1">
+<div id="0d4af5cf" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> CoolProp.CoolProp <span class="im">import</span> PropsSI</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>T0 <span class="op">=</span> <span class="dv">298</span> <span class="co"># K</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>P0 <span class="op">=</span> <span class="fl">101.325e3</span> <span class="co"># Pa</span></span>
@@ -259,7 +259,7 @@ window.Quarto = {
 </div>
 </div>
 <p>And the compressibility can be calculated as:</p>
-<div id="eca303af" class="cell" data-execution_count="2">
+<div id="3e0f15ea" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> PropsSI(<span class="st">"ISOTHERMAL_COMPRESSIBILITY"</span>,<span class="st">"T"</span>,T0,<span class="st">"P"</span>,P0,fluid)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">%.3e</span><span class="st"> Pa^-1"</span> <span class="op">%</span>(alpha,))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -275,7 +275,7 @@ c_p - c_v = \frac{vT\beta^2}{\alpha}
 \]</span></p>
 <p>where <span class="math inline">\(c_p\)</span> and <span class="math inline">\(c_v\)</span> are respectively the constant-pressure and constant-volume speficic heats. The right hand side is always non-negative, which enforces <span class="math inline">\(c_p \ge c_v\)</span>. The equality sign applies from <em>incompressible substances</em>, for which <span class="math inline">\(\beta = 0\)</span>.</p>
 <p>Let us verify that relation:</p>
-<div id="d4f71010" class="cell" data-execution_count="3">
+<div id="6d05558f" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>c_p <span class="op">=</span> PropsSI(<span class="st">"CPMASS"</span>,<span class="st">"T"</span>,T0,<span class="st">"P"</span>,P0,fluid)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>c_v <span class="op">=</span> PropsSI(<span class="st">"CVMASS"</span>,<span class="st">"T"</span>,T0,<span class="st">"P"</span>,P0,fluid)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>PropsSI(<span class="st">"D"</span>,<span class="st">"T"</span>,T0,<span class="st">"P"</span>,P0,fluid)</span>
@@ -296,7 +296,7 @@ c_p - c_v = \frac{vT\beta^2}{\alpha}
 <h2 class="anchored" data-anchor-id="comparison-between-gases">Comparison between gases</h2>
 <p>If we pick only gases commonly present in mechanical engineering applications, how do the values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> vary between them?</p>
 <p>When doing this sort of analysis, I always find it useful to use <a href="https://pandas.pydata.org/docs/getting_started/">pandas</a> to build a table and work from there:</p>
-<div id="41484e05" class="cell" data-execution_count="4">
+<div id="780630fa" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas <span class="im">import</span> Series, DataFrame</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>

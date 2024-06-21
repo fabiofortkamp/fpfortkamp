@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Fábio P. Fortkamp">
-<meta name="dcterms.date" content="2022-03-15">
+<meta name="dcterms.date" content="2024-06-21">
 
-<title>FPFortkamp.com - First Law Analysis of a Mixture of Ideal Gases - Exercise 13-97 from Çengel’s Thermodynamics book (7th ed)</title>
+<title>FPFortkamp.com - How I use Hatch to manage my Python projects</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,40 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -103,35 +69,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -187,9 +124,9 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">First Law Analysis of a Mixture of Ideal Gases - Exercise 13-97 from Çengel’s Thermodynamics book (7th ed)</h1>
+      <h1 class="title">How I use Hatch to manage my Python projects</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">Exercise from Çengel’s Thermodynamics</div>
+                <div class="quarto-category">Articles</div>
               </div>
                   </div>
   </div>
@@ -207,7 +144,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 15, 2022</p>
+        <p class="date">June 21, 2024</p>
       </div>
     </div>
     
@@ -226,89 +163,8 @@ window.Quarto = {
 
 
 
-<p>This is exercise 13-97 from [1]: a mixture of gases composed of 55% of nitrogen gas and 45% of carbon dioxide (in mass) is originally at 200 kPa and 45 ˚C. The system is heated up and expands, but due to the action of a spring, the pressure variation as a function of volume <span class="math inline">\(P(\mathcal{V})\)</span> follows:</p>
-<p><span class="math display">\[
-P = A + K \mathcal{V}
-\]</span> where <span class="math inline">\(A = 111.111\,\mathrm{kPa}\)</span> and <span class="math inline">\(K = 888.89\,\mathrm{kPa/m^3}\)</span>. During the heating, volume doubles; what is the work and heat transfers associated with the process?</p>
-<p>For that, in contrast with the <a href="https://fpfortkamp.com/post/mixture/">previous</a> <a href="https://fpfortkamp.com/post/isothermic/">posts</a>, now we’ll use Python and the <a href="http://pyromat.org"><code>pyromat</code></a> package, which I’ve just discovered today.</p>
-<p>With the added heat, the system will expand and perform work, which can be calculated using only mechanics:</p>
-<p><span class="math display">\[
-W = \int_{\mathcal{V}_1}^{\mathcal{V}_2} P \mathrm{d}\mathcal{V}
-\]</span></p>
-<p>Where the initial volume can be obtained from the given pressure variation, and the final volume is double that:</p>
-<div id="adf7199e" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="fl">111.111</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="fl">888.89</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>P1 <span class="op">=</span> <span class="dv">200</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>V1 <span class="op">=</span> (P1<span class="op">-</span>A)<span class="op">/</span>K</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"V1 = </span><span class="sc">%.2f</span><span class="st"> m3"</span> <span class="op">%</span>(V1))</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>V2 <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>V1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>V1 = 0.10 m3</code></pre>
-</div>
-</div>
-<p>The integration above gives:</p>
-<p><span class="math display">\[
-W = A * (\mathcal{V}_2 - \mathcal{V}_1) + \frac{K}{2}\left(\mathcal{V}_2^2 - \mathcal{V}_1^2\right)
-\]</span></p>
-<p>and calculating it:</p>
-<div id="39ca185d" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>W <span class="op">=</span> A<span class="op">*</span>(V2<span class="op">-</span>V1) <span class="op">+</span> K<span class="op">/</span><span class="dv">2</span><span class="op">*</span>(V2<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> V1<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"W = </span><span class="sc">%.2f</span><span class="st"> kJ"</span> <span class="op">%</span>(W,))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>W = 24.44 kJ</code></pre>
-</div>
-</div>
-<p>To compute the heat <em>added</em> to the system, a First Law analysis reads:</p>
-<p><span class="math display">\[
-Q = W + \Delta U = W + m c_v (T_2-T_1)
-\]</span></p>
-<p>where, assuming a mixture of ideal gases (an hypothesis not used so far!), all mass-specific properties are additive. The gas constant is:</p>
-<p><span class="math display">\[
-R = \sum_{i=1}^k x_i R_i
-\]</span> where <span class="math inline">\(k = 2\)</span> components, <span class="math inline">\(x_i\)</span> is the individual mass fraction and <span class="math inline">\(R_i\)</span> the individual gas constant. The gas constant is needed to compute the temperature variation; at state 1, the mass (which is constant in all states for a closed system) is computed from the ideal gas equation of state:</p>
-<p><span class="math display">\[
-m = \frac{P_1 V_1}{R T_1}
-\]</span></p>
-<p>and now, applying the same equation for state 2:</p>
-<p><span class="math display">\[
-T_2 = \frac{P_2 V_2}{m R}
-\]</span></p>
-<p>where <span class="math inline">\(P_2\)</span> can be obtained from the pressure-volume equation.</p>
-<p>The constant-volume specific heat for ideal gases is a function of temperature only, and for better accuracy can be calculated at the average temperature. The mixture specific heat is computed similarly to the gas constant above.</p>
-<p>The <code>pyromat</code> library has function to create ideal gas “objects” and then access constants and functions as illustrated below:</p>
-<div id="b3733603" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyromat <span class="im">as</span> pm</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>N2 <span class="op">=</span> pm.get(<span class="st">"ig.N2"</span>) <span class="co"># ig = ideal gas model</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>CO2 <span class="op">=</span> pm.get(<span class="st">"ig.CO2"</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>xN2 <span class="op">=</span> <span class="fl">0.55</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>xCO2 <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>xN2</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># each object has a .R() method to calculate the gas constant</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># the default units are kJ, kPa, m3, K, kmol</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> xN2<span class="op">*</span>N2.R() <span class="op">+</span> xCO2<span class="op">*</span>CO2.R()</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>T1 <span class="op">=</span> <span class="dv">45</span> <span class="op">+</span> <span class="dv">273</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> (P1<span class="op">*</span>V1)<span class="op">/</span>(R<span class="op">*</span>T1)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>P2 <span class="op">=</span> A <span class="op">+</span> K<span class="op">*</span>V2</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>T2 <span class="op">=</span> (P2<span class="op">*</span>V2)<span class="op">/</span>(m<span class="op">*</span>R)</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>Tmean <span class="op">=</span> (T1 <span class="op">+</span> T2)<span class="op">/</span><span class="dv">2</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> xN2<span class="op">*</span>N2.cv(T<span class="op">=</span>Tmean) <span class="op">+</span> xCO2<span class="op">*</span>CO2.cv(T<span class="op">=</span>Tmean)</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> W <span class="op">+</span> m<span class="op">*</span>cv<span class="op">*</span>(T2<span class="op">-</span>T1)</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Q = </span><span class="sc">%.2f</span><span class="st"> kJ"</span> <span class="op">%</span>(Q,))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<p>[1]: Çengel, Y. A., &amp; Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

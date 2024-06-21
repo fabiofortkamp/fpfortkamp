@@ -235,7 +235,7 @@ window.Quarto = {
 </figure>
 </div>
 <p>So let’s start again. We will read the dataset with <a href="https://pandas.pydata.org/?msclkid=29caa245bff611ec80ba73d4aced3042">pandas</a>:</p>
-<div id="78833462" class="cell" data-execution_count="1">
+<div id="00b6393f" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"compressor.csv"</span>,delimiter<span class="op">=</span><span class="st">','</span>)</span>
@@ -280,7 +280,7 @@ window.Quarto = {
 \]</span></p>
 <p>where <span class="math inline">\(\mathcal{V} _{\mathrm{D}}\)</span> is the internal displacement.</p>
 <p>Let’s plot the actual mass flow rate from the datasheet (using the geometric parameters from it) and the above model to compare:</p>
-<div id="de4debe9" class="cell" data-execution_count="2">
+<div id="302c7b25" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> CoolProp.CoolProp <span class="im">import</span> PropsSI</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -323,7 +323,7 @@ window.Quarto = {
 <p><span class="math display">\[
 \eta_{\mathrm{v}} = \frac{\dot{m}}{\frac{\dot{\mathcal{V}} _{\mathrm{D}}}{v _{\mathrm{in}}}}
 \]</span></p>
-<div id="959ce4a4" class="cell" data-execution_count="3">
+<div id="854e54fc" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>eta_v <span class="op">=</span> m_dot_actual<span class="op">/</span>m_dot_ideal<span class="op">*</span><span class="dv">100</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fig2, ax2 <span class="op">=</span> plt.subplots()</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -352,7 +352,7 @@ window.Quarto = {
 r _{\mathrm{p}} = \frac{P _{\mathrm{cond}}}{P _{\mathrm{evap}}}
 \]</span></p>
 <p>So let’s plot that:</p>
-<div id="724e798b" class="cell" data-execution_count="4">
+<div id="6d026359" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>eta_v <span class="op">=</span> m_dot_actual<span class="op">/</span>m_dot_ideal</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>Pcond <span class="op">=</span> PropsSI(<span class="st">"P"</span>,<span class="st">"T"</span>,df[<span class="st">"Condensing temperature [C]"</span>].values[<span class="dv">0</span>]<span class="op">+</span><span class="dv">273</span>,<span class="st">"Q"</span>,<span class="dv">1</span>,fluid)</span>
@@ -376,7 +376,7 @@ r _{\mathrm{p}} = \frac{P _{\mathrm{cond}}}{P _{\mathrm{evap}}}
 </div>
 </div>
 <p>Maybe we can use a log-log plot?</p>
-<div id="a1e6cdc3" class="cell" data-execution_count="5">
+<div id="f91973d6" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>eta_v <span class="op">=</span> m_dot_actual<span class="op">/</span>m_dot_ideal</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>Pcond <span class="op">=</span> PropsSI(<span class="st">"P"</span>,<span class="st">"T"</span>,df[<span class="st">"Condensing temperature [C]"</span>].values[<span class="dv">0</span>]<span class="op">+</span><span class="dv">273</span>,<span class="st">"Q"</span>,<span class="dv">1</span>,fluid)</span>
@@ -406,7 +406,7 @@ r _{\mathrm{p}} = \frac{P _{\mathrm{cond}}}{P _{\mathrm{evap}}}
 \ln \eta_{\mathrm{v}} = b_0 + b_1 \ln r_{\mathrm{p}}
 \]</span></p>
 <p>As with yesterday’s post, We will use <a href="https://scikit-learn.org/stable/index.html">scikit-learn</a> to <em>train</em> a model to calculate the coefficients, based on 50% of the data selected at random:</p>
-<div id="db38bc58" class="cell" data-execution_count="6">
+<div id="5dd68f09" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> r2_score</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
@@ -451,7 +451,7 @@ r _{\mathrm{p}} = \frac{P _{\mathrm{cond}}}{P _{\mathrm{evap}}}
 <li>The same thing can be done for the power consumption, with different coefficients;</li>
 <li>The resulting polynomial is valid for the same compressor in different evaporating pressures, but keeping the superheat and subcooling degress the same as the values from the datasheet.</li>
 </ol>
-<div id="7551a846" class="cell" data-execution_count="7">
+<div id="232228de" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -484,10 +484,10 @@ r _{\mathrm{p}} = \frac{P _{\mathrm{cond}}}{P _{\mathrm{evap}}}
 </div>
 </div>
 <p>The resulting coefficients are (from <span class="math inline">\(a_0\)</span> to <span class="math inline">\(a_2\)</span>):</p>
-<div id="270c026a" class="cell" data-execution_count="8">
+<div id="7b43c2ae" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(QL_quadratic_model.named_steps[<span class="st">"linear"</span>].coef_)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[8.34000000e+02 2.97333333e+01 3.06666667e-01]</code></pre>
+<pre><code>[8.32e+02 2.95e+01 3.00e-01]</code></pre>
 </div>
 </div>
 <p>Hence, this polynomial seems to work fine, even though we have very few data points; with more data points in a test apparatus, this same model could be retrained, making the coefficients more and more accurate.</p>
