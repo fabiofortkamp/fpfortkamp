@@ -1,0 +1,39 @@
+---
+title: Where's the literature on object-oriented programming with Python?
+author: Fábio P. Fortkamp
+date: '2024/06/27'
+categories:
+  - Articles
+tags:
+  - python
+  - oop
+draft: true
+---
+
+When I started my current job, I took over the development of a wellbore simulator
+written in Python. I don't know the reasons why the previous mantainer chose this 
+language, but I can imagine why: at least in engineering academia, Python is the 
+new MATLAB. It is used as synonym for "numerical computation", with many good libraries
+for data science, linear algebra, machine learning, visualization and so on. The previous
+developer did the hell of a job building a robust program, moderately fast in simulating
+a petroleum production operation, using a high-level programming language.
+
+Here's my problem: the program is, or attempts to be, very object-oriented. This
+makes perfect sense, since simulation software begs for classes: you have a Fluid to
+which you can request the calculation of properties, a Solver that allows you to run it,
+a Writer that generates reports and so on. Python has support for classes, inheritance,
+polymorphism and the like. And yet, when I read books about object-oriented programming,
+all I see is code in Java and C#. And I see books about Python, they only use
+snippets of code, isolated functions, and showcases of cool language features such as
+list comprehensions - either implicitly or sometimes explicitly advocating "running the
+code in a Jupyter notebook".
+
+Where is the literature in developing professional, production-ready, object-oriented
+programs using Python?
+
+When questioning myself about this, I oscillate between:
+
+1. There's no publisher's interest, since all Python books must be targeted at data 
+science or machine learning to enjoy the current AI moment;
+2. There's no market, since software like ours is actually written in compiled languages,
+and *we* are the outsiders.
