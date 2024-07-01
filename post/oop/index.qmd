@@ -6,16 +6,19 @@ categories:
   - Articles
 tags:
   - python
-  - oop
-draft: true
+  - object-oriented programming
+  - polyglot programming
+  - programming
+  - software development
+draft: false
 ---
 
 When I started my current job, I took over the development of a wellbore simulator
-written in Python. I don't know the reasons why the previous mantainer chose this 
-language, but I can imagine why: at least in engineering academia, Python is the 
-new MATLAB. It is used as synonym for "numerical computation", with many good libraries
+written in Python. I don't know exactly the reasons why the previous maintainer chose this 
+language, but I can imagine: at least in engineering academia, Python is the 
+new MATLAB, used as synonym for "numerical computation", with many good libraries
 for data science, linear algebra, machine learning, visualization and so on. The previous
-developer did the hell of a job building a robust program, moderately fast in simulating
+developer did the hell of a job building a robust program, relatively fast in simulating
 a petroleum production operation, using a high-level programming language.
 
 Here's my problem: the program is, or attempts to be, very object-oriented. This
@@ -31,9 +34,46 @@ code in a Jupyter notebook".
 Where is the literature in developing professional, production-ready, object-oriented
 programs using Python?
 
-When questioning myself about this, I oscillate between:
+When questioning myself about this, I oscillate between two explanations:
 
-1. There's no publisher's interest, since all Python books must be targeted at data 
+1. **No writers**: there's no publisher's interest, since all Python books must be targeted at data 
 science or machine learning to enjoy the current AI moment;
-2. There's no market, since software like ours is actually written in compiled languages,
-and *we* are the outsiders.
+2. **No readers**: there's no market, since software like ours is actually written in compiled languages,
+and *we* are the outsiders. [The Mikado Method](https://www.manning.com/books/the-mikado-method),
+for instance, talks about dynamic languages in the context of developing a large program
+*in an appendix*.
+
+In any case, this is one more argument for me to preach *polyglot programming* - 
+if you develop software of any kind, either as your main job or as part of your job as
+a scientist, engineer, research and the like, you cannot restrict yourself to one
+programming language. Languages are tools, and the more tools you can use, the better.
+
+There's still difficulty translating concepts between langauges. One book that I'm 
+studying currently after buying it in a [bundle](https://www.humblebundle.com/books)
+is [*Five Lines of Code*](https://www.manning.com/books/five-lines-of-code). I'll
+have my review of it in a while, but before that let's talk about one construct the author
+Christian Clausen talks a lot about: interfaces, or contracts for classes. Clausen
+uses a full game written in TypeScript (no random snippets), with classes, methods,
+functions etc, and adovates the use of interfaces to make the program clear.
+
+Python has no interfaces. 
+
+Well, it has [abstract base classes](https://docs.python.org/3/library/abc.html),
+which are similar but not the same; this is used by type checkers, and not during runtime.
+Luciano Ramalho goes as far as saying it in [Fluent Python](https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/)
+that they are for framework developers. If I'm the solo developer of an app and, while trying
+to understand what a Liquid and Gas have in common in the context of my program, I write
+an ABC for that situation, am I wrong? Am I "over-engineering"?
+
+In the end, this is what I do: I learned Java almost 15 years ago when everything I wanted
+to do was to take programming classes online. For me, knowing Java is basic programming
+literacy, since so many books are written in it, and it helped me a lot in my PhD work
+because [COMSOL](https://www.comsol.com/) thankfully had a Java API. With that knowledge,
+I study regularly the bibliography of [Uncle](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
+[Bob](https://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258/ref=sr_1_1?crid=3HKX61DF30BS1&dib=eyJ2IjoiMSJ9.p-KPuw5ZAzCF_DpkvPc-Osavdzlj3hQbuGiIHfrFu4RFSx8c806Ta7d762G6TM5jgTz2bpoJ0Tmge76-67C9HQwPK9bpVeS_zGa5UeewS9tzdefbBmBD1vQgYPc-ht1gdO2MXdzsY6o9lERCizMixV58oKOvO8g4hc96G4GzZGegWfB6Zh342T3_zuKiUVucO7z0sMH0nKSXP8C3Efcx1ScSby0pHB-WrVkoOJmOHWCiwxMf4sK_mV8lhst4z9zjE0D2cHXNHsFuo7nlSLJZwNBTYAQTOp5jLAL3AzfmMx0.goYk1oYeVTSgN400r0dAt1XczF14TRk33Db3g-S61Zc&dib_tag=se&keywords=agile+software+development+C%23&qid=1719859102&s=books&sprefix=agile+software+development+c+%2Cstripbooks-intl-ship%2C192&sr=1-1) (this latter book is written
+in C#, which has virtually identical syntax as Java), and dig around to see how to
+do it in Python. The afore-mentioned [Fluent Python](https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/)
+is the bible of Pythonic code.
+
+Oh: and for interfaces, I just create a class with `I` in the front of the name,
+2000s-style, and become in peace with it. 
