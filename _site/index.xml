@@ -9,8 +9,40 @@
 <link>https://fpfortkamp.com/</link>
 <atom:link href="https://fpfortkamp.com/index.xml" rel="self" type="application/rss+xml"/>
 <description>Fábio P. Fortkamp&#39;s professional website</description>
-<generator>quarto-1.4.549</generator>
-<lastBuildDate>Fri, 21 Jun 2024 03:00:00 GMT</lastBuildDate>
+<generator>quarto-1.4.550</generator>
+<lastBuildDate>Mon, 01 Jul 2024 03:00:00 GMT</lastBuildDate>
+<item>
+  <title>Where’s the literature on object-oriented programming with Python?</title>
+  <dc:creator>Fábio P. Fortkamp</dc:creator>
+  <link>https://fpfortkamp.com/post/oop/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>When I started my current job, I took over the development of a wellbore simulator written in Python. I don’t know exactly the reasons why the previous maintainer chose this language, but I can imagine: at least in engineering academia, Python is the new MATLAB, used as synonym for “numerical computation”, with many good libraries for data science, linear algebra, machine learning, visualization and so on. The previous developer did the hell of a job building a robust program, relatively fast in simulating a petroleum production operation, using a high-level programming language.</p>
+<p>Here’s my problem: the program is, or attempts to be, very object-oriented. This makes perfect sense, since simulation software begs for classes: you have a Fluid to which you can request the calculation of properties, a Solver that allows you to run it, a Writer that generates reports and so on. Python has support for classes, inheritance, polymorphism and the like. And yet, when I read books about object-oriented programming, all I see is code in Java and C#. And I see books about Python, they only use snippets of code, isolated functions, and showcases of cool language features such as list comprehensions - either implicitly or sometimes explicitly advocating “running the code in a Jupyter notebook”.</p>
+<p>Where is the literature in developing professional, production-ready, object-oriented programs using Python?</p>
+<p>When questioning myself about this, I oscillate between two explanations:</p>
+<ol type="1">
+<li><strong>No writers</strong>: there’s no publisher’s interest, since all Python books must be targeted at data science or machine learning to enjoy the current AI moment;</li>
+<li><strong>No readers</strong>: there’s no market, since software like ours is actually written in compiled languages, and <em>we</em> are the outsiders. <a href="https://www.manning.com/books/the-mikado-method">The Mikado Method</a>, for instance, talks about dynamic languages in the context of developing a large program <em>in an appendix</em>.</li>
+</ol>
+<p>In any case, this is one more argument for me to preach <em>polyglot programming</em> - if you develop software of any kind, either as your main job or as part of your job as a scientist, engineer, research and the like, you cannot restrict yourself to one programming language. Languages are tools, and the more tools you can use, the better.</p>
+<p>There’s still difficulty translating concepts between langauges. One book that I’m studying currently after buying it in a <a href="https://www.humblebundle.com/books">bundle</a> is <a href="https://www.manning.com/books/five-lines-of-code"><em>Five Lines of Code</em></a>. I’ll have my review of it in a while, but before that let’s talk about one construct the author Christian Clausen talks a lot about: interfaces, or contracts for classes. Clausen uses a full game written in TypeScript (no random snippets), with classes, methods, functions etc, and adovates the use of interfaces to make the program clear.</p>
+<p>Python has no interfaces.</p>
+<p>Well, it has <a href="https://docs.python.org/3/library/abc.html">abstract base classes</a>, which are similar but not the same; this is used by type checkers, and not during runtime. Luciano Ramalho goes as far as saying it in <a href="https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/">Fluent Python</a> that they are for framework developers. If I’m the solo developer of an app and, while trying to understand what a Liquid and Gas have in common in the context of my program, I write an ABC for that situation, am I wrong? Am I “over-engineering”?</p>
+<p>In the end, this is what I do: I learned Java almost 15 years ago when everything I wanted to do was to take programming classes online. For me, knowing Java is basic programming literacy, since so many books are written in it, and it helped me a lot in my PhD work because <a href="https://www.comsol.com/">COMSOL</a> thankfully had a Java API. With that knowledge, I study regularly the bibliography of <a href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">Uncle</a> <a href="https://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258/ref=sr_1_1?crid=3HKX61DF30BS1&amp;dib=eyJ2IjoiMSJ9.p-KPuw5ZAzCF_DpkvPc-Osavdzlj3hQbuGiIHfrFu4RFSx8c806Ta7d762G6TM5jgTz2bpoJ0Tmge76-67C9HQwPK9bpVeS_zGa5UeewS9tzdefbBmBD1vQgYPc-ht1gdO2MXdzsY6o9lERCizMixV58oKOvO8g4hc96G4GzZGegWfB6Zh342T3_zuKiUVucO7z0sMH0nKSXP8C3Efcx1ScSby0pHB-WrVkoOJmOHWCiwxMf4sK_mV8lhst4z9zjE0D2cHXNHsFuo7nlSLJZwNBTYAQTOp5jLAL3AzfmMx0.goYk1oYeVTSgN400r0dAt1XczF14TRk33Db3g-S61Zc&amp;dib_tag=se&amp;keywords=agile+software+development+C%23&amp;qid=1719859102&amp;s=books&amp;sprefix=agile+software+development+c+%2Cstripbooks-intl-ship%2C192&amp;sr=1-1">Bob</a> (this latter book is written in C#, which has virtually identical syntax as Java), and dig around to see how to do it in Python. The afore-mentioned <a href="https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/">Fluent Python</a> is the bible of Pythonic code.</p>
+<p>Oh: and for interfaces, I just create a class with <code>I</code> in the front of the name, 2000s-style, and become in peace with it.</p>
+
+
+
+ ]]></description>
+  <category>Articles</category>
+  <guid>https://fpfortkamp.com/post/oop/</guid>
+  <pubDate>Mon, 01 Jul 2024 03:00:00 GMT</pubDate>
+</item>
 <item>
   <title>IDE or Neovim - why not both?</title>
   <dc:creator>Fábio P. Fortkamp</dc:creator>
@@ -1244,7 +1276,7 @@ View this post on Instagram
 <h2 class="anchored" data-anchor-id="calculating-expansivity-and-compressibility-with-coolprop">Calculating expansivity and compressibility with CoolProp</h2>
 <p>Beware that the coefficients above have many names, depending on the source you are using. To calculate them using the CoolProp library in Python, for instance, I had to look up the <a href="http://www.coolprop.org/coolprop/HighLevelAPI.html#parameter-table">available functions</a>.</p>
 <p>Notice that, as derivatives of <img src="https://latex.codecogs.com/png.latex?p-v-T"> relations, <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and <img src="https://latex.codecogs.com/png.latex?%5Cbeta"> are properties of state, depending on two other properties to be calculated. For instance, the expansivity of air at atmospheric pressure and ambient temperature is:</p>
-<div id="0d4af5cf" class="cell" data-execution_count="1">
+<div id="3275e81c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> CoolProp.CoolProp <span class="im" style="color: #00769E;
@@ -1294,7 +1326,7 @@ font-style: inherit;">%</span>(beta,))</span></code></pre></div>
 </div>
 </div>
 <p>And the compressibility can be calculated as:</p>
-<div id="3e0f15ea" class="cell" data-execution_count="2">
+<div id="8fa0471e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">alpha <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> PropsSI(<span class="st" style="color: #20794D;
@@ -1326,7 +1358,7 @@ font-style: inherit;">%</span>(alpha,))</span></code></pre></div>
 <p><img src="https://latex.codecogs.com/png.latex?%0Ac_p%20-%20c_v%20=%20%5Cfrac%7BvT%5Cbeta%5E2%7D%7B%5Calpha%7D%0A"></p>
 <p>where <img src="https://latex.codecogs.com/png.latex?c_p"> and <img src="https://latex.codecogs.com/png.latex?c_v"> are respectively the constant-pressure and constant-volume speficic heats. The right hand side is always non-negative, which enforces <img src="https://latex.codecogs.com/png.latex?c_p%20%5Cge%20c_v">. The equality sign applies from <em>incompressible substances</em>, for which <img src="https://latex.codecogs.com/png.latex?%5Cbeta%20=%200">.</p>
 <p>Let us verify that relation:</p>
-<div id="6d05558f" class="cell" data-execution_count="3">
+<div id="fb37ee64" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">c_p <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> PropsSI(<span class="st" style="color: #20794D;
@@ -1391,7 +1423,7 @@ font-style: inherit;">/</span>alpha)</span></code></pre></div>
 <h2 class="anchored" data-anchor-id="comparison-between-gases">Comparison between gases</h2>
 <p>If we pick only gases commonly present in mechanical engineering applications, how do the values of <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and <img src="https://latex.codecogs.com/png.latex?%5Cbeta"> vary between them?</p>
 <p>When doing this sort of analysis, I always find it useful to use <a href="https://pandas.pydata.org/docs/getting_started/">pandas</a> to build a table and work from there:</p>
-<div id="780630fa" class="cell" data-execution_count="4">
+<div id="da212abf" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> pandas <span class="im" style="color: #00769E;
@@ -1704,7 +1736,7 @@ View this post on Instagram
 </figure>
 </div>
 <p>So let’s start again. We will read the dataset with <a href="https://pandas.pydata.org/?msclkid=29caa245bff611ec80ba73d4aced3042">pandas</a>:</p>
-<div id="00b6393f" class="cell" data-execution_count="1">
+<div id="bc215236" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> pandas <span class="im" style="color: #00769E;
@@ -1759,7 +1791,7 @@ font-style: inherit;">print</span>(df)</span></code></pre></div>
 <p><img src="https://latex.codecogs.com/png.latex?%0A%5Cdot%7B%5Cmathcal%7BV%7D%7D%20_%7B%5Cmathrm%7BD%7D%7D%20=%20%7B%5Cmathcal%7BV%7D%7D%20_%7B%5Cmathrm%7BD%7D%7D%20n%20z%0A"></p>
 <p>where <img src="https://latex.codecogs.com/png.latex?%5Cmathcal%7BV%7D%20_%7B%5Cmathrm%7BD%7D%7D"> is the internal displacement.</p>
 <p>Let’s plot the actual mass flow rate from the datasheet (using the geometric parameters from it) and the above model to compare:</p>
-<div id="302c7b25" class="cell" data-execution_count="2">
+<div id="2bd6e38e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
@@ -1922,7 +1954,7 @@ font-style: inherit;">"Gas flow rate [kg/h]"</span>)</span>
 </div>
 <p>Clearly our model is not good enough! There is a <em>volumetric efficiency</em> that is influenced by dead volumes and leakages:</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0A%5Ceta_%7B%5Cmathrm%7Bv%7D%7D%20=%20%5Cfrac%7B%5Cdot%7Bm%7D%7D%7B%5Cfrac%7B%5Cdot%7B%5Cmathcal%7BV%7D%7D%20_%7B%5Cmathrm%7BD%7D%7D%7D%7Bv%20_%7B%5Cmathrm%7Bin%7D%7D%7D%7D%0A"></p>
-<div id="854e54fc" class="cell" data-execution_count="3">
+<div id="6f2c34a9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">eta_v <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> m_dot_actual<span class="op" style="color: #5E5E5E;
@@ -1979,7 +2011,7 @@ font-style: inherit;">"Volumetric efficiency [%] (x)"</span>)</span>
 <p>The volumetric efficiency depends primarily on the pressure ratio between condensing and evaporating levels:</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0Ar%20_%7B%5Cmathrm%7Bp%7D%7D%20=%20%5Cfrac%7BP%20_%7B%5Cmathrm%7Bcond%7D%7D%7D%7BP%20_%7B%5Cmathrm%7Bevap%7D%7D%7D%0A"></p>
 <p>So let’s plot that:</p>
-<div id="6d026359" class="cell" data-execution_count="4">
+<div id="34ced0c0" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">eta_v <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> m_dot_actual<span class="op" style="color: #5E5E5E;
@@ -2055,7 +2087,7 @@ font-style: inherit;">"Volumetric efficiency"</span>)</span>
 </div>
 </div>
 <p>Maybe we can use a log-log plot?</p>
-<div id="f91973d6" class="cell" data-execution_count="5">
+<div id="62f76bb9" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">eta_v <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> m_dot_actual<span class="op" style="color: #5E5E5E;
@@ -2139,7 +2171,7 @@ font-style: inherit;">'log'</span>)</span>
 <p>which seems to make the relationship linear. A candidate for a model would be then:</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0A%5Cln%20%5Ceta_%7B%5Cmathrm%7Bv%7D%7D%20=%20b_0%20+%20b_1%20%5Cln%20r_%7B%5Cmathrm%7Bp%7D%7D%0A"></p>
 <p>As with yesterday’s post, We will use <a href="https://scikit-learn.org/stable/index.html">scikit-learn</a> to <em>train</em> a model to calculate the coefficients, based on 50% of the data selected at random:</p>
-<div id="5dd68f09" class="cell" data-execution_count="6">
+<div id="b1ff6173" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> sklearn.metrics <span class="im" style="color: #00769E;
@@ -2234,7 +2266,7 @@ font-style: inherit;">%</span> r2_score(Y_test, model.predict(X_test)))</span>
 <li>The same thing can be done for the power consumption, with different coefficients;</li>
 <li>The resulting polynomial is valid for the same compressor in different evaporating pressures, but keeping the superheat and subcooling degress the same as the values from the datasheet.</li>
 </ol>
-<div id="232228de" class="cell" data-execution_count="7">
+<div id="0f2e16f5" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> sklearn.preprocessing <span class="im" style="color: #00769E;
@@ -2321,14 +2353,14 @@ font-style: inherit;">%</span> r2_score(QL_test, QL_quadratic_pred))</span>
 </div>
 </div>
 <p>The resulting coefficients are (from <img src="https://latex.codecogs.com/png.latex?a_0"> to <img src="https://latex.codecogs.com/png.latex?a_2">):</p>
-<div id="7b43c2ae" class="cell" data-execution_count="8">
+<div id="e154abf5" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(QL_quadratic_model.named_steps[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"linear"</span>].coef_)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[8.32e+02 2.95e+01 3.00e-01]</code></pre>
+<pre><code>[8.50e+02 3.16e+01 3.60e-01]</code></pre>
 </div>
 </div>
 <p>Hence, this polynomial seems to work fine, even though we have very few data points; with more data points in a test apparatus, this same model could be retrained, making the coefficients more and more accurate.</p>
@@ -2379,7 +2411,7 @@ font-style: inherit;">"linear"</span>].coef_)</span></code></pre></div>
 </figure>
 </div>
 <p>This can be parsed with <a href="https://pandas.pydata.org/?msclkid=29caa245bff611ec80ba73d4aced3042">pandas</a>:</p>
-<div id="3ce9632b" class="cell" data-execution_count="1">
+<div id="c33c63c7" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> pandas <span class="im" style="color: #00769E;
@@ -2433,7 +2465,7 @@ font-style: inherit;">print</span>(df)</span></code></pre></div>
 <p><img src="https://latex.codecogs.com/png.latex?%0A%5Cdot%7B%5Cmathcal%7BV%7D%7D%20_%7B%5Cmathrm%7BD%7D%7D%20=%20%7B%5Cmathcal%7BV%7D%7D%20_%7B%5Cmathrm%7BD%7D%7D%20n%20z%0A"></p>
 <p>where <img src="https://latex.codecogs.com/png.latex?%5Cmathcal%7BV%7D%20_%7B%5Cmathrm%7BD%7D%7D"> is the internal displacement.</p>
 <p>Let’s plot the actual mass flow rate from the datasheet (using the geometric parameters from it) and the above model to compare:</p>
-<div id="e38b2c86" class="cell" data-execution_count="2">
+<div id="3214c4f6" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
@@ -2614,7 +2646,7 @@ font-style: inherit;">'left'</span>)</span>
 </div>
 <p>Clearly our model is not good enough! There is a <em>volumetric efficiency</em> that is influenced by dead volumes and leakages:</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0A%5Ceta_%7B%5Cmathrm%7Bv%7D%7D%20=%20%5Cfrac%7B%5Cdot%7Bm%7D%7D%7B%5Cfrac%7B%5Cdot%7B%5Cmathcal%7BV%7D%7D%20_%7B%5Cmathrm%7BD%7D%7D%7D%7Bv%20_%7B%5Cmathrm%7Bin%7D%7D%7D%7D%0A">:</p>
-<div id="56a05ba7" class="cell" data-execution_count="3">
+<div id="cf81689c" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">eta_v <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> m_dot_actual<span class="op" style="color: #5E5E5E;
@@ -2712,7 +2744,7 @@ font-style: inherit;">] (x)"</span>)</span>
 <li>The same thing can be done for the power consumption, with different coefficients.</li>
 </ol>
 <p>We will use <a href="https://scikit-learn.org/stable/index.html">scikit-learn</a> to <em>train</em> a model to calculate the coefficients, based on 50% of the data selected at random:</p>
-<div id="263b34b8" class="cell" data-execution_count="4">
+<div id="14309476" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> sklearn.metrics <span class="im" style="color: #00769E;
@@ -2814,7 +2846,7 @@ font-style: inherit;">%</span> r2_score(QL_test, QL_quadratic_pred))</span>
 </div>
 </div>
 <p>The resulting coefficients are (from <img src="https://latex.codecogs.com/png.latex?a_0"> to <img src="https://latex.codecogs.com/png.latex?a_2">):</p>
-<div id="9a2d8be5" class="cell" data-execution_count="5">
+<div id="7c9c0300" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(QL_quadratic_model.named_steps[<span class="st" style="color: #20794D;
@@ -2867,7 +2899,7 @@ font-style: inherit;">"linear"</span>].coef_)</span></code></pre></div>
 <p>where, since it’s an ideal gas, <img src="https://latex.codecogs.com/png.latex?Z_%7B%5Cmathrm%7BHe%7D%7D%20=%201">, and <img src="https://latex.codecogs.com/png.latex?Z_%7B%5Cmathrm%7BO_2%7D%7D"> can be calculated from its equation of state. Here, we can use the <em>mixture</em> values of pressure and temperature, instead of partial values, as a way of already accounting for interaction forces and making the model more realistic [1].</p>
 <p>At the initial state (1), then, this will give the initial mixture volume - which is preserved during the heating process. Now, if we calculate the new (at final state 2) compressibility factor of oxygen with the mixture <em>volume</em> instead of the pressure, there will probably a larger error, but we’’ll use that anyway</p>
 <p>I’ll use Python and the <a href="http://www.coolprop.org">CoolProp</a> library for calculating the fluid properties</p>
-<div id="40dffd65" class="cell" data-execution_count="1">
+<div id="79063832" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> CoolProp.CoolProp <span class="im" style="color: #00769E;
@@ -3075,7 +3107,7 @@ font-style: inherit;">1e-6</span>,))</span></code></pre></div>
 <li>the difference between enthalpy and internal energy.</li>
 </ol>
 <p>Calculating everything:</p>
-<div id="960c4aca" class="cell" data-execution_count="2">
+<div id="4d33c9c8" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">Tmean <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> (T1 <span class="op" style="color: #5E5E5E;
@@ -3391,13 +3423,13 @@ font-style: inherit;">print</span>(ss)</span></code></pre></div>
 
 $f.root
            F1            F2            F3            F4 
- 1.685501e-15 -1.332268e-15  0.000000e+00  1.414749e-13 
+ 1.692006e-15 -1.332268e-15  0.000000e+00  1.414678e-13 
 
 $iter
 [1] 4
 
 $estim.precis
-[1] 3.612318e-14</code></pre>
+[1] 3.612301e-14</code></pre>
 </div>
 </div>
 <p>Keep in mind that I had to tweak this code until it worked. For instance, if you write the fourth equation in terms of logarithms, and not with exponentials as I did, you might have some numerical problems (try!). Also, the solution is sensitive to initial conditions; the final solution makes sense, as oxygen and nitrogen are practically preserved and some of the water vapor in fact dissociates.</p>
@@ -3431,7 +3463,7 @@ $estim.precis
 <p>With the added heat, the system will expand and perform work, which can be calculated using only mechanics:</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0AW%20=%20%5Cint_%7B%5Cmathcal%7BV%7D_1%7D%5E%7B%5Cmathcal%7BV%7D_2%7D%20P%20%5Cmathrm%7Bd%7D%5Cmathcal%7BV%7D%0A"></p>
 <p>Where the initial volume can be obtained from the given pressure variation, and the final volume is double that:</p>
-<div id="adf7199e" class="cell" data-execution_count="1">
+<div id="00491d9a" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1">A <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
@@ -3480,7 +3512,7 @@ font-style: inherit;">*</span>V1</span></code></pre></div>
 <p>The integration above gives:</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0AW%20=%20A%20*%20(%5Cmathcal%7BV%7D_2%20-%20%5Cmathcal%7BV%7D_1)%20+%20%5Cfrac%7BK%7D%7B2%7D%5Cleft(%5Cmathcal%7BV%7D_2%5E2%20-%20%5Cmathcal%7BV%7D_1%5E2%5Cright)%0A"></p>
 <p>and calculating it:</p>
-<div id="39ca185d" class="cell" data-execution_count="2">
+<div id="5845ffe7" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">W <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> A<span class="op" style="color: #5E5E5E;
@@ -3531,7 +3563,7 @@ font-style: inherit;">%</span>(W,))</span></code></pre></div>
 <p>where <img src="https://latex.codecogs.com/png.latex?P_2"> can be obtained from the pressure-volume equation.</p>
 <p>The constant-volume specific heat for ideal gases is a function of temperature only, and for better accuracy can be calculated at the average temperature. The mixture specific heat is computed similarly to the gas constant above.</p>
 <p>The <code>pyromat</code> library has function to create ideal gas “objects” and then access constants and functions as illustrated below:</p>
-<div id="b3733603" class="cell" data-execution_count="3">
+<div id="7657b9af" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> pyromat <span class="im" style="color: #00769E;
@@ -4163,27 +4195,6 @@ $estim.prec
   <category>Exercise from Çengel&#39;s Thermodynamics</category>
   <guid>https://fpfortkamp.com/post/mixture/</guid>
   <pubDate>Mon, 14 Mar 2022 03:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>What is this site</title>
-  <dc:creator>Fábio P. Fortkamp</dc:creator>
-  <link>https://fpfortkamp.com/post/whats/</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<p>Hi there. I’m Fábio Fortkamp, a Professor of Mechanical Engineering from Brazil. This is my academic website, where I post explorations in Thermal Engineering, R, Python, and Mechanical Engineering in general.</p>
-<p>This site is my attempt to more properly <a href="https://amzn.to/3K3HhhE">show my work</a>. As I study, prepare for lectures, and develop my research, I will try to post my discoveries here. In particular, at least in this stage, I will focus on solving problems on Thermodynamics, Heat Transfer, Heat Engines, Refrigeration Systems using computational tools. Python and R are the main tools I use; my mission is to make the next generation of Engineers more apt to solve real-life problems with data science and programming concepts. More exploration, and less memorization.</p>
-<p>Thanks in advance for reading.</p>
-
-
-
- ]]></description>
-  <category>Notes</category>
-  <guid>https://fpfortkamp.com/post/whats/</guid>
-  <pubDate>Sun, 27 Feb 2022 03:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

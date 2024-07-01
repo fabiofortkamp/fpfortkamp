@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -249,7 +249,7 @@ window.Quarto = {
 </figure>
 </div>
 <p>This can be parsed with <a href="https://pandas.pydata.org/?msclkid=29caa245bff611ec80ba73d4aced3042">pandas</a>:</p>
-<div id="3ce9632b" class="cell" data-execution_count="1">
+<div id="c33c63c7" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"compressor.csv"</span>,delimiter<span class="op">=</span><span class="st">','</span>)</span>
@@ -293,7 +293,7 @@ window.Quarto = {
 \]</span></p>
 <p>where <span class="math inline">\(\mathcal{V} _{\mathrm{D}}\)</span> is the internal displacement.</p>
 <p>Let’s plot the actual mass flow rate from the datasheet (using the geometric parameters from it) and the above model to compare:</p>
-<div id="e38b2c86" class="cell" data-execution_count="2">
+<div id="3214c4f6" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> CoolProp.CoolProp <span class="im">import</span> PropsSI</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -340,7 +340,7 @@ window.Quarto = {
 <p><span class="math display">\[
 \eta_{\mathrm{v}} = \frac{\dot{m}}{\frac{\dot{\mathcal{V}} _{\mathrm{D}}}{v _{\mathrm{in}}}}
 \]</span>:</p>
-<div id="56a05ba7" class="cell" data-execution_count="3">
+<div id="cf81689c" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>eta_v <span class="op">=</span> m_dot_actual<span class="op">/</span>m_dot_ideal<span class="op">*</span><span class="dv">100</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fig2, ax2 <span class="op">=</span> plt.subplots()</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -380,7 +380,7 @@ window.Quarto = {
 <li>The same thing can be done for the power consumption, with different coefficients.</li>
 </ol>
 <p>We will use <a href="https://scikit-learn.org/stable/index.html">scikit-learn</a> to <em>train</em> a model to calculate the coefficients, based on 50% of the data selected at random:</p>
-<div id="263b34b8" class="cell" data-execution_count="4">
+<div id="14309476" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error, r2_score</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
@@ -416,7 +416,7 @@ window.Quarto = {
 </div>
 </div>
 <p>The resulting coefficients are (from <span class="math inline">\(a_0\)</span> to <span class="math inline">\(a_2\)</span>):</p>
-<div id="9a2d8be5" class="cell" data-execution_count="5">
+<div id="7c9c0300" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(QL_quadratic_model.named_steps[<span class="st">"linear"</span>].coef_)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[8.32e+02 2.95e+01 3.00e-01]</code></pre>

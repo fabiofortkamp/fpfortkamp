@@ -1,7 +1,7 @@
 ---
 title: Where's the literature on object-oriented programming with Python?
 author: Fábio P. Fortkamp
-date: '2024/06/27'
+date: "2024/07/01"
 categories:
   - Articles
 tags:

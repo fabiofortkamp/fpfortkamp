@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Fábio P. Fortkamp">
-<meta name="dcterms.date" content="2022-03-17">
+<meta name="dcterms.date" content="2024-07-01">
 
-<title>FPFortkamp.com - Calculting equilibrium composition of a mixture of gases - Exercise 16-89 from Çengel’s Thermodynamics book (7th ed)</title>
+<title>FPFortkamp.com - Where’s the literature on object-oriented programming with Python?</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,40 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -103,35 +69,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -187,9 +124,9 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Calculting equilibrium composition of a mixture of gases - Exercise 16-89 from Çengel’s Thermodynamics book (7th ed)</h1>
+      <h1 class="title">Where’s the literature on object-oriented programming with Python?</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">Exercise from Çengel’s Thermodynamics</div>
+                <div class="quarto-category">Articles</div>
               </div>
                   </div>
   </div>
@@ -207,7 +144,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 17, 2022</p>
+        <p class="date">July 1, 2024</p>
       </div>
     </div>
     
@@ -226,74 +163,22 @@ window.Quarto = {
 
 
 
-<p>This is exercise 16-89 from [1]: a mixture of 1 mol of <span class="math inline">\(\mathrm{H_2O}\)</span>, 2 mols of <span class="math inline">\(\mathrm{O_2}\)</span> and 5 mols of <span class="math inline">\(\mathrm{N_2}\)</span> is heated up to 2200 K and 5 atm of pressure. The final composition will have the formation of <span class="math inline">\(\mathrm{H_2}\)</span> as well; what is the equilibrium composition, and is it reasonable to assume there will be no <span class="math inline">\(\mathrm{OH}\)</span> in the final composition?</p>
-<p>I teach several classes on heat engines, steam generators and internal combustion engines, and for me the prime application of chemical thermodynamics and equilibrium composition is emissions. For a given combustion reaction, will pollutants such as <span class="math inline">\(\mathrm{NO}\)</span> and <span class="math inline">\(\mathrm{CO}\)</span> be formed? How much of them? The exercise explained above is a nice example of such calculations.</p>
-<p>All calculations below assume all components are ideal gases.</p>
-<p>First, we need to write the reaction:</p>
-<p><span class="math display">\[
-\mathrm{H_2O} + 2\mathrm{O_2} + 5\mathrm{N_2} \to x\mathrm{H_2O} + y\mathrm{O_2} + z\mathrm{N_2} + w\mathrm{H_2}
-\]</span></p>
-<p>where the unknowns <span class="math inline">\({x,y,v,w}\)</span> form a <em>vector</em> to be found with an appropriate system of equations. Since we have three elements (<span class="math inline">\(\mathrm{N,O,H}\)</span>), or equivalently <span class="math inline">\((\mathrm{N_2,O_2,H_2})\)</span>), we can write three mass balances:</p>
-<p>For hydrogen gas:</p>
-<p><span class="math display">\[
-x + w -1 = 0
-\]</span></p>
-<p>For oxygen gas:</p>
-<p><span class="math display">\[
-2.5-0.5x-y=0
-\]</span></p>
-<p>For nitrogen gas:</p>
-<p><span class="math display">\[
-5-z = 0
-\]</span></p>
-<p>(Do you have any doubts on why these equations are as such?)</p>
-<p>One missing equation has to be determined from equilibrium considerations. Looking at tables of equilibrium constants, I posit that the free hydrogen gas is formed by dissociation:</p>
-<p><span class="math display">\[
-\mathrm{H_2O} \rightleftharpoons \mathrm{H_2} + \frac{1}{2}
-\mathrm{O_2}
-\]</span> whose equilibrium constant at 2200 K is <span class="math inline">\(\ln K_p = -6.768\)</span>.</p>
-<p>The definition of equilibrium coefficient for this latter equation is [1]:</p>
-<p><span class="math display">\[
-K_p = \frac{N_{\mathrm{H_2}}^{\nu_{\mathrm{H_2}}} N_{\mathrm{O_2}}^{\nu_{\mathrm{O_2}}}}{N_{\mathrm{H_2O}}^{\nu_{\mathrm{H_2O}}}}\left(\frac{P}{N_{\mathrm{total}}} \right)^{\nu_{\mathrm{H_2}} + \nu_{\mathrm{O_2}} - \nu_{\mathrm{H_2O}}}
-\]</span> where the <span class="math inline">\(\nu_i\)</span> are the stoichiometric coefficients in the dissociation equation, the <span class="math inline">\(N_i\)</span> are the real molar contents in the actual system where the dissociation occur, and <span class="math inline">\(P\)</span> is the pressure in atm:</p>
-<p><span class="math display">\[
-K_p = \frac{w^{1} y^{0.5}}{x^{1}}\left(\frac{5}{x + y + z + w} \right)^{0.5}
-\]</span></p>
-<p>Take a minute and see if you can understand this equation. It took me almost an hour to properly understand it.</p>
-<p>The vector of unknowns then is the solution of a 4-dimensional function, and this problem can be solved numerically with R:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rootSolve)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="cf">function</span>(a) <span class="fu">c</span>(<span class="at">F1 =</span> <span class="dv">1</span><span class="sc">-</span>a[<span class="dv">1</span>] <span class="sc">-</span> a[<span class="dv">4</span>], </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">F2 =</span> <span class="fl">2.5-0.5</span><span class="sc">*</span>a[<span class="dv">1</span>]<span class="sc">-</span>a[<span class="dv">2</span>],</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">F3 =</span> <span class="dv">5</span><span class="sc">-</span>a[<span class="dv">3</span>],</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">F4 =</span> ((a[<span class="dv">4</span>]<span class="sc">*</span>a[<span class="dv">2</span>]<span class="sc">**</span><span class="fl">0.5</span>)<span class="sc">/</span>(a[<span class="dv">1</span>])<span class="sc">*</span>(<span class="dv">5</span><span class="sc">/</span>(<span class="fu">sum</span>(a)))<span class="sc">^</span><span class="fl">0.5</span>) <span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span><span class="fl">6.768</span>))</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>ss <span class="ot">&lt;-</span> <span class="fu">multiroot</span>(<span class="at">f =</span> model, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">positive=</span><span class="cn">TRUE</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$root
-[1] 0.998972571 2.000513714 5.000000000 0.001027429
-
-$f.root
-           F1            F2            F3            F4 
- 1.692006e-15 -1.332268e-15  0.000000e+00  1.414678e-13 
-
-$iter
-[1] 4
-
-$estim.precis
-[1] 3.612301e-14</code></pre>
-</div>
-</div>
-<p>Keep in mind that I had to tweak this code until it worked. For instance, if you write the fourth equation in terms of logarithms, and not with exponentials as I did, you might have some numerical problems (try!). Also, the solution is sensitive to initial conditions; the final solution makes sense, as oxygen and nitrogen are practically preserved and some of the water vapor in fact dissociates.</p>
-<p>As for the underlying assumption: will there be <span class="math inline">\(\mathrm{OH}\)</span> in the final composition? The equilibrium constant for <span class="math inline">\(\mathrm{H_2O} \rightleftharpoons \mathrm{OH} + \frac{1}{2} \mathrm{H_2}\)</span> at 2200 K is <span class="math inline">\(\ln K_p = -7.148\)</span>. The dissociation constants from water vapor to <span class="math inline">\(\mathrm{H_2}\)</span> and <span class="math inline">\(\mathrm{OH}\)</span> are very similar, and hence the reactions will occur in parallel, giving some amount of <span class="math inline">\(\mathrm{OH}\)</span> in the products, contrary to our assumptions. If you actually perform an experiment similar to this problem and encounter some errors in the final composition, this is a likely source of deviations.</p>
-<p>The smaller the value of <span class="math inline">\(K_p\)</span>, the harder is for the reaction to occur; you can see from the above equations that this coefficient is a measure of how much products form from the reactants. Hence, for similar <span class="math inline">\(K_p\)</span>, the amount of <span class="math inline">\(\mathrm{H_2}\)</span> and <span class="math inline">\(\mathrm{OH}\)</span> formed will also be similar.</p>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<p>[1]: Çengel, Y. A., &amp; Boles, M. A. Termodinâmica (7 ed.). Porto Alegre: AMGH, 2013.</p>
+<p>When I started my current job, I took over the development of a wellbore simulator written in Python. I don’t know exactly the reasons why the previous maintainer chose this language, but I can imagine: at least in engineering academia, Python is the new MATLAB, used as synonym for “numerical computation”, with many good libraries for data science, linear algebra, machine learning, visualization and so on. The previous developer did the hell of a job building a robust program, relatively fast in simulating a petroleum production operation, using a high-level programming language.</p>
+<p>Here’s my problem: the program is, or attempts to be, very object-oriented. This makes perfect sense, since simulation software begs for classes: you have a Fluid to which you can request the calculation of properties, a Solver that allows you to run it, a Writer that generates reports and so on. Python has support for classes, inheritance, polymorphism and the like. And yet, when I read books about object-oriented programming, all I see is code in Java and C#. And I see books about Python, they only use snippets of code, isolated functions, and showcases of cool language features such as list comprehensions - either implicitly or sometimes explicitly advocating “running the code in a Jupyter notebook”.</p>
+<p>Where is the literature in developing professional, production-ready, object-oriented programs using Python?</p>
+<p>When questioning myself about this, I oscillate between two explanations:</p>
+<ol type="1">
+<li><strong>No writers</strong>: there’s no publisher’s interest, since all Python books must be targeted at data science or machine learning to enjoy the current AI moment;</li>
+<li><strong>No readers</strong>: there’s no market, since software like ours is actually written in compiled languages, and <em>we</em> are the outsiders. <a href="https://www.manning.com/books/the-mikado-method">The Mikado Method</a>, for instance, talks about dynamic languages in the context of developing a large program <em>in an appendix</em>.</li>
+</ol>
+<p>In any case, this is one more argument for me to preach <em>polyglot programming</em> - if you develop software of any kind, either as your main job or as part of your job as a scientist, engineer, research and the like, you cannot restrict yourself to one programming language. Languages are tools, and the more tools you can use, the better.</p>
+<p>There’s still difficulty translating concepts between langauges. One book that I’m studying currently after buying it in a <a href="https://www.humblebundle.com/books">bundle</a> is <a href="https://www.manning.com/books/five-lines-of-code"><em>Five Lines of Code</em></a>. I’ll have my review of it in a while, but before that let’s talk about one construct the author Christian Clausen talks a lot about: interfaces, or contracts for classes. Clausen uses a full game written in TypeScript (no random snippets), with classes, methods, functions etc, and adovates the use of interfaces to make the program clear.</p>
+<p>Python has no interfaces.</p>
+<p>Well, it has <a href="https://docs.python.org/3/library/abc.html">abstract base classes</a>, which are similar but not the same; this is used by type checkers, and not during runtime. Luciano Ramalho goes as far as saying it in <a href="https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/">Fluent Python</a> that they are for framework developers. If I’m the solo developer of an app and, while trying to understand what a Liquid and Gas have in common in the context of my program, I write an ABC for that situation, am I wrong? Am I “over-engineering”?</p>
+<p>In the end, this is what I do: I learned Java almost 15 years ago when everything I wanted to do was to take programming classes online. For me, knowing Java is basic programming literacy, since so many books are written in it, and it helped me a lot in my PhD work because <a href="https://www.comsol.com/">COMSOL</a> thankfully had a Java API. With that knowledge, I study regularly the bibliography of <a href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">Uncle</a> <a href="https://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258/ref=sr_1_1?crid=3HKX61DF30BS1&amp;dib=eyJ2IjoiMSJ9.p-KPuw5ZAzCF_DpkvPc-Osavdzlj3hQbuGiIHfrFu4RFSx8c806Ta7d762G6TM5jgTz2bpoJ0Tmge76-67C9HQwPK9bpVeS_zGa5UeewS9tzdefbBmBD1vQgYPc-ht1gdO2MXdzsY6o9lERCizMixV58oKOvO8g4hc96G4GzZGegWfB6Zh342T3_zuKiUVucO7z0sMH0nKSXP8C3Efcx1ScSby0pHB-WrVkoOJmOHWCiwxMf4sK_mV8lhst4z9zjE0D2cHXNHsFuo7nlSLJZwNBTYAQTOp5jLAL3AzfmMx0.goYk1oYeVTSgN400r0dAt1XczF14TRk33Db3g-S61Zc&amp;dib_tag=se&amp;keywords=agile+software+development+C%23&amp;qid=1719859102&amp;s=books&amp;sprefix=agile+software+development+c+%2Cstripbooks-intl-ship%2C192&amp;sr=1-1">Bob</a> (this latter book is written in C#, which has virtually identical syntax as Java), and dig around to see how to do it in Python. The afore-mentioned <a href="https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/">Fluent Python</a> is the bible of Pythonic code.</p>
+<p>Oh: and for interfaces, I just create a class with <code>I</code> in the front of the name, 2000s-style, and become in peace with it.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
