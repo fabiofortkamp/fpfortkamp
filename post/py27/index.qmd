@@ -1,0 +1,139 @@
+---
+title: How to maintain a codebase compatible with Python 2 and 3 at the same time using tox
+author: Fábio P. Fortkamp
+date: '2024/07/11'
+categories:
+  - Articles
+tags:
+  - tox
+  - python2
+  - python3
+  - asdf
+  - python
+draft: false
+---
+
+Python 2.7 is still used. This is neither a judgement, nor an opinion, but a statement. As I'm writing this,
+I've been regularly deploying software to a server that only has Python 2.7 installed
+for a whole year. I have no control over the server, and my client is one of the
+largest companies in Brazil. Everything works fine. Like I said: Python 2.7 is still used.
+
+Since I have two small kids, I try to be pragmatic and not waste (too much) time complaining
+about this, instead focusing on how I can make my life easier. It turns out, if you look around a little
+bit longer, you can find ways to work with older versions Python more smoothly. And the final touch:
+you make a Python codebase compatible with Python 2 *and* 3, allowing you to use and
+test your project using more modern tools while making sure nothing brakes if someone else
+keeps using legacy software.
+
+The secret is to use [tox](https://tox.wiki/en/4.16.0/) environments. This tool just keeps
+amazing me. Here's the `tox.ini` file that I use for one of my projects, that is based on
+Python 2 but is being planned to upgrade to a newer server with newer versions of Python:
+
+```ini
+[tox]
+env_list =
+    format
+    lint
+    py{27,37,38,39,310,312}
+requires = virtualenv<20.22.0
+
+[testenv]
+description = run the tests with pytest
+deps = 
+    pytest
+commands =
+    pytest {tty:--color=yes} -xvv --ff {posargs}
+
+[testenv:format]
+base_python=python2.7
+description = format code
+deps = 
+    autopep8 < 1.6
+commands=
+    autopep8 --in-place src tests
+
+[testenv:lint]
+base_python=python2.7
+description = lint code
+deps = 
+    flake8==3.9.2
+    pydocstyle
+commands = 
+    flake8 {posargs:src tests}
+    pydocstyle {posargs:src tests}
+```
+
+This assumes you have interpreters `python2.7`, `python3.7` etc available in your path.
+I like to use [asdf], but the cool kids seem to be using [mise] nowadays. 
+
+How this works: running `tox -e lint` in the project root, where `tox.ini` is
+placed, will lint the files under the `src` and `tests` 
+folders using a version of [flake8] and [pydocstyle] that is compatible with Python 2
+(specified in the `base_python` key). The same applies for `tox -e format`. All these
+tools will point out errors like unused variables, missing docstrings, large complexity etc.
+Since it is based in Python 2, it will not complain about deprecated syntax. For full
+transparency, here is a `.flake8` file that I put in the project directory:
+
+```ini
+[flake8]
+select = B,B9,BLK,C,E,F,W,I
+ignore = E203,E501,W503
+max-line-length = 80
+max-complexity = 10
+import-order-style = google
+```
+If I want to format or lint specific files, I can specify them as such:
+
+```bash
+tox -e lint -- src/main.py
+```
+
+Everything after the `--` in a tox invocation is inserted into `posargs` in each
+tox environment, which in the example above have the default values of `src tests`,
+if no argument is passed.
+
+Now for the cross-version part: the default environment, with no suffix after the 
+`:`, runs [pytest], and I can choose the desired version using a shortcut tox syntax.
+Running `tox -e py27` will run tests under Python 2.7, `tox -e py311` under Python 3.11, and so on.
+The first time you run each environment, tox creates a virtual environent based on the specified version,
+installs the most recent version of pytest compatible with that release, and then run the tests.
+Subsequent calls will reuse the environment under the `.tox` folder, unless you pass
+the `-r` flag to `r`ecreate the environment.
+
+The tox tool is essentially a virtual environment manager, and is installed using a modern version
+of Python (I install it using [pipx]). The [`virtualenv`](https://virtualenv.pypa.io/en/latest/)-related
+`requires` line in `tox.ini` is [what makes it possible][tox-venv], by constraining the version
+of virtualenv that is capable of working with Python 2.7 environments.
+
+The final cherry on the cake: running `tox p` will run all environments specified in 
+`env_list` in *parallel* mode. In my old laptop, I had tests run for all specified versions, plus
+linting and formatting for Python 2.7 compatibility, under 1 hour (my test suite needs
+an urgent optimization). After a development session, if I run:
+
+```bash
+tox -e format,lint,py27,py312
+```
+
+I get the code formated, linted, and tests under two major Python versions. If I just did
+brakes something, I get immediate feedback and then iterate until making all tests pass. I like to
+run this in serial mode (with the `p` argument) to make sure the formatter doesn't break anything;
+I supposed I could run something like this to be faster:
+
+```bash
+tox -e format,lint
+tox p py27,py312
+```
+
+Before integrating my changes into a main branch to be submitted to a Pull Request,
+I like to run the entire test suite to be safer.
+
+`tox` completely changed my view of working with Python. I`ll talk a lot more about it in future posts.
+
+[asdf]: https://asdf-vm.com/
+[mise]: https://mise.jdx.dev/
+[flake8]: https://flake8.pycqa.org/en/latest/
+[pydocstyle]: https://www.pydocstyle.org/en/stable/
+[autopep8]: https://pypi.org/project/autopep8/
+[pytest]: https://docs.pytest.org/en/8.2.x/
+[pipx]: https://pipx.pypa.io/stable/
+[tox-venv]: https://tox.wiki/en/4.16.0/faq.html#testing-end-of-life-python-versions

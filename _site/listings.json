@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/post/py27/index.html",
       "/post/oop/index.html",
       "/post/ide/index.html",
       "/post/starship/index.html",

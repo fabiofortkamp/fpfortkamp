@@ -6,9 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-03-19">
+<meta name="author" content="Fábio P. Fortkamp">
+<meta name="dcterms.date" content="2024-07-11">
 
-<title>How to make Neovim Python LSP aware of your Hatch environments – FPFortkamp.com</title>
+<title>How to maintain a codebase compatible with Python 2 and 3 at the same time using tox – FPFortkamp.com</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -157,10 +158,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">How to make Neovim Python LSP aware of your Hatch environments</h1>
+      <h1 class="title">How to maintain a codebase compatible with Python 2 and 3 at the same time using tox</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">articles</div>
-                <div class="quarto-category">configuring-neovim-for-maximum-productivity</div>
+                <div class="quarto-category">Articles</div>
               </div>
                   </div>
   </div>
@@ -168,11 +168,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Fábio P. Fortkamp </p>
+            </div>
+    </div>
       
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 19, 2024</p>
+        <p class="date">July 11, 2024</p>
       </div>
     </div>
     
@@ -191,54 +197,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="the-problem" class="level2">
-<h2 class="anchored" data-anchor-id="the-problem">The problem</h2>
-<p>If you are a nerd like me, you probably have joined the <a href="https://neovim.io/">Neovim</a> cult and have spent more hours configuring it than you care to admit.</p>
-<p>Then you might also have spent <a href="https://alpopkes.com/posts/python/packaging_tools/">digging around Python project managers</a> and settled on using <a href="https://hatch.pypa.io/latest/">Hatch</a> for one of your projects. In principle, this means you do not have to manually create environments. <a href="https://hatch.pypa.io/latest/environment/#dependencies">You define dependencies in <code>pyproject.toml</code></a> and, when executing <a href="https://hatch.pypa.io/latest/config/environment/overview/#scripts">Hatch scripts</a>, the <code>hatch</code> program will create environments, install dependencies and execute the commands (like running tests, linting, formatting etc) <em>inside</em> those environments.</p>
-<p>But now, when you write Python code on Neovim, using the standard <a href="https://github.com/microsoft/pyright">pyright</a> as the language server (I use the <a href="https://github.com/AstroNvim/astrocommunity/tree/main/lua/astrocommunity/pack/python-ruff">Python-ruff pack</a> from the <a href="https://astronvim.com/">AstroNvim</a> communtity), if you use the same packages you define in the dependencies section (and which are not installed in your global Python environment), pright will complain that it cannot find packages:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/Screenshot-2024-03-18-at-18.06.08-1024x178.png" class="img-fluid figure-img"></p>
-<figcaption>Screenshot of a neovim session showing error messages</figcaption>
-</figure>
-</div>
-<p>How can it not find packages when you declared everything in the <code>pyproject.toml</code> file, and everything is supposed to be downloaded and installed automatically?</p>
-</section>
-<section id="the-solution" class="level2">
-<h2 class="anchored" data-anchor-id="the-solution">The solution</h2>
-<p><strong>You need to tell pyright where to find environments in which the packages are installed</strong>; then, pyright will recognized installed Python packages as something you can import from. In other words: pyright needs to be aware of your Hatch environments.</p>
-<p>It might help to first configure hatch itself to use a directory for the virtual environments that are easy to find. <strong>I like to use a <code>.hatch</code> subfolder in my project root folder</strong> (don’t forget to exclude it from source control). You can change the global hatch configuration to always use that location when using the <code>hatch</code> command with this shell commands:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">hatch</span> env prune <span class="co"># delete previously created environments</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">hatch</span> config set dirs.env.virtual <span class="st">".hatch"</span> <span class="co"># modify configuration</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Now, when you run a hatch command, it will create environments under <code>.hatch</code>.</p>
-<p>Now you have to configure pyright in your <code>pyproject.toml</code> file. Suppose you define a <code>dev</code> environment in which to run various checks like this:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pyproject.toml</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">[tool.hatch.envs.dev]</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="dt">python</span> <span class="op">=</span> <span class="st">"3.11"</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="dt">dependencies</span> <span class="op">=</span> <span class="op">[</span><span class="st">"mypy&gt;=1.0.0"</span><span class="op">,</span> <span class="st">"pytest"</span><span class="op">,</span> <span class="st">"ruff"</span><span class="op">]</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">[tool.hatch.envs.dev.scripts]</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="dt">check</span> <span class="op">=</span> <span class="op">[</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"pytest -xvv --ff"</span><span class="op">,</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ruff format ."</span><span class="op">,</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ruff check ."</span><span class="op">,</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This way, you can also create a environment, install your package and run all tests with:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">hatch</span> run dev:check</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Now, include the following configuration:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pyproject.toml</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">[tool.pyright]</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="dt">executionEnvironments</span> <span class="op">=</span> <span class="op">[{ </span><span class="dt">root</span><span class="op"> =</span> <span class="st">"src"</span><span class="op"> }]</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="dt">venvPath</span> <span class="op">=</span> <span class="st">".hatch"</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="dt">venv</span> <span class="op">=</span> <span class="st">"dev"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Restart your neovim, and you will see that the messages above disappear: pyright will get all package information from <code>&lt;your project folder&gt;/.hatch/dev/</code>. As a bonus, you can import pytest in the test files to add fixtures and other goodies.</p>
-<p>I hope this is helpful! Let me know if you want to learn more about Hatch or Neovim.</p>
+<p>Python 2.7 is still used. This is neither a judgement, nor an opinion, but a statement. As I’m writing this, I’ve been regularly deploying software to a server that only has Python 2.7 installed for a whole year. I have no control over the server, and my client is one of the largest companies in Brazil. Everything works fine. Like I said: Python 2.7 is still used.</p>
+<p>Since I have two small kids, I try to be pragmatic and not waste (too much) time complaining about this, instead focusing on how I can make my life easier. It turns out, if you look around a little bit longer, you can find ways to work with older versions Python more smoothly. And the final touch: you make a Python codebase compatible with Python 2 <em>and</em> 3, allowing you to use and test your project using more modern tools while making sure nothing brakes if someone else keeps using legacy software.</p>
+<p>The secret is to use <a href="https://tox.wiki/en/4.16.0/">tox</a> environments. This tool just keeps amazing me. Here’s the <code>tox.ini</code> file that I use for one of my projects, that is based on Python 2 but is being planned to upgrade to a newer server with newer versions of Python:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode ini code-with-copy"><code class="sourceCode ini"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[tox]</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">env_list </span><span class="ot">=</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">    format</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">    lint</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dt">    py{27,37,38,39,310,312}</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dt">requires </span><span class="ot">=</span><span class="st"> virtualenv&lt;20.22.0</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">[testenv]</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="dt">description </span><span class="ot">=</span><span class="st"> run the tests with pytest</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="dt">deps </span><span class="ot">=</span><span class="st"> </span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="dt">    pytest</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="dt">commands </span><span class="ot">=</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="dt">    pytest {tty:--color</span><span class="ot">=</span><span class="st">yes} -xvv --ff {posargs}</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">[testenv:format]</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="dt">base_python</span><span class="ot">=</span><span class="st">python2.7</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="dt">description </span><span class="ot">=</span><span class="st"> format code</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="dt">deps </span><span class="ot">=</span><span class="st"> </span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="dt">    autopep8 &lt; 1.6</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="dt">commands</span><span class="ot">=</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="dt">    autopep8 --in-place src tests</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="kw">[testenv:lint]</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="dt">base_python</span><span class="ot">=</span><span class="st">python2.7</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="dt">description </span><span class="ot">=</span><span class="st"> lint code</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="dt">deps </span><span class="ot">=</span><span class="st"> </span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="dt">    flake8</span><span class="ot">=</span><span class="st">=3.9.2</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="dt">    pydocstyle</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="dt">commands </span><span class="ot">=</span><span class="st"> </span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="dt">    flake8 {posargs:src tests}</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="dt">    pydocstyle {posargs:src tests}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This assumes you have interpreters <code>python2.7</code>, <code>python3.7</code> etc available in your path. I like to use <a href="https://asdf-vm.com/">asdf</a>, but the cool kids seem to be using <a href="https://mise.jdx.dev/">mise</a> nowadays.</p>
+<p>How this works: running <code>tox -e lint</code> in the project root, where <code>tox.ini</code> is placed, will lint the files under the <code>src</code> and <code>tests</code> folders using a version of <a href="https://flake8.pycqa.org/en/latest/">flake8</a> and <a href="https://www.pydocstyle.org/en/stable/">pydocstyle</a> that is compatible with Python 2 (specified in the <code>base_python</code> key). The same applies for <code>tox -e format</code>. All these tools will point out errors like unused variables, missing docstrings, large complexity etc. Since it is based in Python 2, it will not complain about deprecated syntax. For full transparency, here is a <code>.flake8</code> file that I put in the project directory:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode ini code-with-copy"><code class="sourceCode ini"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[flake8]</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">select </span><span class="ot">=</span><span class="st"> B,B9,BLK,C,E,F,W,I</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="dt">ignore </span><span class="ot">=</span><span class="st"> E203,E501,W503</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="dt">max-line-length </span><span class="ot">=</span><span class="st"> </span><span class="dv">80</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="dt">max-complexity </span><span class="ot">=</span><span class="st"> </span><span class="dv">10</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="dt">import-order-style </span><span class="ot">=</span><span class="st"> google</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If I want to format or lint specific files, I can specify them as such:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tox</span> <span class="at">-e</span> lint <span class="at">--</span> src/main.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Everything after the <code>--</code> in a tox invocation is inserted into <code>posargs</code> in each tox environment, which in the example above have the default values of <code>src tests</code>, if no argument is passed.</p>
+<p>Now for the cross-version part: the default environment, with no suffix after the <code>:</code>, runs <a href="https://docs.pytest.org/en/8.2.x/">pytest</a>, and I can choose the desired version using a shortcut tox syntax. Running <code>tox -e py27</code> will run tests under Python 2.7, <code>tox -e py311</code> under Python 3.11, and so on. The first time you run each environment, tox creates a virtual environent based on the specified version, installs the most recent version of pytest compatible with that release, and then run the tests. Subsequent calls will reuse the environment under the <code>.tox</code> folder, unless you pass the <code>-r</code> flag to <code>r</code>ecreate the environment.</p>
+<p>The tox tool is essentially a virtual environment manager, and is installed using a modern version of Python (I install it using <a href="https://pipx.pypa.io/stable/">pipx</a>). The <a href="https://virtualenv.pypa.io/en/latest/"><code>virtualenv</code></a>-related <code>requires</code> line in <code>tox.ini</code> is <a href="https://tox.wiki/en/4.16.0/faq.html#testing-end-of-life-python-versions">what makes it possible</a>, by constraining the version of virtualenv that is capable of working with Python 2.7 environments.</p>
+<p>The final cherry on the cake: running <code>tox p</code> will run all environments specified in <code>env_list</code> in <em>parallel</em> mode. In my old laptop, I had tests run for all specified versions, plus linting and formatting for Python 2.7 compatibility, under 1 hour (my test suite needs an urgent optimization). After a development session, if I run:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tox</span> <span class="at">-e</span> format,lint,py27,py312</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>I get the code formated, linted, and tests under two major Python versions. If I just did brakes something, I get immediate feedback and then iterate until making all tests pass. I like to run this in serial mode (with the <code>p</code> argument) to make sure the formatter doesn’t break anything; I supposed I could run something like this to be faster:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tox</span> <span class="at">-e</span> format,lint</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">tox</span> p py27,py312</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Before integrating my changes into a main branch to be submitted to a Pull Request, I like to run the entire test suite to be safer.</p>
+<p><code>tox</code> completely changed my view of working with Python. I`ll talk a lot more about it in future posts.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
