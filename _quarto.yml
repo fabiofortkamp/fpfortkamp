@@ -15,6 +15,10 @@ website:
         href: https://x.com/fpfortkamp
       - icon: rss
         href: index.xml
+  google-analytics: 
+    tracking-id: "G-EBJYCTGHZY"
+    storage: none
+    anonymize-ip: true
 format:
   html:
     theme: litera
